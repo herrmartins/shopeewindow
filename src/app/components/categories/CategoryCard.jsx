@@ -10,16 +10,16 @@ function CategoryCard({ _id, title, imageUrl, slug, emoji }) {
         "https://en.m.wikipedia.org/wiki/File:No_image_available.svg"
       }
       alt={title}
-      width={15}
-      height={15}
-      className="w-[15px] h-[15px] object-cover"
+      width={25}
+      height={25}
+      className="w-[25px] h-[25px] object-cover"
       loading="lazy"
     />
   );
 
   if (!imageUrl && emoji) {
     imageOrEmoji = (
-      <span className="text-[10px] leading-none">{emoji}</span>
+      <span className="text-[25px] leading-none flex items-center justify-center w-[25px] h-[25px]">{emoji}</span>
     );
   }
 
@@ -28,11 +28,11 @@ function CategoryCard({ _id, title, imageUrl, slug, emoji }) {
       href={`products?category=${slug}`}
       className="no-underline text-inherit hover:text-inherit"
     >
-      <div className="flex flex-col items-center w-12 transition-colors duration-300">
-        <div className="flex items-center justify-center w-4 h-4">
+      <div className="flex flex-col items-center w-16 transition-colors duration-300">
+        <div className="flex items-center justify-center w-6 h-6">
           {imageOrEmoji}
         </div>
-        <h3 className="text-[10px] font-normal truncate text-white leading-tight mt-1">
+        <h3 className="text-[12px] font-light truncate text-white leading-tight mt-1">
           {title}
         </h3>
       </div>
