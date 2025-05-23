@@ -2,7 +2,6 @@ import categories from '@/app/categories';
 import CategoryCard from './CategoryCard';
 
 function CategoryBand() {
-  console.log(categories);
 
   return (
     <div className="w-full bg-gray-900 py-1">

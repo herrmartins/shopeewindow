@@ -10,7 +10,6 @@ function Body() {
     <>
       <div className="flex">
         <div className="w-full">
-          <CategoryBand />
         </div>
       </div>
     </>

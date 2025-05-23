@@ -9,7 +9,7 @@ function CategoryCard({ _id, title, imageUrl, slug, emoji }) {
         imageUrl ||
         "https://en.m.wikipedia.org/wiki/File:No_image_available.svg"
       }
-      alt={title}
+      alt={title} 
       width={25}
       height={25}
       className="w-[25px] h-[25px] object-cover"

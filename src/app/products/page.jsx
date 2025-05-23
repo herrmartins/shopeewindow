@@ -2,6 +2,7 @@
 import React from "react";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from 'react';
+import CategoryBand from "../components/categories/CategoryBand";
 
 function ProductsPage() {
   const searchParams = useSearchParams();

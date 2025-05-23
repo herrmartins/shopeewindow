@@ -1,6 +1,7 @@
 import "./globals.css";
 import CategoryBand from "./components/categories/CategoryBand";
 import Header from "./components/shared/Header";
+import { ThemeContextProvider } from "./context/ThemeContext";
 
 export const metadata = {
   title: "WEBTVBRAZIL Shop",
@@ -10,12 +11,15 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const currentTheme = true;
   return (
     <html lang="pt-br">
       <body>
-        <Header />
-        <CategoryBand />
-        {children}
+        <ThemeContextProvider>
+          <Header />
+          <CategoryBand />
+          {children}
+        </ThemeContextProvider>
       </body>
     </html>
   );
