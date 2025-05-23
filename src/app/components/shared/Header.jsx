@@ -1,4 +1,3 @@
-import React from "react";
 import Image from "next/image";
 import { FaInfoCircle } from "react-icons/fa";
 import Link from "next/link";
@@ -15,8 +14,10 @@ function Header() {
       <p>
         Super descontos SHOPEE na WEBTVBRAZIL{" "}
         <span>
-          <Link href="/about" className="no-underline text-inherit hover:no-underline">
-          <FaInfoCircle />
+          <Link
+            href="/about"
+            className="no-underline text-inherit hover:no-underline">
+            <FaInfoCircle />
           </Link>
         </span>
       </p>

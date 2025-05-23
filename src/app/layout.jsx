@@ -11,7 +11,6 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const currentTheme = true;
   return (
     <html lang="pt-br">
       <body>
