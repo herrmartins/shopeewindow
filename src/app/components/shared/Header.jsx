@@ -10,6 +10,7 @@ function Header() {
         alt="Webtvbrazil LOGO"
         width={120}
         height={80}
+        priority
       />
       <p>
         Super descontos SHOPEE na WEBTVBRAZIL{" "}

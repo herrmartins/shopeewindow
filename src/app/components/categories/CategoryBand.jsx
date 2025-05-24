@@ -1,10 +1,12 @@
 import CategoryCard from './CategoryCard';
-import Category from "@/app/Category";
+import Category, { getCategoryModel } from "@/app/Category";
 import connectDB from "@/app/lib/mongodb";
 
 async function CategoryBand() {
-    const db = connectDB();
+    await getCategoryModel();
+    const Category = await getCategoryModel();
     const categories = await Category.find({});
+    console.log(categories)
 
     return (
         <div className="w-full bg-gray-900 py-1">
@@ -13,7 +15,7 @@ async function CategoryBand() {
                     <CategoryCard
                         key={category.id}
                         _id={category.id}
-                        title={category.name}
+                        title={category.title}
                         slug={category.slug}
                         imageUrl={category.imageUrl}
                         emoji={category.emoji}

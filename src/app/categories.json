@@ -1,0 +1,164 @@
+[
+  {
+    "_id": "6830d675420052a150f013e7",
+    "title": "Tablets",
+    "emoji": "📝",
+    "imageUrl": "",
+    "slug": "tablets",
+    "products": [
+      {
+        "_id": "6830d675420052a150f013f1",
+        "name": "Premium Tablet 12-inch",
+        "price": 499.99,
+        "imageUrl": "",
+        "createdAt": "2025-05-24T12:55:00.000Z",
+        "updatedAt": "2025-05-24T12:55:00.000Z"
+      },
+      {
+        "_id": "6830d675420052a150f013f2",
+        "name": "Budget Tablet 10-inch",
+        "price": 299.99,
+        "imageUrl": "",
+        "createdAt": "2025-05-24T12:55:00.000Z",
+        "updatedAt": "2025-05-24T12:55:00.000Z"
+      }
+    ],
+    "createdAt": "2025-05-24T12:55:00.000Z",
+    "updatedAt": "2025-05-24T12:55:00.000Z"
+  },
+  {
+    "_id": "6830d675420052a150f013e8",
+    "title": "Drones",
+    "emoji": "🛸",
+    "imageUrl": "",
+    "slug": "drones",
+    "products": [
+      {
+        "_id": "6830d675420052a150f013f3",
+        "name": "Advanced Drone with Camera",
+        "price": 799.99,
+        "imageUrl": "",
+        "createdAt": "2025-05-24T12:55:00.000Z",
+        "updatedAt": "2025-05-24T12:55:00.000Z"
+      },
+      {
+        "_id": "6830d675420052a150f013f4",
+        "name": "Mini Drone for Beginners",
+        "price": 149.99,
+        "imageUrl": "",
+        "createdAt": "2025-05-24T12:55:00.000Z",
+        "updatedAt": "2025-05-24T12:55:00.000Z"
+      }
+    ],
+    "createdAt": "2025-05-24T12:55:00.000Z",
+    "updatedAt": "2025-05-24T12:55:00.000Z"
+  },
+  {
+    "_id": "6830d675420052a150f013e9",
+    "title": "Chargers",
+    "emoji": "🔋",
+    "imageUrl": "",
+    "slug": "chargers",
+    "products": [
+      {
+        "_id": "6830d675420052a150f013f5",
+        "name": "Fast Wireless Charger",
+        "price": 39.99,
+        "imageUrl": "",
+        "createdAt": "2025-05-24T12:55:00.000Z",
+        "updatedAt": "2025-05-24T12:55:00.000Z"
+      },
+      {
+        "_id": "6830d675420052a150f013f6",
+        "name": "Multi-Device USB-C Charger",
+        "price": 24.99,
+        "imageUrl": "",
+        "createdAt": "2025-05-24T12:55:00.000Z",
+        "updatedAt": "2025-05-24T12:55:00.000Z"
+      }
+    ],
+    "createdAt": "2025-05-24T12:55:00.000Z",
+    "updatedAt": "2025-05-24T12:55:00.000Z"
+  },
+  {
+    "_id": "6830d675420052a150f013ea",
+    "title": "Monitors",
+    "emoji": "🖥️",
+    "imageUrl": "",
+    "slug": "monitors",
+    "products": [
+      {
+        "_id": "6830d675420052a150f013f7",
+        "name": "27-inch 4K Monitor",
+        "price": 349.99,
+        "imageUrl": "",
+        "createdAt": "2025-05-24T12:55:00.000Z",
+        "updatedAt": "2025-05-24T12:55:00.000Z"
+      },
+      {
+        "_id": "6830d675420052a150f013f8",
+        "name": "24-inch Full HD Monitor",
+        "price": 199.99,
+        "imageUrl": "",
+        "createdAt": "2025-05-24T12:55:00.000Z",
+        "updatedAt": "2025-05-24T12:55:00.000Z"
+      }
+    ],
+    "createdAt": "2025-05-24T12:55:00.000Z",
+    "updatedAt": "2025-05-24T12:55:00.000Z"
+  },
+  {
+    "_id": "6830d675420052a150f013eb",
+    "title": "Keyboards",
+    "emoji": "⌨️",
+    "imageUrl": "",
+    "slug": "keyboards",
+    "products": [
+      {
+        "_id": "6830d675420052a150f013f9",
+        "name": "Mechanical Gaming Keyboard",
+        "price": 89.99,
+        "imageUrl": "",
+        "createdAt": "2025-05-24T12:55:00.000Z",
+        "updatedAt": "2025-05-24T12:55:00.000Z"
+      },
+      {
+        "_id": "6830d675420052a150f013fa",
+        "name": "Wireless Ergonomic Keyboard",
+        "price": 59.99,
+        "imageUrl": "",
+        "createdAt": "2025-05-24T12:55:00.000Z",
+        "updatedAt": "2025-05-24T12:55:00.000Z"
+      }
+    ],
+    "createdAt": "2025-05-24T12:55:00.000Z",
+    "updatedAt": "2025-05-24T12:55:00.000Z"
+  },
+  {
+    "_id": "6830d675420052a150f013ec",
+    "title": "VR Headsets",
+    "emoji": "🕶️",
+    "imageUrl": "",
+    "slug": "vr-headsets",
+    "products": [
+      {
+        "_id": "6830d675420052a150f013fb",
+        "name": "High-End VR Headset",
+        "price": 499.99,
+        "imageUrl": "",
+        "createdAt": "2025-05-24T12:55:00.000Z",
+        "updatedAt": "2025-05-24T12:55:00.000Z"
+      },
+      {
+        "_id": "6830d675420052a150f013fc",
+        "name": "Entry-Level VR Headset",
+        "price": 199.99,
+        "imageUrl": "",
+        "createdAt": "2025-05-24T12:55:00.000Z",
+        "updatedAt": "2025-05-24T12:55:00.000Z"
+      }
+    ],
+    "createdAt": "2025-05-24T12:55:00.000Z",
+    "updatedAt": "2025-05-24T12:55:00.000Z"
+  }
+]

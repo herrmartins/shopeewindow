@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-function CategoryCard({_id, title, slug, imageUrl, emoji}) {
+function CategoryCard({_id, title = "Produto", slug, imageUrl, emoji}) {
     let imageOrEmoji = (
         <Image
             src={
@@ -18,12 +18,12 @@ function CategoryCard({_id, title, slug, imageUrl, emoji}) {
     );
 
     if (!imageUrl && emoji) {
-        imageOrEmoji = <span className="text-[18px] leading-none">{emoji}</span>;
+        imageOrEmoji = <span className="text-[25px] leading-none">{emoji}</span>;
     }
 
     return (
         <Link
-            href={`products?category=${slug}`}
+            href={`/products/${slug}`}
             className="no-underline text-inherit hover:no-underline"
         >
             <div className="flex flex-col items-center w-16 transition-colors duration-300">

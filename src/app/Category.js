@@ -1,6 +1,7 @@
+import connectDB from "./lib/mongodb";
 import mongoose from "mongoose";
 
-const CategorySchema = new mongoose.Schema(
+const Category = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -30,13 +31,15 @@ const CategorySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-CategorySchema.pre('save', async function (next) {
-  if (this.isNew || this.isModified('title')) {
+Category.pre("save", async function (next) {
+  if (this.isNew || this.isModified("title")) {
     let slug = this.slug;
     let originalSlug = slug;
     let counter = 1;
 
-    while (await mongoose.models.Category.countDocuments({ slug }).exec() > 0) {
+    while (
+      (await mongoose.models.Category.countDocuments({ slug }).exec()) > 0
+    ) {
       slug = `${originalSlug}-${counter++}`;
     }
     this.slug = slug;
@@ -44,5 +47,9 @@ CategorySchema.pre('save', async function (next) {
   next();
 });
 
-export default mongoose.models.Category ||
-  mongoose.model("Category", CategorySchema);
+const getCategoryModel = async () => {
+  await connectDB();
+  return mongoose.models.Category || mongoose.model("Category", CategorySchema);
+};
+
+export { Category, getCategoryModel };
