@@ -1,35 +1,54 @@
 // src/app/products/[slug]/page.jsx
-import { getCategoryModel } from "@/app/Category";
-import { getProductModel } from "@/app/Product";
+import { getCategoryModel } from "@/app/models/Category";
+import Image from "next/image"; // Import Image for rendering images
 
 export default async function ProductsPage({ params }) {
   const { slug } = await params;
 
   await getCategoryModel();
   const Category = await getCategoryModel();
-  await getProductModel();
-  const Product = await getProductModel();
 
-  const categoryEntity = slug === "all-categories"
-    ? null
-    : await Category.findOne({ slug });
+  let products = [];
+  let categoryEntity = null;
 
-  const products = slug === "all-categories"
-    ? await Product.find({}).lean()
-    : await Product.find({ categorySlug: slug }).lean();
-    
+  if (slug === "all-categories") {
+    const allCategories = await Category.find({}).lean();
+    console.log("All Categories:", allCategories); // Debug log
+    products = allCategories.flatMap((category) => category?.products || []).flat();
+    console.log("Products for all-categories:", products); // Debug log
+  } else {
+    categoryEntity = await Category.findOne({
+      slug: { $regex: new RegExp(`^${slug}$`, "i") },
+    }).lean();
+    console.log("Searching for slug:", slug); // Debug log
+    console.log("Found categoryEntity:", categoryEntity); // Debug log
+    if (categoryEntity) {
+      products = categoryEntity.products || [];
+      console.log("Products for specific slug:", products); // Debug log
+    } else {
+      console.log(`No category found for slug: ${slug}`);
+    }
+  }
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-4">
-        {categoryEntity ? categoryEntity.title : "All Categories"}
-      </h1>
-      {products.length > 0 ? (
-        <ul>
-          {products.map((product) => (
-            <li key={product._id.toString()}>{product.name}</li>
-          ))}
-        </ul>
+      {Array.isArray(products) && products.length > 0 ? (
+        products.map((product) => (
+          <div key={product._id.toString()} className="mb-4">
+            <h2 className="text-xl font-semibold">{product.name}</h2>
+            {product.imageUrl ? (
+              <Image
+                src={product.imageUrl}
+                alt={product.name}
+                width={200}
+                height={200}
+                className="mt-2 object-cover"
+              />
+            ) : (
+              <p className="mt-2 text-gray-500">No image available</p>
+            )}
+          </div>
+        ))
       ) : (
         <p>No products found for {categoryEntity ? categoryEntity.title : "All Categories"}</p>
       )}

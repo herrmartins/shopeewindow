@@ -1,6 +1,5 @@
 import CategoryCard from './CategoryCard';
-import Category, { getCategoryModel } from "@/app/Category";
-import connectDB from "@/app/lib/mongodb";
+import { getCategoryModel } from "@/app/models/Category";
 
 async function CategoryBand() {
     await getCategoryModel();

@@ -4,13 +4,8 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "img.cdndsgni.com",
-        pathname: "/preview/**",
-      },
-      {
-        protocol: "https",
-        hostname: "upload.wikimedia.org",
-        pathname: "/wikipedia/commons/**",
+        hostname: "res.cloudinary.com",
+        pathname: "**",
       },
     ],
   },
