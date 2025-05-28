@@ -8,7 +8,7 @@ async function CategoryBand() {
     console.log(categories)
 
     return (
-        <div className="w-full bg-gray-900 py-1">
+        <div className="w-full py-1">
             <div className="flex justify-center gap-4 px-2 max-w-screen-xl mx-auto flex-wrap">
                 {categories.map((category) => (
                     <CategoryCard
