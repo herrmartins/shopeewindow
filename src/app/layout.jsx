@@ -16,7 +16,6 @@ export default function RootLayout({ children }) {
       <body>
         <ThemeContextProvider>
           <Header />
-          <CategoryBand />
           {children}
         </ThemeContextProvider>
       </body>
