@@ -1,14 +1,15 @@
 "use client";
-import EmojiPicker from "emoji-picker-react";
-import { useState, useEffect } from "react";
-import { loadCategories } from "@/app/actions/loadCategories";
 import addCategory from "@/app/actions/addCategory";
+import EmojiPicker from "emoji-picker-react";
+import { useState, useEffect, useActionState } from "react";
 import { useFormStatus } from "react-dom";
-import CategoryBand from "@/app/components/categories/CategoryBand";
 
 const AddCategoryForm = ({ categories, onNewCategory }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [formData, setFormData] = useState({ title: "", emoji: "" });
+  const [formData, setFormData] = useState({ title: "", emoji: "🙂" });
+  const [state, formAction] = useActionState(addCategory, {
+    newCategory: null,
+  });
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const isEditing = selectedCategory !== null;
   const { pending } = useFormStatus();
@@ -19,11 +20,12 @@ const AddCategoryForm = ({ categories, onNewCategory }) => {
   };
 
   useEffect(() => {
-    if (!pending) {
+    if (!pending && state?.status === "created" && state?.category) {
+      onNewCategory(state.category);
       setFormData({ title: "", emoji: "" });
       setSelectedCategory(null);
     }
-  }, [pending]);
+  }, [pending, state]);
 
   const handleCategoryChange = (e) => {
     const categoryId = e.target.value;
@@ -39,20 +41,6 @@ const AddCategoryForm = ({ categories, onNewCategory }) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const res = await fetch("/api/categories", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title: formData.title, emoji: formData.emoji }),
-    });
-
-    const newCategory = await res.json();    
-    onNewCategory(newCategory);
-    setSelectedCategory(null);
-    setFormData({ title: "", emoji: "" });
-  };
-
   return (
     <div className="lg:w-full md:w-2xl max-w-5xl m-5 p-8 bg-zinc-800 rounded-lg">
       <h2 className="text-3xl text-gray-300 font-bold mb-6 text-center">
@@ -64,7 +52,7 @@ const AddCategoryForm = ({ categories, onNewCategory }) => {
           {selectedCategory?.emoji && selectedCategory?.emoji}
         </h3>
       )}
-      <form onSubmit={handleSubmit}>
+      <form action={formAction}>
         <div className="mb-6">
           <label
             htmlFor="categorySelect"
