@@ -52,4 +52,14 @@ const getCategoryModel = async () => {
   return mongoose.models.Category || mongoose.model("Category", Category);
 };
 
-export { Category, getCategoryModel };
+function serializeCategories(doc) {
+  return {
+    ...doc,
+    _id: doc._id.toString(),
+    createdAt: doc.createdAt?.toISOString?.() ?? null,
+    updatedAt: doc.updatedAt?.toISOString?.() ?? null,
+  };
+}
+
+
+export { Category, getCategoryModel, serializeCategories };
