@@ -18,8 +18,6 @@ export default async function addCategory(prevState, formData) {
     };
   }
 
-  console.log("IMAGEM: ", imageFile);
-
   let imageUrl = null;
 
   if (imageFile && typeof imageFile === "object") {
@@ -38,7 +36,7 @@ export default async function addCategory(prevState, formData) {
       data: { title, emoji, _id: id },
     };
   } else {
-    const newCategory = await Category.create({ title, emoji });
+    const newCategory = await Category.create({ title, emoji, imageUrl });
     const fullCategory = await Category.findById(newCategory._id).lean();
     fullCategory._id = fullCategory._id.toString();
     return { status: "created", category: fullCategory };
@@ -54,10 +52,8 @@ async function uploadToCloudinary(file) {
       { folder: "categories" },
       (err, result) => {
         if (err) {
-          console.error("❌ Upload failed", err);
           return reject(err);
         }
-        console.log("✅ Cloudinary upload result", result);
         resolve(result.secure_url);
       }
     );
