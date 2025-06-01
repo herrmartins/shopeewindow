@@ -112,6 +112,15 @@ const AddCategoryForm = ({ categories, onNewCategory }) => {
             </button>
           </div>
 
+          <div className="flex items-center gap-3">
+            <input
+              name="image"
+              type="file"
+              accept="image/*"
+              className="p-1 border border-gray-600 rounded-md bg-zinc-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+            />
+          </div>
+
           {showEmojiPicker && (
             <div className="mt-2">
               <EmojiPicker onEmojiClick={handleEmojiClick} theme="dark" />
@@ -120,10 +129,18 @@ const AddCategoryForm = ({ categories, onNewCategory }) => {
         </div>
 
         <div className="flex gap-3">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold mt-3 py-2 px-6 rounded-xl transition">
-            SALVAR
-          </button>
-          <button className="bg-slate-600 hover:bg-slate-500 text-white font-bold mt-3 py-2 px-6 rounded-xl transition">
+          <input
+            type="submit"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-bold mt-3 py-2 px-6 rounded-xl transition"
+          />
+          <button
+            type="button"
+            onClick={() => {
+              setFormData({ title: "", emoji: "" });
+              setSelectedCategory(null);
+            }}
+            className="bg-slate-600 hover:bg-slate-500 text-white font-bold mt-3 py-2 px-6 rounded-xl transition"
+          >
             LIMPAR
           </button>
         </div>

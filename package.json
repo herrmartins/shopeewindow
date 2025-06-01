@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "cloudinary": "^2.6.1",
     "dotenv": "^16.3.1",
     "emoji-picker-react": "^4.12.2",
     "mongodb": "^6.16.0",

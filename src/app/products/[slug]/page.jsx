@@ -13,20 +13,14 @@ export default async function ProductsPage({ params }) {
 
   if (slug === "all-categories") {
     const allCategories = await Category.find({}).lean();
-    console.log("All Categories:", allCategories); // Debug log
     products = allCategories.flatMap((category) => category?.products || []).flat();
-    console.log("Products for all-categories:", products); // Debug log
   } else {
     categoryEntity = await Category.findOne({
       slug: { $regex: new RegExp(`^${slug}$`, "i") },
     }).lean();
-    console.log("Searching for slug:", slug); // Debug log
-    console.log("Found categoryEntity:", categoryEntity); // Debug log
     if (categoryEntity) {
       products = categoryEntity.products || [];
-      console.log("Products for specific slug:", products); // Debug log
     } else {
-      console.log(`No category found for slug: ${slug}`);
     }
   }
 

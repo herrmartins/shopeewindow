@@ -5,7 +5,6 @@ async function CategoryBand() {
     await getCategoryModel();
     const Category = await getCategoryModel();
     const categories = await Category.find({});
-    console.log(categories)
 
     return (
         <div className="w-full py-1">

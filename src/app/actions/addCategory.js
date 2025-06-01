@@ -2,20 +2,28 @@
 "use server";
 
 import { getCategoryModel } from "../models/Category";
+import cloudinary from "../lib/claudinary";
 
 export default async function addCategory(prevState, formData) {
-  console.log("FORM DATA", formData);
-
   const Category = await getCategoryModel();
   const id = formData.get("categorySelect");
   const title = formData.get("title");
   const emoji = formData.get("emoji");
+  const imageFile = formData.get("image");
 
   if (!title || !emoji) {
     return {
       status: "error",
       message: "Both title and emoji are required.",
     };
+  }
+
+  console.log("IMAGEM: ", imageFile);
+
+  let imageUrl = null;
+
+  if (imageFile && typeof imageFile === "object") {
+    imageUrl = await uploadToCloudinary(imageFile);    
   }
 
   if (id && id.trim() !== "") {
@@ -35,4 +43,25 @@ export default async function addCategory(prevState, formData) {
     fullCategory._id = fullCategory._id.toString();
     return { status: "created", category: fullCategory };
   }
+}
+
+async function uploadToCloudinary(file) {
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder: "categories" },
+      (err, result) => {
+        if (err) {
+          console.error("❌ Upload failed", err);
+          return reject(err);
+        }
+        console.log("✅ Cloudinary upload result", result);
+        resolve(result.secure_url);
+      }
+    );
+
+    stream.end(buffer);
+  });
 }

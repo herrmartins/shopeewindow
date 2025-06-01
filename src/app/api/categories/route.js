@@ -1,6 +1,6 @@
 import { getCategoryModel } from "@/app/models/Category";
 import { NextResponse } from "next/server";
-
+//Not in use, but will stay here for now
 export async function POST(req) {
   try {
     const body = await req.json();
