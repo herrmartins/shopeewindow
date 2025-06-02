@@ -9,7 +9,7 @@ export default async function addCategory(prevState, formData) {
   const id = formData.get("categorySelect");
   const title = formData.get("title");
   const emoji = formData.get("emoji");
-  const imageFile = formData.get("image");
+  const imageFile = formData.get("image");  
 
   if (!title || !emoji) {
     return {
@@ -20,7 +20,7 @@ export default async function addCategory(prevState, formData) {
 
   let imageUrl = null;
 
-  if (imageFile && typeof imageFile === "object") {
+  if (imageFile.size > 0 && typeof imageFile === "object") {
     imageUrl = await uploadToCloudinary(imageFile);    
   }
 

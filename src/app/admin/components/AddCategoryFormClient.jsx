@@ -112,20 +112,26 @@ const AddCategoryForm = ({ categories, onNewCategory }) => {
             </button>
           </div>
 
-          <div className="flex items-center gap-3">
+          {showEmojiPicker && (
+            <div className="mt-2">
+              <EmojiPicker onEmojiClick={handleEmojiClick} theme="dark" />
+            </div>
+          )}
+          <div className="flex flex-col mt-3">
+            <label
+              htmlFor="image"
+              className=" text-gray-200 font-semibold mb-2"
+            >
+              Imagem
+            </label>
             <input
+              id="image"
               name="image"
               type="file"
               accept="image/*"
               className="p-1 border border-gray-600 rounded-md bg-zinc-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
             />
           </div>
-
-          {showEmojiPicker && (
-            <div className="mt-2">
-              <EmojiPicker onEmojiClick={handleEmojiClick} theme="dark" />
-            </div>
-          )}
         </div>
 
         <div className="flex gap-3">

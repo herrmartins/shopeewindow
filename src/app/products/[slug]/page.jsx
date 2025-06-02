@@ -1,6 +1,5 @@
-// src/app/products/[slug]/page.jsx
 import { getCategoryModel } from "@/app/models/Category";
-import Image from "next/image"; // Import Image for rendering images
+import Image from "next/image";
 
 export default async function ProductsPage({ params }) {
   const { slug } = await params;
@@ -20,7 +19,6 @@ export default async function ProductsPage({ params }) {
     }).lean();
     if (categoryEntity) {
       products = categoryEntity.products || [];
-    } else {
     }
   }
 
