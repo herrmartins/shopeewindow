@@ -5,7 +5,6 @@ import { useState } from "react";
 
 const AddCategoryForm = ({
   categories,
-  onNewCategory,
   selectedCategory,
   onEditCategory,
   onSetFormData,

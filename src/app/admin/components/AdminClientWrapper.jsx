@@ -4,7 +4,6 @@ import { useState, useEffect, useActionState } from "react";
 import CategoriesTable from "./CategoriesTable";
 import AddCategoryFormClient from "./AddCategoryFormClient";
 import { deleteCategory } from "@/app/actions/deleteCategory";
-import { useFormStatus } from "react-dom";
 import addCategory from "@/app/actions/addCategory";
 
 const AdminClientWrapper = ({ initialCategories }) => {
@@ -19,9 +18,13 @@ const AdminClientWrapper = ({ initialCategories }) => {
   useEffect(() => {
     if (state?.status === "created" && state?.category) {
       handleNewCategory(state.category);
-      setFormData({ title: "", emoji: "🙂" });
-      setSelectedCategory(null);
+    } else if (state?.status === "updated") {
+      setCategories((prev) =>
+        prev.map((cat) => (cat._id === state.id ? state.data : cat))
+      );
     }
+    setFormData({ title: "", emoji: "🙂" });
+    setSelectedCategory(null);
   }, [state]);
 
   const handleInputChange = (e) => {
@@ -43,6 +46,17 @@ const AdminClientWrapper = ({ initialCategories }) => {
     setFormData({
       title: category?.title || "",
       emoji: category?.emoji || "🙂",
+    });
+  };
+
+  const handleSelectCategoryById = (id) => {
+    const category = categories.find((cat) => cat._id === id);
+    if (!category) return;
+
+    setSelectedCategory(category);
+    setFormData({
+      title: category.title,
+      emoji: category.emoji || "🙂",
     });
   };
 
@@ -74,6 +88,7 @@ const AdminClientWrapper = ({ initialCategories }) => {
         <CategoriesTable
           cats={categories}
           onDeleteCategory={handleDeleteCategory}
+          onEditCategory={handleSelectCategoryById}
         />
       </div>
     </div>
