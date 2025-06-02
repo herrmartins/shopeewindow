@@ -2,7 +2,7 @@
 import { FaBan, FaCheck, FaEdit, FaTrash } from "react-icons/fa";
 import { IoAddCircleSharp } from "react-icons/io5";
 
-const CategoriesTable = ({ cats }) => {
+const CategoriesTable = ({ cats, onDeleteCategory }) => {
   return (
     <table className="w-full table-auto border border-gray-700 rounded-lg overflow-hidden text-sm text-gray-300  m-4">
       <thead className="bg-gray-800 text-gray-400 uppercase text-xs">
@@ -22,7 +22,9 @@ const CategoriesTable = ({ cats }) => {
             <td className="px-4 py-2 border-b border-gray-700">{cat.title}</td>
             <td className="px-4 py-2 border-b border-gray-700">
               {cat.imageUrl ? (
-                <span className="flex justify-center text-green-400"><FaCheck /></span>
+                <span className="flex justify-center text-green-400">
+                  <FaCheck />
+                </span>
               ) : (
                 <span className="italic text-red-500 flex justify-center">
                   <FaBan />
@@ -35,7 +37,7 @@ const CategoriesTable = ({ cats }) => {
             <td className="px-4 py-2 border-b border-gray-700 text-xl">
               <span className="flex justify-center gap-3 text-xl">
                 <FaEdit className="hover:text-yellow-300 cursor-pointer" />
-                <FaTrash className="hover:text-red-400 cursor-pointer" />
+                <FaTrash className="hover:text-red-400 cursor-pointer" onClick={() => onDeleteCategory(cat._id)} />
                 <IoAddCircleSharp className=" hover:text-blue-400 cursor-pointer" />
               </span>
             </td>
