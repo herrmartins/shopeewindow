@@ -5,19 +5,22 @@ import Link from "next/link";
 function Header() {
   return (
     <div className="flex justify-center items-center">
-      <Image
-        src="/shared/logo.png"
-        alt="Webtvbrazil LOGO"
-        width={120}
-        height={80}
-        priority
-      />
-      <p>
+      <Link href="/">
+        <Image
+          src="/shared/logo.png"
+          alt="Webtvbrazil LOGO"
+          width={120}
+          height={80}
+          priority
+        />
+      </Link>
+
+      <p className="flex">
         Super descontos SHOPEE na WEBTVBRAZIL{" "}
-        <span>
+        <span className="mx-2 mt-1 text-blue-300">
           <Link
             href="/about"
-            className="no-underline text-inherit hover:no-underline">
+          >
             <FaInfoCircle />
           </Link>
         </span>
