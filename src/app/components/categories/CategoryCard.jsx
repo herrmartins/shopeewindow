@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 function CategoryCard({ _id, title = "Produto", slug, imageUrl, emoji }) {
-  console.log("Imagem category card: ", imageUrl);
 
   let imageOrEmoji = (
     <Image

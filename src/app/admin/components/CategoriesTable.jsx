@@ -1,6 +1,7 @@
 "use client";
 import { FaBan, FaCheck, FaEdit, FaTrash } from "react-icons/fa";
 import { IoAddCircleSharp } from "react-icons/io5";
+import Link from "next/link";
 
 const CategoriesTable = ({ cats, onDeleteCategory, onEditCategory }) => {
   return (
@@ -44,7 +45,9 @@ const CategoriesTable = ({ cats, onDeleteCategory, onEditCategory }) => {
                   className="hover:text-red-400 cursor-pointer"
                   onClick={() => onDeleteCategory(cat._id)}
                 />
-                <IoAddCircleSharp className=" hover:text-blue-400 cursor-pointer" />
+                <Link href={`/admin/product/${cat._id}`}>
+                  <IoAddCircleSharp className="hover:text-blue-400 cursor-pointer" />
+                </Link>
               </span>
             </td>
           </tr>

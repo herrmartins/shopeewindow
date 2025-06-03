@@ -1,5 +1,5 @@
+import connectDB from "../lib/mongodb";
 import mongoose from "mongoose";
-import connectDB from "./lib/mongodb";
 
 const Product = new mongoose.Schema(
   {

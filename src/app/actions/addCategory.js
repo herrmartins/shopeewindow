@@ -1,8 +1,6 @@
-// app/actions/addCategory.js
 "use server";
 
 import { getCategoryModel } from "../models/Category";
-import cloudinary from "../lib/claudinary";
 
 export default async function addCategory(prevState, formData) {
   const Category = await getCategoryModel();
