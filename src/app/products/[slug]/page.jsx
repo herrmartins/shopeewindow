@@ -1,25 +1,21 @@
 import { getCategoryModel } from "@/app/models/Category";
+import { getProductModel } from "@/app/models/Product";
 import Image from "next/image";
 
 export default async function ProductsPage({ params }) {
   const { slug } = await params;
 
-  await getCategoryModel();
   const Category = await getCategoryModel();
-
+  const Product = await getProductModel();
   let products = [];
-  let categoryEntity = null;
 
-  if (slug === "all-categories") {
-    const allCategories = await Category.find({}).lean();
-    products = allCategories.flatMap((category) => category?.products || []).flat();
+  let category = null;
+
+  if (slug) {
+    products = await Product.find({ categorySlug: slug }).lean();
+    category = await Category.findOne({slug: slug}).lean();
   } else {
-    categoryEntity = await Category.findOne({
-      slug: { $regex: new RegExp(`^${slug}$`, "i") },
-    }).lean();
-    if (categoryEntity) {
-      products = categoryEntity.products || [];
-    }
+    products = await Product.find().lean();
   }
 
   return (
@@ -42,7 +38,10 @@ export default async function ProductsPage({ params }) {
           </div>
         ))
       ) : (
-        <p>No products found for {categoryEntity ? categoryEntity.title : "All Categories"}</p>
+        <p>
+          Não há produtos{" "}
+          {category ? category?.title : "para esta categoria..."}
+        </p>
       )}
     </div>
   );
