@@ -1,6 +1,6 @@
 import { getCategoryModel } from "@/app/models/Category";
 import { getProductModel } from "@/app/models/Product";
-import Image from "next/image";
+import ProductCard from "../components/ProductCard";
 
 export default async function ProductsPage({ params }) {
   const { slug } = await params;
@@ -19,22 +19,11 @@ export default async function ProductsPage({ params }) {
   }
 
   return (
-    <div>
+    <div className="flex justify-center flex-wrap gap-2 m-3">
       {Array.isArray(products) && products.length > 0 ? (
         products.map((product) => (
           <div key={product._id.toString()} className="mb-4">
-            <h2 className="text-xl font-semibold">{product.name}</h2>
-            {product.imageUrl ? (
-              <Image
-                src={product.imageUrl}
-                alt={product.name}
-                width={200}
-                height={200}
-                className="mt-2 object-cover"
-              />
-            ) : (
-              <p className="mt-2 text-gray-500">No image available</p>
-            )}
+            <ProductCard {...product}/>
           </div>
         ))
       ) : (

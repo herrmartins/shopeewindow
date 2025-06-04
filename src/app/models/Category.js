@@ -16,6 +16,7 @@ const Category = new mongoose.Schema(
       type: String,
       default: null,
     },
+    parent: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', default: null },
     slug: {
       type: String,
       required: true,
@@ -49,6 +50,9 @@ Category.pre("save", async function (next) {
 
 const getCategoryModel = async () => {
   await connectDB();
+  if (process.env.NODE_ENV === "development") {
+    delete mongoose.connection.models["Category"];
+  }
   return mongoose.models.Category || mongoose.model("Category", Category);
 };
 

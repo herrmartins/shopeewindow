@@ -1,7 +1,4 @@
 "use server";
-
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { getProductModel } from "@/app/models/Product";
 import { uploadToCloudinary } from "../lib/claudinary";
 import { getCategoryModel } from "../models/Category";
@@ -39,6 +36,7 @@ export default async function addProduct(formData) {
     description,
     imageUrl,
   });
+
   const fullProduct = await Product.findById(newProduct._id).lean();
   fullProduct._id = fullProduct._id.toString();
   const id = fullProduct._id
