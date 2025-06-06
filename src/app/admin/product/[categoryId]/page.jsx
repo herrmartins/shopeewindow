@@ -4,13 +4,15 @@ import { getCategoryModel, serializeCategories } from "@/app/models/Category";
 const ProductPageWithCatId = async ({ params }) => {
   const awaitedParams = await params;
   const { categoryId } = awaitedParams;
+  console.log("Awaited params: ", awaitedParams);
+  
 
   const Category = await getCategoryModel();
   const rawCategories = await Category.find().lean();
   const categories = rawCategories.map(serializeCategories);
 
   let selectedCategory = null;
-  if (categoryId) {    
+  if (categoryId) {
     selectedCategory =await Category.findById(categoryId).exec();
     selectedCategory = serializeCategories(selectedCategory);
   }

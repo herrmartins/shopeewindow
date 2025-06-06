@@ -6,6 +6,8 @@ import { serializeCategories } from "@/app/models/Category";
 
 export default async function ProductsPage({ params }) {
   const { slug } = await params;
+  console.log("SLUG: ", slug);
+  
 
   const Category = await getCategoryModel({ parent: null });
   const Product = await getProductModel();
