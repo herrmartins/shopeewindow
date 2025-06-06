@@ -43,3 +43,5 @@ next-env.d.ts
 .qodo
 .idea
 /.idea/
+data.json
+script.js

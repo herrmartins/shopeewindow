@@ -18,22 +18,22 @@ export default async function ProductsPage({
   let subCategories = [];
 
   let total = 0;
-  const currentPage = (await searchParams.page) || 1;
+  const currentPage = parseInt(searchParams.page || "1", 10);
   const skip = (currentPage - 1) * pageSize;
 
   let category = null;
 
   if (slug) {
-    products = await Product.find({ categorySlug: slug }).skip(skip).lean();
-    total = await Product.countDocuments({ categorySlug: slug });
-
     category = await Category.findOne({ slug: slug }).lean();
+    products = await Product.find({ category: category._id }).skip(skip).limit(pageSize).lean();
+    total = await Product.countDocuments({ category: category._id });
+
     const rawSubCategories = await Category.find({
       parent: category._id,
     }).lean();
     subCategories = rawSubCategories.map(serializeCategories);
   } else {
-    products = await Product.find().lean();
+    products = await Product.find().skip(skip).limit(pageSize).lean();
     total = await Product.countDocuments({});
   }
 

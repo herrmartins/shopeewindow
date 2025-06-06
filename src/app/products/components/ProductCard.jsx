@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 function ProductCard({ _id, name, imageUrl, price, description, urlLink }) {
+  console.log("HTML: ", urlLink)
   const imageOrFallback = imageUrl ? (
     <Image
       src={imageUrl}

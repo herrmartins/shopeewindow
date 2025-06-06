@@ -2,7 +2,6 @@ import React from "react";
 import addProduct from "@/app/actions/addProduct";
 
 function AddProductForm({ categories, selectedCategory = null }) {
-
   return (
     <div className="bg-gray-700 rounded-2xl p-3 flex flex-col">
       <form action={addProduct}>
@@ -55,6 +54,17 @@ function AddProductForm({ categories, selectedCategory = null }) {
             className="p-1 border border-gray-600 rounded-md bg-zinc-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
           />
         </div>
+
+        <div>
+          <label htmlFor="url">Link:</label>
+          <input
+            id="url"
+            name="url"
+            required
+            className="p-1 border border-gray-600 rounded-md bg-zinc-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+          />
+        </div>
+
         <div className="flex flex-col mt-3">
           <label htmlFor="image" className="text-gray-200 font-semibold mb-2">
             Imagem

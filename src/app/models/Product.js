@@ -8,10 +8,6 @@ const Product = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    categorySlug: {
-      type: String,
-      required: true,
-    },
     price: {
       type: Number,
       required: true,
