@@ -5,7 +5,7 @@ import ProductCard from "../components/ProductCard";
 export default async function ProductsPage({ params }) {
   const { slug } = await params;
 
-  const Category = await getCategoryModel();
+  const Category = await getCategoryModel({parent: null});
   const Product = await getProductModel();
   let products = [];
 

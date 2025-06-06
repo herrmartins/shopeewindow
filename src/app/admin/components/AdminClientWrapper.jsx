@@ -51,6 +51,15 @@ const AdminClientWrapper = ({ initialCategories }) => {
     }
   }, [selectedCategory]);
 
+  const handleResetForm = () => {
+    setFormData({
+      title: "",
+      emoji: "🙂",
+      parentId: "",
+      isEditing: false,
+    });
+  };
+
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
@@ -102,6 +111,7 @@ const AdminClientWrapper = ({ initialCategories }) => {
           formData={formData}
           handleInputChange={handleInputChange}
           handleEmojiClick={handleEmojiClick}
+          onResetForm={handleResetForm}
         />
       </div>
       <div className="m-5 w-fit">

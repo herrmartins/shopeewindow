@@ -4,7 +4,8 @@ import { getCategoryModel } from "@/app/models/Category";
 async function CategoryBand() {
     await getCategoryModel();
     const Category = await getCategoryModel();
-    const categories = await Category.find({});
+    const categories = await Category.find({ parent: null});
+console.log("CATEGORY QUERY RESULT:", categories.map(c => ({ title: c.title, parent: c.parent })));
 
     return (
         <div className="w-full py-1">

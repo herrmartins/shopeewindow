@@ -11,8 +11,8 @@ const AddCategoryForm = ({
   formData,
   handleInputChange,
   handleEmojiClick,
+  onResetForm,
 }) => {
-  const isEditing = selectedCategory !== null;
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   return (
@@ -21,7 +21,7 @@ const AddCategoryForm = ({
         Select Category
       </h2>
 
-      {isEditing && (
+      {formData.isEditing && (
         <h3 className="inline-block text-sm font-semibold bg-blue-600 text-white px-4 py-1 rounded-full shadow-md mb-4">
           Editando: {selectedCategory?.title} {selectedCategory?.emoji}
         </h3>
@@ -39,7 +39,7 @@ const AddCategoryForm = ({
           <input
             type="hidden"
             name="isEditing"
-            value={isEditing ? "true" : "false"}
+            value={formData.isEditing ? "true" : "false"}
           />
 
           <select
@@ -121,9 +121,7 @@ const AddCategoryForm = ({
           />
           <button
             type="button"
-            onClick={() => {
-              onSetFormData({ title: "", emoji: "🙂" });
-            }}
+            onClick={onResetForm}
             className="bg-slate-600 hover:bg-slate-500 text-white font-bold mt-3 py-2 px-6 rounded-xl transition"
           >
             LIMPAR
