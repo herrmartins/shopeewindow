@@ -4,7 +4,6 @@ import { getCategoryModel, serializeCategories } from "@/app/models/Category";
 const ProductPageWithCatId = async ({ params }) => {
   const awaitedParams = await params;
   const { categoryId } = awaitedParams;
-  console.log("Awaited params: ", awaitedParams);
   
 
   const Category = await getCategoryModel();
