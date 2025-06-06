@@ -26,6 +26,11 @@ export default async function ProductsPage({ params }) {
 
   return (
     <div className="flex justify-center flex-wrap gap-2 m-3">
+      {subCategories && (
+          <SubCategories
+              categories={subCategories}
+          />
+      )}
       {Array.isArray(products) && products.length > 0 ? (
         products.map((product) => (
           <div key={product._id.toString()} className="mb-4">
@@ -38,11 +43,7 @@ export default async function ProductsPage({ params }) {
           {category ? category?.title : "para esta categoria..."}
         </p>
       )}
-      {subCategories && (
-        <SubCategories
-          categories={subCategories}
-        />
-      )}
+
     </div>
   );
 }
