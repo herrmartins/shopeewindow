@@ -16,7 +16,11 @@ const Category = new mongoose.Schema(
       type: String,
       default: null,
     },
-    parent: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', default: null },
+    parent: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+      default: null,
+    },
     slug: {
       type: String,
       required: true,
@@ -60,10 +64,18 @@ function serializeCategories(doc) {
   return {
     ...doc,
     _id: doc._id.toString(),
+    parent: doc.parent
+      ? typeof doc.parent === "object" && doc.parent._id
+        ? {
+            _id: doc.parent._id.toString(),
+            title: doc.parent.title ?? null,
+            emoji: doc.parent.emoji ?? null,
+          }
+        : doc.parent.toString()
+      : null,
     createdAt: doc.createdAt?.toISOString?.() ?? null,
     updatedAt: doc.updatedAt?.toISOString?.() ?? null,
   };
 }
-
 
 export { Category, getCategoryModel, serializeCategories };

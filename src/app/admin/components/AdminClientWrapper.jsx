@@ -8,7 +8,12 @@ import addCategory from "@/app/actions/addCategory";
 
 const AdminClientWrapper = ({ initialCategories }) => {
   const [categories, setCategories] = useState(initialCategories);
-  const [formData, setFormData] = useState({ title: "", emoji: "🙂" });
+  const [formData, setFormData] = useState({
+    title: "",
+    emoji: "🙂",
+    parentId: "",
+    isEditing: false,
+  });
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const [state, formAction] = useActionState(addCategory, {
@@ -23,9 +28,28 @@ const AdminClientWrapper = ({ initialCategories }) => {
         prev.map((cat) => (cat._id === state.id ? state.data : cat))
       );
     }
-    setFormData({ title: "", emoji: "🙂" });
+    setFormData({ title: "", emoji: "🙂", parentId: "" });
     setSelectedCategory(null);
   }, [state]);
+
+  useEffect(() => {
+    if (selectedCategory) {
+      console.log("Setting form data:", selectedCategory);
+      setFormData({
+        title: selectedCategory.title || "",
+        emoji: selectedCategory.emoji || "🙂",
+        parentId:
+          selectedCategory.parent === null ||
+          selectedCategory.parent === undefined
+            ? ""
+            : typeof selectedCategory.parent === "object"
+            ? selectedCategory.parent._id?.toString() || ""
+            : selectedCategory.parent?.toString?.() || "",
+      });
+    } else {
+      setFormData({ title: "", emoji: "🙂", parentId: "" });
+    }
+  }, [selectedCategory]);
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -39,24 +63,21 @@ const AdminClientWrapper = ({ initialCategories }) => {
     setCategories((prev) => [...prev, newCategory]);
   };
 
-  const handleCategoryChange = (e) => {
-    const categoryId = e.target.value;
-    const category = categories.find((cat) => cat._id === categoryId);
-    setSelectedCategory(category);
-    setFormData({
-      title: category?.title || "",
-      emoji: category?.emoji || "🙂",
-    });
-  };
-
   const handleSelectCategoryById = (id) => {
     const category = categories.find((cat) => cat._id === id);
     if (!category) return;
 
     setSelectedCategory(category);
+    console.log("CATEGORIA: ", category);
     setFormData({
       title: category.title,
       emoji: category.emoji || "🙂",
+      parentId:
+        typeof category.parent === "object" && category.parent !== null
+          ? category.parent._id?.toString?.() || ""
+          : category.parent?.toString?.() || "",
+      isEditing: true,
+      id: id,
     });
   };
 
@@ -77,7 +98,6 @@ const AdminClientWrapper = ({ initialCategories }) => {
           onNewCategory={handleNewCategory}
           selectedCategory={selectedCategory}
           onSetFormData={setFormData}
-          onEditCategory={handleCategoryChange}
           formAction={formAction}
           formData={formData}
           handleInputChange={handleInputChange}

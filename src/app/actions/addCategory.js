@@ -1,13 +1,16 @@
 "use server";
 
+import { uploadToCloudinary } from "../lib/claudinary";
 import { getCategoryModel } from "../models/Category";
 
 export default async function addCategory(prevState, formData) {
   const Category = await getCategoryModel();
-  const id = formData.get("categorySelect");
+  const id = formData.get("id");
   const title = formData.get("title");
   const emoji = formData.get("emoji");
-  const imageFile = formData.get("image");  
+  const parent = formData.get("parentId") || null;
+  const imageFile = formData.get("image");
+  const isEditing = formData.get("isEditing") === "true";
 
   if (!title || !emoji) {
     return {
@@ -19,43 +22,29 @@ export default async function addCategory(prevState, formData) {
   let imageUrl = null;
 
   if (imageFile.size > 0 && typeof imageFile === "object") {
-    imageUrl = await uploadToCloudinary(imageFile);    
+    imageUrl = await uploadToCloudinary(imageFile, "categories");
   }
 
-  if (id && id.trim() !== "") {
+  if (isEditing && id && id.trim() !== "") {
     await Category.updateOne(
       { _id: id },
-      { title, emoji, updatedAt: new Date() }
+      { title, emoji, parent, updatedAt: new Date() }
     );
 
     return {
       status: "updated",
       id,
-      data: { title, emoji, _id: id },
+      data: { title, emoji, parent, _id: id },
     };
   } else {
-    const newCategory = await Category.create({ title, emoji, imageUrl });
+    const newCategory = await Category.create({
+      title,
+      emoji,
+      parent,
+      imageUrl,
+    });
     const fullCategory = await Category.findById(newCategory._id).lean();
     fullCategory._id = fullCategory._id.toString();
     return { status: "created", category: fullCategory };
   }
-}
-
-async function uploadToCloudinary(file) {
-  const arrayBuffer = await file.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
-
-  return new Promise((resolve, reject) => {
-    const stream = cloudinary.uploader.upload_stream(
-      { folder: "categories" },
-      (err, result) => {
-        if (err) {
-          return reject(err);
-        }
-        resolve(result.secure_url);
-      }
-    );
-
-    stream.end(buffer);
-  });
 }

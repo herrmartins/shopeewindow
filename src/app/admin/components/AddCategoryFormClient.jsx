@@ -6,7 +6,6 @@ import { useState } from "react";
 const AddCategoryForm = ({
   categories,
   selectedCategory,
-  onEditCategory,
   onSetFormData,
   formAction,
   formData,
@@ -30,19 +29,29 @@ const AddCategoryForm = ({
 
       <form action={formAction}>
         <div className="mb-6">
-          <label htmlFor="categorySelect" className="block text-gray-200 font-semibold mb-2">
+          <label
+            htmlFor="categorySelect"
+            className="block text-gray-200 font-semibold mb-2"
+          >
             Categoria
           </label>
+          <input type="hidden" name="id" value={selectedCategory?._id || ""} />
+          <input
+            type="hidden"
+            name="isEditing"
+            value={isEditing ? "true" : "false"}
+          />
+
           <select
-            id="categorySelect"
-            name="categorySelect"
-            onChange={onEditCategory}
-            value={selectedCategory?._id || ""}
+            id="parentId"
+            name="parentId"
+            value={formData.parentId}
+            onChange={handleInputChange}
             className="p-1 border border-gray-600 rounded-md bg-zinc-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
           >
             <option value="">-- Select a category --</option>
             {categories.map((category) => (
-              <option key={category._id} value={category._id}>
+              <option key={category._id} value={category._id.toString()}>
                 {category.title}
               </option>
             ))}
@@ -50,7 +59,10 @@ const AddCategoryForm = ({
         </div>
 
         <div className="mb-6">
-          <label htmlFor="title" className="block text-gray-300 font-semibold mb-2">
+          <label
+            htmlFor="title"
+            className="block text-gray-300 font-semibold mb-2"
+          >
             Título
           </label>
           <input
@@ -64,7 +76,10 @@ const AddCategoryForm = ({
         </div>
 
         <div className="mb-6">
-          <label htmlFor="emoji" className="block text-gray-200 font-semibold mb-2">
+          <label
+            htmlFor="emoji"
+            className="block text-gray-200 font-semibold mb-2"
+          >
             Emoji
           </label>
           <div className="flex items-center gap-3">

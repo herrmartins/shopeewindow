@@ -12,7 +12,7 @@ const ProductPageWithCatId = async ({ params }) => {
   let selectedCategory = null;
   if (categoryId) {    
     selectedCategory =await Category.findById(categoryId).exec();
-    selectedCategory = serializeCategories(selectedCategory);    
+    selectedCategory = serializeCategories(selectedCategory);
   }
 
   return (
