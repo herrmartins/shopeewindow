@@ -8,11 +8,12 @@ import addCategory from "@/app/actions/addCategory";
 
 const AdminClientWrapper = ({ initialCategories }) => {
   const [categories, setCategories] = useState(initialCategories);
+  const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     emoji: "🙂",
     parentId: "",
-    isEditing: false,
+    isEditing: isEditing,
   });
   const [selectedCategory, setSelectedCategory] = useState(null);
 
@@ -34,7 +35,6 @@ const AdminClientWrapper = ({ initialCategories }) => {
 
   useEffect(() => {
     if (selectedCategory) {
-      console.log("Setting form data:", selectedCategory);
       setFormData({
         title: selectedCategory.title || "",
         emoji: selectedCategory.emoji || "🙂",
@@ -46,8 +46,10 @@ const AdminClientWrapper = ({ initialCategories }) => {
             ? selectedCategory.parent._id?.toString() || ""
             : selectedCategory.parent?.toString?.() || "",
       });
+      setIsEditing(true);
     } else {
       setFormData({ title: "", emoji: "🙂", parentId: "" });
+      setIsEditing(false);
     }
   }, [selectedCategory]);
 
@@ -56,8 +58,8 @@ const AdminClientWrapper = ({ initialCategories }) => {
       title: "",
       emoji: "🙂",
       parentId: "",
-      isEditing: false,
     });
+    setIsEditing(false);
   };
 
   const handleInputChange = (e) => {
@@ -75,6 +77,7 @@ const AdminClientWrapper = ({ initialCategories }) => {
   const handleSelectCategoryById = (id) => {
     const category = categories.find((cat) => cat._id === id);
     if (!category) return;
+    setIsEditing(true);
 
     setSelectedCategory(category);
     console.log("CATEGORIA: ", category);
@@ -112,6 +115,7 @@ const AdminClientWrapper = ({ initialCategories }) => {
           handleInputChange={handleInputChange}
           handleEmojiClick={handleEmojiClick}
           onResetForm={handleResetForm}
+          isEditing={isEditing}
         />
       </div>
       <div className="m-5 w-fit">
@@ -119,6 +123,7 @@ const AdminClientWrapper = ({ initialCategories }) => {
           cats={categories}
           onDeleteCategory={handleDeleteCategory}
           onEditCategory={handleSelectCategoryById}
+          isEditing={isEditing}
         />
       </div>
     </div>

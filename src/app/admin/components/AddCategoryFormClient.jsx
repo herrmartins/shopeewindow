@@ -12,6 +12,7 @@ const AddCategoryForm = ({
   handleInputChange,
   handleEmojiClick,
   onResetForm,
+  isEditing
 }) => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
@@ -21,7 +22,7 @@ const AddCategoryForm = ({
         Select Category
       </h2>
 
-      {formData.isEditing && (
+      {isEditing && (
         <h3 className="inline-block text-sm font-semibold bg-blue-600 text-white px-4 py-1 rounded-full shadow-md mb-4">
           Editando: {selectedCategory?.title} {selectedCategory?.emoji}
         </h3>
@@ -39,7 +40,7 @@ const AddCategoryForm = ({
           <input
             type="hidden"
             name="isEditing"
-            value={formData.isEditing ? "true" : "false"}
+            value={isEditing}
           />
 
           <select

@@ -3,7 +3,7 @@ import { FaBan, FaCheck, FaEdit, FaTrash } from "react-icons/fa";
 import { IoAddCircleSharp } from "react-icons/io5";
 import Link from "next/link";
 
-const CategoriesTable = ({ cats, onDeleteCategory, onEditCategory }) => {
+const CategoriesTable = ({ cats, onDeleteCategory, onEditCategory, isEditing }) => {
   return (
     <table className="w-full table-auto border border-gray-700 rounded-lg overflow-hidden text-sm text-gray-300  m-4">
       <thead className="bg-gray-800 text-gray-400 uppercase text-xs">
