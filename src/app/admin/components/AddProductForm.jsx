@@ -1,10 +1,11 @@
-import React from "react";
-import addProduct from "@/app/actions/addProduct";
+import saveProduct from "@/app/actions/saveProduct";
 
-function AddProductForm({ categories, selectedCategory = null }) {
+function AddProductForm({ categories, selectedCategory = null, product = undefined }) {
+  if (product) console.log("Tem produto");
+  else console.log("Não tem produto")
   return (
     <div className="bg-gray-700 rounded-2xl p-3 flex flex-col">
-      <form action={addProduct}>
+      <form action={saveProduct}>
         <div>
           <label htmlFor="name">Produto:</label>
           <input

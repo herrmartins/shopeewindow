@@ -1,5 +1,4 @@
 import "./globals.css";
-import CategoryBand from "./components/categories/CategoryBand";
 import Header from "./components/shared/Header";
 import { ThemeContextProvider } from "./context/ThemeContext";
 

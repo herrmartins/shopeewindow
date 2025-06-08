@@ -1,5 +1,3 @@
-import AddCategoryFormClient from "../components/AddCategoryFormClient";
-
 const AdminCategoriesPage = () => {
     return <div>
       

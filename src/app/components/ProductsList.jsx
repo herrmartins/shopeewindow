@@ -1,6 +1,6 @@
 import ProductCard from "../products/components/ProductCard";
 
-function ProductsList({ products, category }) {
+function ProductsGrid({ products, category }) {
   return (
     <>
       {Array.isArray(products) && products.length > 0 ? (
@@ -19,4 +19,4 @@ function ProductsList({ products, category }) {
   );
 }
 
-export default ProductsList;
+export default ProductsGrid;

@@ -1,7 +1,7 @@
 import AddProductForm from "../components/AddProductForm";
 import { getCategoryModel, serializeCategories } from "@/app/models/Category";
 
-const ProductPageForm = async () => {
+const ProductPageForm = async ({searchParams}) => {
   const Category = await getCategoryModel();
   const rawCategories = await Category.find().lean();
   const categories = rawCategories.map(serializeCategories);

@@ -3,7 +3,7 @@ import { getProductModel } from "@/app/models/Product";
 import { uploadToCloudinary } from "../lib/claudinary";
 import { getCategoryModel } from "../models/Category";
 
-export default async function addProduct(formData) {
+export default async function saveProduct(formData) {
   const Product = await getProductModel();
   const category = formData.get("categorySelect");
 
