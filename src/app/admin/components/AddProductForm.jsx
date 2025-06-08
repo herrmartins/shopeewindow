@@ -1,11 +1,24 @@
 import saveProduct from "@/app/actions/saveProduct";
+import { getCategoryModel, serializeCategories } from "@/app/models/Category";
 
-function AddProductForm({ categories, selectedCategory = null, product = undefined }) {
-  if (product) console.log("Tem produto");
-  else console.log("Não tem produto")
+async function AddProductForm({
+  categories,
+  selectedCategory = null,
+  product = undefined,
+}) {
+  if (product) {
+    const Category = await getCategoryModel();
+    const gottenCat = await Category.findOne({_id:product.category}).lean();
+    selectedCategory = serializeCategories(gottenCat);
+    console.log("PRODUTO: ", product._id)
+  }
+
   return (
     <div className="bg-gray-700 rounded-2xl p-3 flex flex-col">
+
       <form action={saveProduct}>
+        
+      {product?._id && <input type="hidden" name="_id" value={product._id} />}
         <div>
           <label htmlFor="name">Produto:</label>
           <input
@@ -13,6 +26,7 @@ function AddProductForm({ categories, selectedCategory = null, product = undefin
             id="name"
             name="name"
             required
+            defaultValue={product?.name || ""}
             className="p-1 border border-gray-600 rounded-md bg-zinc-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
           />
         </div>
@@ -22,7 +36,7 @@ function AddProductForm({ categories, selectedCategory = null, product = undefin
           <select
             id="categorySelect"
             name="categorySelect"
-            defaultValue={selectedCategory?._id || ""}
+            defaultValue={product?.category?._id || selectedCategory?._id || ""}
             className="p-1 border border-gray-600 rounded-md bg-zinc-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
           >
             <option value="">-- Select a category --</option>
@@ -43,6 +57,7 @@ function AddProductForm({ categories, selectedCategory = null, product = undefin
             step="0.01"
             min="0"
             required
+            defaultValue={product?.price || ""}
             className="p-1 border border-gray-600 rounded-md bg-zinc-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
           />
         </div>
@@ -52,6 +67,7 @@ function AddProductForm({ categories, selectedCategory = null, product = undefin
             id="description"
             name="description"
             required
+            defaultValue={product?.description || ""}
             className="p-1 border border-gray-600 rounded-md bg-zinc-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
           />
         </div>
@@ -62,6 +78,7 @@ function AddProductForm({ categories, selectedCategory = null, product = undefin
             id="url"
             name="url"
             required
+            defaultValue={product?.urlLink || ""}
             className="p-1 border border-gray-600 rounded-md bg-zinc-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
           />
         </div>

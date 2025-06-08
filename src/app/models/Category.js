@@ -60,21 +60,21 @@ const getCategoryModel = async () => {
   return mongoose.models.Category || mongoose.model("Category", Category);
 };
 
-function serializeCategories(doc) {
+function serializeCategories(categoryObj) {
   return {
-    ...doc,
-    _id: doc._id.toString(),
-    parent: doc.parent
-      ? typeof doc.parent === "object" && doc.parent._id
+    ...categoryObj,
+    _id: categoryObj._id.toString(),
+    parent: categoryObj.parent
+      ? typeof categoryObj.parent === "object" && categoryObj.parent._id
         ? {
-            _id: doc.parent._id.toString(),
-            title: doc.parent.title ?? null,
-            emoji: doc.parent.emoji ?? null,
+            _id: categoryObj.parent._id.toString(),
+            title: categoryObj.parent.title ?? null,
+            emoji: categoryObj.parent.emoji ?? null,
           }
-        : doc.parent.toString()
+        : categoryObj.parent.toString()
       : null,
-    createdAt: doc.createdAt?.toISOString?.() ?? null,
-    updatedAt: doc.updatedAt?.toISOString?.() ?? null,
+    createdAt: categoryObj.createdAt?.toISOString?.() ?? null,
+    updatedAt: categoryObj.updatedAt?.toISOString?.() ?? null,
   };
 }
 

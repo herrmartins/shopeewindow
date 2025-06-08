@@ -25,8 +25,6 @@ export default async function addCategory(prevState, formData) {
     imageUrl = await uploadToCloudinary(imageFile, "categories");
   }
 
-  console.log("TA EDITANDO?", isEditing, id)
-
   if (isEditing && id && id.trim() !== "") {
     await Category.updateOne(
       { _id: id },

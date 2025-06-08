@@ -80,7 +80,6 @@ const AdminClientWrapper = ({ initialCategories }) => {
     setIsEditing(true);
 
     setSelectedCategory(category);
-    console.log("CATEGORIA: ", category);
     setFormData({
       title: category.title,
       emoji: category.emoji || "🙂",

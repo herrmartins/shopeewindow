@@ -23,7 +23,7 @@ const Product = new mongoose.Schema(
       type: String,
       default: null,
     },
-    category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
+    category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
   },
   { timestamps: true }
 );
@@ -36,4 +36,18 @@ const getProductModel = async () => {
   return mongoose.models.Product || mongoose.model("Product", Product);
 };
 
-export { Product, getProductModel };
+function serializeProduct(productObj) {
+  return {
+    _id: productObj._id?.toString?.() ?? "",
+    name: productObj.name ?? "",
+    description: productObj.description ?? "",
+    price: productObj.price ?? 0,
+    imageUrl: productObj.imageUrl ?? "",
+    urlLink: productObj.urlLink ?? "",
+    category: productObj.category?.toString?.() ?? "",
+    createdAt: productObj.createdAt?.toISOString?.() ?? null,
+    updatedAt: productObj.updatedAt?.toISOString?.() ?? null,
+  };
+}
+
+export { Product, getProductModel, serializeProduct };

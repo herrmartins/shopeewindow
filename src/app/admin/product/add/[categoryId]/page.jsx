@@ -1,4 +1,4 @@
-import AddProductForm from "../../components/AddProductForm";
+import AddProductForm from "@/app/admin/components/AddProductForm";
 import { getCategoryModel, serializeCategories } from "@/app/models/Category";
 
 const ProductPageWithCatId = async ({ params }) => {

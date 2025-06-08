@@ -1,5 +1,5 @@
-import { getProductModel } from "@/app/models/Product";
-import AddProductForm from "../../components/AddProductForm";
+import { getProductModel, serializeProduct } from "@/app/models/Product";
+import AddProductForm from "@/app/admin/components/AddProductForm";
 import { getCategoryModel, serializeCategories } from "@/app/models/Category";
 
 const ProductPageForm = async ({params}) => {
@@ -10,7 +10,7 @@ const ProductPageForm = async ({params}) => {
 
   const { productId } = await params;
 
-  const product = await Product.find({_id:productId});
+  const product = await Product.findOne({_id:productId}).lean();
 
   return (
     <>
@@ -19,7 +19,7 @@ const ProductPageForm = async ({params}) => {
           <h1 className="text-3xl">Página de Produtos</h1>
         </div>
         <div className="flex justify-center">
-          <AddProductForm categories={categories} product={product} />
+          <AddProductForm categories={categories} product={serializeProduct(product)} />
         </div>
       </div>
     </>

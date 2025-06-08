@@ -45,7 +45,7 @@ const CategoriesTable = ({ cats, onDeleteCategory, onEditCategory, isEditing }) 
                   className="hover:text-red-400 cursor-pointer"
                   onClick={() => onDeleteCategory(cat._id)}
                 />
-                <Link href={`/admin/product/${cat._id}`}>
+                <Link href={`/admin/product/add/${cat._id}`}>
                   <IoAddCircleSharp className="hover:text-blue-400 cursor-pointer" />
                 </Link>
               </span>
