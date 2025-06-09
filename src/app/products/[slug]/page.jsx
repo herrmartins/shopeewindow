@@ -4,6 +4,8 @@ import SubCategories from "@/app/components/categories/SubCategories";
 import { serializeCategories } from "@/app/models/Category";
 import ProductsGrid from "@/app/components/ProductsList";
 import Pagination from "@/app/components/shared/Pagination";
+import { CategoriesPath } from "@/app/components/categories/CategoriesPath";
+import {findCategoryPath} from "@/app/products/service/findCategoryPath";
 
 export default async function ProductsPage({
   params,
@@ -23,6 +25,7 @@ export default async function ProductsPage({
   const skip = (currentPage - 1) * pageSize;
 
   let category = null;
+  let categoryParents = [];
 
   if (slug) {
     category = await Category.findOne({ slug: slug }).lean();
@@ -36,8 +39,12 @@ export default async function ProductsPage({
       parent: category._id,
     }).lean();
 
+    categoryParents = await findCategoryPath(category._id);
+
+    console.log(categoryParents);
+
     if (rawSubCategories.length > 0) {
-      /* Separeted from the products of the category
+      /* Separeted from the products of the chosen category
        to avoid errors. */
       const subCategoryIds = rawSubCategories.map((cat) => cat._id);
 
@@ -65,7 +72,16 @@ export default async function ProductsPage({
   return (
     <>
       <div className="flex justify-center flex-wrap gap-2 m-3">
-        {subCategories && <SubCategories categories={subCategories} />}
+        {subCategories && (
+          <div>
+            <SubCategories categories={subCategories} />
+            {categoryParents.length > 1 && (
+              <div className="block">
+                <CategoriesPath path={categoryParents} />
+              </div>
+            )}
+          </div>
+        )}
         <div className="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 justify-center">
           <ProductsGrid products={products} category={category} />
         </div>
