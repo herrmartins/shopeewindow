@@ -1,7 +1,7 @@
 import Link from "next/link";
 export async function CategoriesPath({ path }) {
   return (
-    <nav aria-label="breadcrumb" className="mb-4">
+    <nav aria-label="breadcrumb" className="my-2">
       <ol className="flex flex-wrap items-center gap-1 text-sm">
         {path.map((cat, index) => (
           <li key={cat._id} className="flex items-center">

@@ -5,7 +5,7 @@ import { serializeCategories } from "@/app/models/Category";
 import ProductsGrid from "@/app/components/ProductsList";
 import Pagination from "@/app/components/shared/Pagination";
 import { CategoriesPath } from "@/app/components/categories/CategoriesPath";
-import {findCategoryPath} from "@/app/products/service/findCategoryPath";
+import { findCategoryPath } from "@/app/products/service/findCategoryPath";
 
 export default async function ProductsPage({
   params,
@@ -71,21 +71,21 @@ export default async function ProductsPage({
 
   return (
     <>
-      <div className="flex justify-center flex-wrap gap-2 m-3">
+      <div className="w-full max-w-screen-xl mx-auto px-4 text-center">
         {subCategories && (
-          <div>
-            <SubCategories categories={subCategories} />
+          <>
             {categoryParents.length > 1 && (
-              <div className="block">
-                <CategoriesPath path={categoryParents} />
-              </div>
+              <CategoriesPath path={categoryParents} />
             )}
-          </div>
+            <SubCategories categories={subCategories} />
+          </>
         )}
-        <div className="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 justify-center">
+
+        <div className="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-6">
           <ProductsGrid products={products} category={category} />
         </div>
       </div>
+
       <Pagination
         page={parseInt(currentPage)}
         pageSize={parseInt(pageSize)}
