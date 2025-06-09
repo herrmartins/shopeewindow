@@ -3,10 +3,10 @@ import Header from "./components/shared/Header";
 import { ThemeContextProvider } from "./context/ThemeContext";
 
 export const metadata = {
-  title: "WEBTVBRAZIL Shop",
-  keywords: "loja, shopee, barato",
+  title: "MOSCAS'S Shop",
+  keywords: "loja, vitrine, shopee, barato",
   description:
-    "A loja da webtvbrazil, preços acessíveis, aparelhos de última geração.",
+    "Mosca's Shop, preços acessíveis, aparelhos de última geração.",
 };
 
 export default function RootLayout({ children }) {
