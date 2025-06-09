@@ -1,30 +1,33 @@
 import Image from "next/image";
 import { FaInfoCircle } from "react-icons/fa";
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import LogoutButton from "./LogoutButton";
 
-function Header() {
+async function Header() {
+  const session = await getServerSession(authOptions);
+
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center mb-2">
       <Link href="/">
         <Image
-          src="/shared/logo.png"
+          src="/shared/logoshop.png"
           alt="Webtvbrazil LOGO"
-          width={120}
-          height={80}
+          width={240}
+          height={160}
           priority
         />
       </Link>
 
       <p className="flex">
-        Super descontos SHOPEE na WEBTVBRAZIL{" "}
         <span className="mx-2 mt-1 text-blue-300">
-          <Link
-            href="/about"
-          >
+          <Link href="/about">
             <FaInfoCircle />
           </Link>
         </span>
       </p>
+      {session && <LogoutButton />}
     </div>
   );
 }
