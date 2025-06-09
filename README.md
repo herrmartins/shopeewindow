@@ -41,24 +41,16 @@ This project is a [Next.js](https://nextjs.org) application that serves as a "wi
 
 You may need to set up environment variables for your MongoDB connection and Shopee affiliate settings. Create a `.env.local` file:
 
-```
-MONGODB_URI=your_mongodb_connection_string
-SHOPEE_AFFILIATE_ID=your_affiliate_id
-```
-
 ## Customization
 
 - **Add Categories/Products:** Use the admin panel at `/admin` to manage categories and products.
 - **Styling:** Tailwind CSS 4.1 is used for styling. You can easily customize the look and feel.
 
-## Deployment
-
-Deploy your app easily on [Vercel](https://vercel.com/) or any platform that supports Next.js.
-
-## License
-
-MIT
-
 ---
+
+## TODO:
+Auth
+Handling some exceptions
+Implementing a few functionalities.
 
 Made with ❤️ for Shopee affiliates.

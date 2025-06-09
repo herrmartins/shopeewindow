@@ -35,6 +35,27 @@ export default async function ProductsPage({
     const rawSubCategories = await Category.find({
       parent: category._id,
     }).lean();
+
+    if (rawSubCategories.length > 0) {
+      /* Separeted from the products of the category
+       to avoid errors. */
+      const subCategoryIds = rawSubCategories.map((cat) => cat._id);
+
+      const subCategoryProducts = await Product.find({
+        category: { $in: subCategoryIds },
+      })
+        .skip(skip)
+        .limit(pageSize)
+        .lean();
+
+      products = [...products, ...subCategoryProducts];
+
+      const subTotal = await Product.countDocuments({
+        category: { $in: subCategoryIds },
+      });
+      total += subTotal;
+    }
+
     subCategories = rawSubCategories.map(serializeCategories);
   } else {
     products = await Product.find().skip(skip).limit(pageSize).lean();
