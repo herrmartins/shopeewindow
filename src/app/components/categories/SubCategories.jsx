@@ -8,11 +8,11 @@ export default function SubCategories({ categories }) {
   const [showSubcategories, setShowSubcategories] = useState(false);
 
   return (
-    <div className="w-full mt-3 bg-white rounded-lg p-2 shadow-md border border-gray-200 dark:bg-gradient-to-r dark:from-gray-900 dark:to-gray-800 dark:border-gray-700">
+    <div className="w-full mt-3 bg-gray-500 rounded-lg p-2 shadow-sm border border-gray-600">
       <div className="flex justify-between items-center">
-        <h3 className="text-sm font-medium text-gray-900 dark:text-white">Subcategorias</h3>
+        <h3 className="text-sm font-medium text-gray-200">Subcategorias</h3>
         <button
-          className="flex items-center gap-1 bg-gradient-to-r from-blue-400 to-indigo-500 text-white text-xs font-medium py-1 px-3 rounded-full shadow-sm hover:shadow-md hover:from-blue-500 hover:to-indigo-600 transform hover:scale-105 transition-all duration-300 ease-in-out focus:outline-none dark:bg-gradient-to-r dark:from-blue-600 dark:to-indigo-600 dark:hover:from-blue-700 dark:hover:to-indigo-700 dark:ring-1 dark:ring-blue-400"
+          className="flex items-center gap-1 bg-blue-400 text-gray-50 text-xs font-medium py-1 px-3 rounded-full hover:bg-blue-500 transition-colors duration-200 focus:outline-none"
           onClick={() => setShowSubcategories((prev) => !prev)}
           aria-expanded={showSubcategories}
         >
@@ -32,11 +32,11 @@ export default function SubCategories({ categories }) {
           showSubcategories ? "max-h-80 opacity-100 mt-2" : "max-h-0 opacity-0"
         }`}
       >
-        <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 text-gray-900 dark:text-white">
+        <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 text-gray-600">
           {categories.map((cat) => (
             <Link href={`/products/${cat.slug}`} key={cat._id}>
               <li
-                className="bg-gray-100 hover:bg-gray-200 p-2 rounded-md transition-colors duration-200 flex items-center gap-1 cursor-pointer dark:bg-gray-800/50 dark:hover:bg-gray-700/50"
+                className="bg-gray-400 hover:bg-gray-400 text-gray-50 p-2 rounded-md transition-colors duration-200 flex items-center gap-1 cursor-pointer"
               >
                 <span className="text-sm">{cat.emoji}</span>
                 <span className="text-xs font-medium">{cat.title}</span>
