@@ -41,8 +41,6 @@ export default async function ProductsPage({
 
     categoryParents = await findCategoryPath(category._id);
 
-    console.log(categoryParents);
-
     if (rawSubCategories.length > 0) {
       /* Separeted from the products of the chosen category
        to avoid errors. */

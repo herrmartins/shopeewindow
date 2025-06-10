@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import LogoutButton from "./LogoutButton";
+import ToggleSwitch from "./ToggleSwitch";
 
 async function Header() {
   const session = await getServerSession(authOptions);
@@ -27,6 +28,7 @@ async function Header() {
           </Link>
         </span>
       </p>
+      <ToggleSwitch />
       {session && <LogoutButton />}
     </div>
   );

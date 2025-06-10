@@ -8,17 +8,14 @@ async function AddProductForm({
 }) {
   if (product) {
     const Category = await getCategoryModel();
-    const gottenCat = await Category.findOne({_id:product.category}).lean();
+    const gottenCat = await Category.findOne({ _id: product.category }).lean();
     selectedCategory = serializeCategories(gottenCat);
-    console.log("PRODUTO: ", product._id)
   }
 
   return (
     <div className="bg-gray-700 rounded-2xl p-3 flex flex-col">
-
       <form action={saveProduct}>
-        
-      {product?._id && <input type="hidden" name="_id" value={product._id} />}
+        {product?._id && <input type="hidden" name="_id" value={product._id} />}
         <div>
           <label htmlFor="name">Produto:</label>
           <input

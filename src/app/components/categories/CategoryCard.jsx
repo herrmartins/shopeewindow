@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 function CategoryCard({ _id, title = "Produto", slug, imageUrl, emoji }) {
-
   let imageOrEmoji = (
     <Image
       src={
@@ -26,7 +25,7 @@ function CategoryCard({ _id, title = "Produto", slug, imageUrl, emoji }) {
       href={`/products/${slug}`}
       className="no-underline text-inherit hover:no-underline"
     >
-      <div className="flex flex-col items-center gap-2 w-32 transition-colors duration-300 text-white text-center">
+      <div className="flex flex-col items-center gap-2 w-32 transition-colors duration-300 text-text text-center bg-secondary p-2 rounded-lg hover:bg-opacity-80">
         <div className="flex items-center justify-center">{imageOrEmoji}</div>
         <h3 className="text-xs font-light truncate leading-tight">{title}</h3>
       </div>
