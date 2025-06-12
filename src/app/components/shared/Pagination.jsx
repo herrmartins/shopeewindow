@@ -4,6 +4,7 @@ const Pagination = ({ page, pageSize, totalItems, slug = "" }) => {
 
   const isFirst = page <= 1;
   const isLast = page >= totalPages;
+  if (totalPages <= 1) return null;
 
   return (
     <nav className="flex justify-center items-center my-8 gap-3 px-4 py-4">
