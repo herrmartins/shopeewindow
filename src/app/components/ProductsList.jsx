@@ -4,15 +4,14 @@ function ProductsGrid({ products, category }) {
   return (
     <>
       {Array.isArray(products) && products.length > 0 ? (
-        products.map((product) => (
-          <div key={product._id.toString()} className="mb-4">
-            <ProductCard {...product} />
-          </div>
-        ))
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          {products.map((product) => (
+            <ProductCard key={product._id.toString()} {...product} />
+          ))}
+        </div>
       ) : (
         <p>
-          Não há produtos{" "}
-          {category ? category?.title : "para esta categoria..."}
+          Não há produtos {category ? category?.title : "para esta categoria..."}
         </p>
       )}
     </>

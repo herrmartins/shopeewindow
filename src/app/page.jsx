@@ -19,9 +19,7 @@ export default async function Body({ searchParams, pageSize = 18 }) {
     <>
       <CategoryBand />
       <div className="flex justify-center">
-        <div className="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 justify-center">
           <ProductsGrid products={products} />
-        </div>
       </div>
       <Pagination
         page={parseInt(currentPage)}
