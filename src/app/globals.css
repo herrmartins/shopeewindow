@@ -1,13 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 body {
   font-family: 'Inter', sans-serif;
   @apply transition-colors duration-300;
   background-color: var(--background);
   color: var(--foreground);
 }
-@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: white;
   --foreground: black;

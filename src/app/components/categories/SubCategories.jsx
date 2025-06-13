@@ -4,16 +4,18 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import Link from "next/link";
 
 export default function SubCategories({ categories }) {
-  if (!categories || categories.length === 0) return null;
   const [showSubcategories, setShowSubcategories] = useState(false);
+  if (!categories?.length) return null;
 
   return (
-    <div className="w-full mt-3 bg-gray-500 rounded-lg p-2 shadow-sm border border-gray-600">
-      <div className="flex justify-between items-center">
-        <h3 className="text-sm font-medium text-gray-200">Subcategorias</h3>
+    <div className="w-full mt-6 rounded-2xl bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-600 shadow-sm p-4">
+      <div className="flex justify-between items-center mb-2">
+        <h3 className="text-base font-semibold text-neutral-800 dark:text-white">
+          Subcategorias
+        </h3>
         <button
-          className="flex items-center gap-1 bg-blue-400 text-gray-50 text-xs font-medium py-1 px-3 rounded-full hover:bg-blue-500 transition-colors duration-200 focus:outline-none"
           onClick={() => setShowSubcategories((prev) => !prev)}
+          className="flex items-center gap-1 text-xs font-medium text-white bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded-full transition"
           aria-expanded={showSubcategories}
         >
           {showSubcategories ? (
@@ -27,17 +29,20 @@ export default function SubCategories({ categories }) {
           )}
         </button>
       </div>
+
       <div
-        className={`overflow-hidden transition-all duration-500 ease-in-out ${
-          showSubcategories ? "max-h-80 opacity-100 mt-2" : "max-h-0 opacity-0"
+        className={`transition-all duration-500 ease-in-out overflow-hidden ${
+          showSubcategories
+            ? "max-h-[500px] opacity-100 mt-2"
+            : "max-h-0 opacity-0"
         }`}
       >
-        <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 text-gray-600">
+        <ul className="flex flex-wrap gap-3 mt-2">
           {categories.map((cat) => (
-            <Link href={`/products/${cat.slug}`} key={cat._id}>
-              <li className="bg-gray-400 hover:bg-gray-400 text-gray-50 p-2 rounded-md transition-colors duration-200 flex items-center gap-1 cursor-pointer">
-                <span className="text-sm">{cat.emoji}</span>
-                <span className="text-xs font-medium">{cat.title}</span>
+            <Link key={cat._id} href={`/products/${cat.slug}`}>
+              <li className="flex items-center gap-2 px-4 py-2 rounded-full bg-sky-100 hover:bg-sky-200 text-sky-900 dark:bg-sky-800 dark:hover:bg-sky-700 dark:text-white text-sm font-medium cursor-pointer transition whitespace-nowrap">
+                <span className="text-base">{cat.emoji}</span>
+                <span className="truncate">{cat.title}</span>
               </li>
             </Link>
           ))}
