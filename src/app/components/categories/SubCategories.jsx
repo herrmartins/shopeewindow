@@ -35,9 +35,7 @@ export default function SubCategories({ categories }) {
         <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 text-gray-600">
           {categories.map((cat) => (
             <Link href={`/products/${cat.slug}`} key={cat._id}>
-              <li
-                className="bg-gray-400 hover:bg-gray-400 text-gray-50 p-2 rounded-md transition-colors duration-200 flex items-center gap-1 cursor-pointer"
-              >
+              <li className="bg-gray-400 hover:bg-gray-400 text-gray-50 p-2 rounded-md transition-colors duration-200 flex items-center gap-1 cursor-pointer">
                 <span className="text-sm">{cat.emoji}</span>
                 <span className="text-xs font-medium">{cat.title}</span>
               </li>

@@ -4,9 +4,10 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import LogoutButton from "./LogoutButton";
-import ToggleSwitch from "./ToggleSwitch";
+import ThemeSwitch from "./ThemeSwitch";
+import ThemeIndicator from "./ThemeIndicator";
 
-async function Header() {
+export default async function Header() {
   const session = await getServerSession(authOptions);
 
   return (
@@ -27,11 +28,9 @@ async function Header() {
             <FaInfoCircle />
           </Link>
         </span>
+        <ThemeSwitch />
       </p>
-      <ToggleSwitch />
-      {session && <LogoutButton />}
+      {session && <LogoutButton isLoggedIn={!!session} />}
     </div>
   );
 }
-
-export default Header;

@@ -5,7 +5,7 @@ function ProductCard({ name, imageUrl, price, description, urlLink }) {
   const cardContent = (
     <div className="flex flex-col gap-2 w-48 p-4 rounded-lg transition-all duration-300 ease-in-out hover:scale-[1.80] hover:z-10">
       <div className="flex justify-center">
-        <div className="w-24 h-24 bg-gray-200 rounded-md flex items-center justify-center dark:bg-gray-600 dark:text-gray-100">
+        <div className="w-24 h-24 bg-gray-200 rounded-md flex items-center justify-center dark:bg-amber-600 ">
           {imageUrl ? (
             <Image
               src={imageUrl}
