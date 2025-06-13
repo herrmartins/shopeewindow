@@ -1,18 +1,26 @@
 import Link from "next/link";
+
 export async function CategoriesPath({ path }) {
   return (
-    <nav aria-label="breadcrumb" className="my-2">
+    <nav aria-label="breadcrumb" className="my-4">
       <ol className="flex flex-wrap items-center gap-1 text-sm">
         {path.map((cat, index) => (
           <li key={cat._id} className="flex items-center">
             <Link
               href={`/products/${cat.slug}`}
-              className="px-2 py-1 rounded bg-gray-800 text-blue-300 hover:bg-blue-900 hover:text-white transition-colors duration-150"
+              className="px-2 py-1 rounded-md 
+                         bg-neutral-200 text-neutral-800 
+                         dark:bg-neutral-700 dark:text-white 
+                         hover:bg-blue-100 dark:hover:bg-blue-600 
+                         transition-colors duration-150"
             >
               {cat.title}
             </Link>
             {index < path.length - 1 && (
-              <span className="mx-2 flex items-center text-lg font-bold text-blue-500 select-none">
+              <span
+                className="mx-2 text-neutral-500 dark:text-neutral-400 select-none"
+                aria-hidden="true"
+              >
                 <svg
                   className="w-4 h-4"
                   fill="none"

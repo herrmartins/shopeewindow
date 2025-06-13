@@ -49,5 +49,5 @@ function serializeProduct(productObj) {
     updatedAt: productObj.updatedAt?.toISOString?.() ?? null,
   };
 }
-
+Product.index({ name: "text" });
 export { Product, getProductModel, serializeProduct };
