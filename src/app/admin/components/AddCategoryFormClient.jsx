@@ -12,14 +12,17 @@ const AddCategoryForm = ({
   handleInputChange,
   handleEmojiClick,
   onResetForm,
-  isEditing
+  isEditing,
 }) => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   return (
-    <div className="lg:w-full md:w-2xl max-w-5xl m-5 p-8 bg-zinc-800 rounded-lg">
-      <h2 className="text-3xl text-gray-300 font-bold mb-6 text-center">
-        Select Category
+    <div className="lg:w-full md:w-2xl max-w-5xl m-5 p-8 rounded-xl 
+                    bg-white dark:bg-neutral-800 
+                    border border-neutral-200 dark:border-neutral-700 
+                    shadow-sm transition-colors">
+      <h2 className="text-3xl font-bold text-center text-neutral-800 dark:text-white mb-6">
+        {isEditing ? "Editar Categoria" : "Nova Categoria"}
       </h2>
 
       {isEditing && (
@@ -29,28 +32,25 @@ const AddCategoryForm = ({
       )}
 
       <form action={formAction}>
+        <input type="hidden" name="id" value={selectedCategory?._id || ""} />
+        <input type="hidden" name="isEditing" value={isEditing} />
+
+        {/* Categoria Select */}
         <div className="mb-6">
-          <label
-            htmlFor="categorySelect"
-            className="block text-gray-200 font-semibold mb-2"
-          >
+          <label htmlFor="parentId" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
             Categoria
           </label>
-          <input type="hidden" name="id" value={selectedCategory?._id || ""} />
-          <input
-            type="hidden"
-            name="isEditing"
-            value={isEditing}
-          />
-
           <select
             id="parentId"
             name="parentId"
             value={formData.parentId}
             onChange={handleInputChange}
-            className="p-1 border border-gray-600 rounded-md bg-zinc-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+            className="w-full px-3 py-2 rounded-md border border-neutral-300 dark:border-neutral-600 
+                       bg-neutral-50 dark:bg-neutral-700 
+                       text-neutral-800 dark:text-white 
+                       focus:outline-none focus:ring-2 focus:ring-sky-500"
           >
-            <option value="">-- Select a category --</option>
+            <option value="">-- Selecione uma categoria --</option>
             {categories.map((category) => (
               <option key={category._id} value={category._id.toString()}>
                 {category.title}
@@ -59,11 +59,9 @@ const AddCategoryForm = ({
           </select>
         </div>
 
+        {/* Título */}
         <div className="mb-6">
-          <label
-            htmlFor="title"
-            className="block text-gray-300 font-semibold mb-2"
-          >
+          <label htmlFor="title" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
             Título
           </label>
           <input
@@ -72,15 +70,16 @@ const AddCategoryForm = ({
             name="title"
             value={formData.title}
             onChange={handleInputChange}
-            className="p-1 border border-gray-600 rounded-md bg-zinc-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+            className="w-full px-3 py-2 rounded-md border border-neutral-300 dark:border-neutral-600 
+                       bg-neutral-50 dark:bg-neutral-700 
+                       text-neutral-800 dark:text-white 
+                       focus:outline-none focus:ring-2 focus:ring-sky-500"
           />
         </div>
 
+        {/* Emoji */}
         <div className="mb-6">
-          <label
-            htmlFor="emoji"
-            className="block text-gray-200 font-semibold mb-2"
-          >
+          <label htmlFor="emoji" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
             Emoji
           </label>
           <div className="flex items-center gap-3">
@@ -89,7 +88,7 @@ const AddCategoryForm = ({
             <button
               type="button"
               onClick={() => setShowEmojiPicker((prev) => !prev)}
-              className="px-3 py-1 bg-blue-600 text-white rounded-md text-sm"
+              className="px-3 py-1 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition"
             >
               {formData.emoji ? "Trocar Emoji" : "Selecionar Emoji"}
             </button>
@@ -100,32 +99,38 @@ const AddCategoryForm = ({
               <EmojiPicker onEmojiClick={handleEmojiClick} theme="dark" />
             </div>
           )}
-
-          <div className="flex flex-col mt-3">
-            <label htmlFor="image" className="text-gray-200 font-semibold mb-2">
-              Imagem
-            </label>
-            <input
-              id="image"
-              name="image"
-              type="file"
-              accept="image/*"
-              className="p-1 border border-gray-600 rounded-md bg-zinc-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
-            />
-          </div>
         </div>
 
-        <div className="flex gap-3">
+        {/* Imagem */}
+        <div className="mb-6">
+          <label htmlFor="image" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+            Imagem
+          </label>
+          <input
+            id="image"
+            name="image"
+            type="file"
+            accept="image/*"
+            className="w-full px-3 py-2 rounded-md border border-neutral-300 dark:border-neutral-600 
+                       bg-neutral-50 dark:bg-neutral-700 
+                       text-neutral-800 dark:text-white 
+                       focus:outline-none focus:ring-2 focus:ring-sky-500"
+          />
+        </div>
+
+        {/* Actions */}
+        <div className="flex gap-3 mt-4">
           <input
             type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold mt-3 py-2 px-6 rounded-xl transition"
+            className="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-6 rounded-xl transition"
+            value={isEditing ? "Atualizar" : "Cadastrar"}
           />
           <button
             type="button"
             onClick={onResetForm}
-            className="bg-slate-600 hover:bg-slate-500 text-white font-bold mt-3 py-2 px-6 rounded-xl transition"
+            className="bg-slate-600 hover:bg-slate-500 text-white font-bold py-2 px-6 rounded-xl transition"
           >
-            LIMPAR
+            Limpar
           </button>
         </div>
       </form>

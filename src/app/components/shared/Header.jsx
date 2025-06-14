@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FaInfoCircle } from "react-icons/fa";
+import { FaInfoCircle, FaLock } from "react-icons/fa";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
@@ -12,7 +12,7 @@ export default async function Header() {
 
   return (
     <>
-      <div className="flex justify-center items-center mb-2">
+      <div className="flex justify-center">
         <Link href="/">
           <Image
             src="/shared/logoshop.png"
@@ -22,16 +22,38 @@ export default async function Header() {
             priority
           />
         </Link>
-
+      </div>
+      <div className="flex justify-center items-center mb-2">
         <p className="flex">
-          <span className="mx-2 mt-1 text-blue-300">
-            <Link href="/about">
+          <span className="mx-2 mt-1">
+            <Link
+              href="/about"
+              className="inline-flex items-center justify-center w-8 h-8 rounded-full 
+               text-neutral-700 dark:text-neutral-300
+               hover:bg-neutral-200 dark:hover:bg-neutral-700
+               transition-colors duration-200"
+              aria-label="Área administrativa"
+              title="Área administrativa"
+            >
               <FaInfoCircle />
             </Link>
           </span>
           <ThemeSwitch />
         </p>
         {session && <LogoutButton isLoggedIn={!!session} />}
+        <span className="mx-2 mt-1">
+          <Link
+            href="/admin/auth"
+            className="inline-flex items-center justify-center w-8 h-8 rounded-full 
+               text-neutral-700 dark:text-neutral-300
+               hover:bg-neutral-200 dark:hover:bg-neutral-700
+               transition-colors duration-200"
+            aria-label="Área administrativa"
+            title="Área administrativa"
+          >
+            <FaLock className="w-4 h-4" />
+          </Link>
+        </span>
       </div>
       <div className="flex justify-center">
         <SearchFormComponent />

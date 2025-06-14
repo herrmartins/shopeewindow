@@ -13,30 +13,38 @@ async function AddProductForm({
   }
 
   return (
-    <div className="bg-gray-700 rounded-2xl p-3 flex flex-col">
-      <form action={saveProduct}>
+    <div className="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-2xl p-6 space-y-5 shadow-sm">
+      <form action={saveProduct} className="space-y-4">
         {product?._id && <input type="hidden" name="_id" value={product._id} />}
         <div>
-          <label htmlFor="name">Produto:</label>
+          <label htmlFor="name" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+            Produto
+          </label>
           <input
             type="text"
             id="name"
             name="name"
             required
             defaultValue={product?.name || ""}
-            className="p-1 border border-gray-600 rounded-md bg-zinc-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+            className="w-full px-3 py-2 rounded-md border border-neutral-300 dark:border-neutral-600
+                       bg-neutral-50 dark:bg-neutral-700 text-neutral-800 dark:text-white
+                       focus:outline-none focus:ring-2 focus:ring-sky-500"
           />
         </div>
 
         <div>
-          <label htmlFor="categorySlug">Categoria:</label>
+          <label htmlFor="categorySelect" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+            Categoria
+          </label>
           <select
             id="categorySelect"
             name="categorySelect"
             defaultValue={product?.category?._id || selectedCategory?._id || ""}
-            className="p-1 border border-gray-600 rounded-md bg-zinc-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+            className="w-full px-3 py-2 rounded-md border border-neutral-300 dark:border-neutral-600
+                       bg-neutral-50 dark:bg-neutral-700 text-neutral-800 dark:text-white
+                       focus:outline-none focus:ring-2 focus:ring-sky-500"
           >
-            <option value="">-- Select a category --</option>
+            <option value="">-- Selecione uma categoria --</option>
             {categories.map((category) => (
               <option key={category._id} value={category._id}>
                 {category.title}
@@ -46,7 +54,9 @@ async function AddProductForm({
         </div>
 
         <div>
-          <label htmlFor="price">Preço:</label>
+          <label htmlFor="price" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+            Preço
+          </label>
           <input
             type="number"
             id="price"
@@ -55,33 +65,44 @@ async function AddProductForm({
             min="0"
             required
             defaultValue={product?.price || ""}
-            className="p-1 border border-gray-600 rounded-md bg-zinc-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+            className="w-full px-3 py-2 rounded-md border border-neutral-300 dark:border-neutral-600
+                       bg-neutral-50 dark:bg-neutral-700 text-neutral-800 dark:text-white
+                       focus:outline-none focus:ring-2 focus:ring-sky-500"
           />
         </div>
+
         <div>
-          <label htmlFor="description">Descrição:</label>
+          <label htmlFor="description" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+            Descrição
+          </label>
           <input
             id="description"
             name="description"
             required
             defaultValue={product?.description || ""}
-            className="p-1 border border-gray-600 rounded-md bg-zinc-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+            className="w-full px-3 py-2 rounded-md border border-neutral-300 dark:border-neutral-600
+                       bg-neutral-50 dark:bg-neutral-700 text-neutral-800 dark:text-white
+                       focus:outline-none focus:ring-2 focus:ring-sky-500"
           />
         </div>
 
         <div>
-          <label htmlFor="url">Link:</label>
+          <label htmlFor="url" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+            Link
+          </label>
           <input
             id="url"
             name="url"
             required
             defaultValue={product?.urlLink || ""}
-            className="p-1 border border-gray-600 rounded-md bg-zinc-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+            className="w-full px-3 py-2 rounded-md border border-neutral-300 dark:border-neutral-600
+                       bg-neutral-50 dark:bg-neutral-700 text-neutral-800 dark:text-white
+                       focus:outline-none focus:ring-2 focus:ring-sky-500"
           />
         </div>
 
-        <div className="flex flex-col mt-3">
-          <label htmlFor="image" className="text-gray-200 font-semibold mb-2">
+        <div>
+          <label htmlFor="image" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
             Imagem
           </label>
           <input
@@ -89,18 +110,21 @@ async function AddProductForm({
             name="image"
             type="file"
             accept="image/*"
-            className="p-1 border border-gray-600 rounded-md bg-zinc-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+            className="w-full px-3 py-2 rounded-md border border-neutral-300 dark:border-neutral-600
+                       bg-neutral-50 dark:bg-neutral-700 text-neutral-800 dark:text-white
+                       focus:outline-none focus:ring-2 focus:ring-sky-500"
           />
         </div>
 
-        <div className="flex gap-3">
+        <div className="flex gap-3 mt-4">
           <input
             type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold mt-3 py-2 px-6 rounded-xl transition"
+            className="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-6 rounded-xl transition"
+            value={product ? "Atualizar" : "Salvar"}
           />
           <button
-            type="button"
-            className="bg-slate-600 hover:bg-slate-500 text-white font-bold mt-3 py-2 px-6 rounded-xl transition"
+            type="reset"
+            className="bg-slate-600 hover:bg-slate-500 text-white font-bold py-2 px-6 rounded-xl transition"
           >
             Limpar
           </button>

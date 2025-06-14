@@ -21,11 +21,19 @@ const ThemeSwitch = () => {
 
   return (
     <>
-      <button onClick={toggleTheme} className="flex items-center gap-2 mt-1">
+      <button
+        onClick={toggleTheme}
+        className="mt-1 inline-flex items-center justify-center w-8 h-8 rounded-full
+               text-neutral-700 dark:text-neutral-300
+               hover:bg-neutral-200 dark:hover:bg-neutral-700
+               transition-colors duration-200"
+        aria-label="Alternar tema"
+        title="Alternar tema"
+      >
         {theme === "dark" ? (
-          <FaMoon className="text-[14px]" />
+          <FaMoon className="w-4 h-4" />
         ) : (
-          <FaSun className="text-[14px]" />
+          <FaSun className="w-4 h-4" />
         )}
       </button>
     </>

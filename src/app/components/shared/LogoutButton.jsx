@@ -1,6 +1,7 @@
 'use client';
 
 import { signOut } from 'next-auth/react';
+import { FiLogOut } from 'react-icons/fi';
 
 export default function LogoutButton({ isLoggedIn }) {
   if (!isLoggedIn) return null;
@@ -8,9 +9,14 @@ export default function LogoutButton({ isLoggedIn }) {
   return (
     <button
       onClick={() => signOut({ callbackUrl: '/' })}
-      className="text-sm text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-xl"
+      className="inline-flex items-center justify-center w-8 h-8 rounded-full 
+                 text-neutral-700 dark:text-neutral-300 
+                 hover:bg-neutral-200 dark:hover:bg-neutral-700 
+                 transition-colors duration-200"
+      aria-label="Sair"
+      title="Sair"
     >
-      Sair
+      <FiLogOut className="w-4 h-4" />
     </button>
   );
 }

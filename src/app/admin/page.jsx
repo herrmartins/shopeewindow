@@ -2,12 +2,13 @@ import { getCategoryModel, serializeCategories } from "../models/Category";
 import AdminClientWrapper from "./components/AdminClientWrapper";
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { redirect } from "next/navigation";
 
 const AdminPage = async () => {
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    return <p>Acesso negado...</p>;
+    redirect("/admin/auth?msg=noauth");
   }
 
   const Category = await getCategoryModel();

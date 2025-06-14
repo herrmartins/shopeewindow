@@ -2,6 +2,8 @@ import AddProductForm from "@/app/admin/components/AddProductForm";
 import { getCategoryModel, serializeCategories } from "@/app/models/Category";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import Link from "next/link";
+import { FaArrowLeft } from "react-icons/fa";
 
 const ProductPageWithCatId = async ({ params }) => {
   const session = await getServerSession(authOptions);
@@ -24,13 +26,20 @@ const ProductPageWithCatId = async ({ params }) => {
 
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col items-center">
         <div className="text-center">
-          <h1 className="text-3xl">
+          <h1 className="mt-2 mb-2 text-3xl">
             Adicionar Produtos à{" "}
             {selectedCategory ? selectedCategory._doc.title : "Categoria"}
           </h1>
         </div>
+        <Link
+          href="/admin"
+          className="text-sky-500 hover:text-sky-300 transition flex items-start"
+        >
+          <FaArrowLeft className="w-5 h-5 mb-2 mx-2" title="Voltar" />
+          <span>Voltar às categorias</span>
+        </Link>
         <div className="flex justify-center">
           <AddProductForm
             categories={categories}
