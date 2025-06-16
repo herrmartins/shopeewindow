@@ -34,6 +34,9 @@ export const authOptions = {
           return null;
         }
 
+        console.log("🔐 Password match:", isValid);
+        console.log("🎉 Logged in successfully");
+
         return {
           id: user._id.toString(),
           name: user.name,
