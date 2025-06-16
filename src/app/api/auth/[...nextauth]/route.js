@@ -14,29 +14,30 @@ export const authOptions = {
       },
       async authorize(credentials) {
         console.log("🧪 Received credentials:", credentials);
-        console.log("✅ Successfully authorized", user.email);
+
         await connectDB();
 
         const user = await User.findOne({ username: credentials.username });
+
+        console.log("✅ User found:", user.username);
 
         if (!user) {
           console.log("❌ User not found:", credentials.username);
           return null;
         }
-        console.log("✅ User found:", user.email);
-        
+
         const isValid = await bcrypt.compare(
           credentials.password,
           user.password
         );
+        console.log("🔐 Password match:", isValid);
+
         if (!isValid) {
           console.log("❌ Password mismatch");
           return null;
         }
 
-        console.log("🔐 Password match:", isValid);
         console.log("🎉 Logged in successfully");
-
         return {
           id: user._id.toString(),
           name: user.name,
