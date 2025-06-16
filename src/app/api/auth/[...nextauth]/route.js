@@ -13,16 +13,12 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        console.log("🧪 Received credentials:", credentials);
 
         await connectDB();
 
         const user = await User.findOne({ username: credentials.username });
 
-        console.log("✅ User found:", user.username);
-
         if (!user) {
-          console.log("❌ User not found:", credentials.username);
           return null;
         }
 
@@ -30,7 +26,6 @@ export const authOptions = {
           credentials.password,
           user.password
         );
-        console.log("🔐 Password match:", isValid);
 
         if (!isValid) {
           console.log("❌ Password mismatch");
@@ -54,7 +49,6 @@ export const authOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        console.log("🔐 Adding user data to token", user);
         token.id = user.id;
         token.name = user.name;
       }
@@ -62,7 +56,6 @@ export const authOptions = {
     },
     async session({ session, token }) {
       if (token) {
-        console.log("📦 Session token received", token);
         session.user.id = token.id;
         session.user.name = token.name;
       }
