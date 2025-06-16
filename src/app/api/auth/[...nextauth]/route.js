@@ -9,7 +9,7 @@ export const authOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "email" },
+        username: { label: "Username", type: "username" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
@@ -36,6 +36,7 @@ export const authOptions = {
         return {
           id: user._id.toString(),
           name: user.name,
+          username: user.username,
           email: user.email,
         };
       },

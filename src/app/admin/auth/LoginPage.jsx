@@ -2,7 +2,6 @@
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { Suspense } from 'react';
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
