@@ -16,10 +16,10 @@ export const authOptions = {
         console.log("🧪 Received credentials:", credentials)
         await connectDB();
 
-        const user = await User.findOne({ email: credentials.username });
+        const user = await User.findOne({ username: credentials.username });
 
         if (!user) {
-          console.log("❌ User not found:", credentials.email);
+          console.log("❌ User not found:", credentials.username);
           return null;
         }
         console.log("✅ User found:", user.email);
