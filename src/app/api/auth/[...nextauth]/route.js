@@ -13,7 +13,8 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        console.log("🧪 Received credentials:", credentials)
+        console.log("🧪 Received credentials:", credentials);
+        console.log("✅ Successfully authorized", user.email);
         await connectDB();
 
         const user = await User.findOne({ username: credentials.username });
@@ -49,6 +50,7 @@ export const authOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
+        console.log("🔐 Adding user data to token", user);
         token.id = user.id;
         token.name = user.name;
       }
@@ -56,6 +58,7 @@ export const authOptions = {
     },
     async session({ session, token }) {
       if (token) {
+        console.log("📦 Session token received", token);
         session.user.id = token.id;
         session.user.name = token.name;
       }
