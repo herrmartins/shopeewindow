@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 export const serverActions = {
-  bodySizeLimit: '10mb',
+  bodySizeLimit: "10mb",
 };
 const nextConfig = {
   images: {
@@ -11,10 +11,13 @@ const nextConfig = {
         pathname: "**",
       },
       {
-        protocol: 'https',
-        hostname: '**',
+        protocol: "https",
+        hostname: "**",
       },
     ],
+  },
+  env: {
+    MONGODB_URI: process.env.MONGODB_URI,
   },
 };
 
