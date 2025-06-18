@@ -18,12 +18,28 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
-      - name: Deploy to server
+      - name: 🚀 Deploy to server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} << 'EOF'
+            set -e
             cd /var/www/shopee
-            git pull
-            # npm ci
-            npm run build
+
+            echo "🔁 Stashing current state as fallback..."
+            git diff > ../last-deploy.diff || true
+
+            echo "📥 Pulling new code..."
+            git pull origin master
+
+            echo "🔨 Building app..."
+            if ! npm run build; then
+              echo "❌ Build failed. Rolling back..."
+              git reset --hard HEAD~1
+              git apply ../last-deploy.diff || true
+              npm run build || echo "⚠️ Rollback build also failed"
+              pm2 restart shopee-app --update-env
+              exit 1
+            fi
+
+            echo "🚀 Build succeeded. Restarting app..."
             pm2 restart shopee-app --update-env
           EOF
