@@ -25,9 +25,11 @@ function CategoryCard({ _id, title = "Produto", slug, imageUrl, emoji }) {
       href={`/products/${slug}`}
       className="no-underline text-inherit hover:no-underline"
     >
-      <div className="flex flex-col items-center gap-2 w-32 transition-colors duration-300 text-text text-center bg-secondary p-2 rounded-lg hover:bg-opacity-80">
+      <div className="flex flex-col items-center gap-2 min-w-fit px-3 py-2 text-center bg-secondary rounded-lg hover:bg-opacity-80 transition-colors duration-300">
         <div className="flex items-center justify-center">{imageOrEmoji}</div>
-        <h3 className="text-xs font-light truncate leading-tight">{title}</h3>
+        <h3 className="text-xs font-light leading-tight whitespace-nowrap">
+          {title}
+        </h3>
       </div>
     </Link>
   );
