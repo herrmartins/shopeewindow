@@ -1,6 +1,8 @@
 import mongoose from "mongoose"
 import bcrypt from "bcryptjs"
 
+const usernameToCreate = "admin"
+
 const uri = "mongodb://admin:rafa****@localhost:27017/shopeemagnata?authSource=admin"
 
 const UserSchema = new mongoose.Schema({
@@ -17,17 +19,16 @@ async function run() {
 
   const hashed = await bcrypt.hash("admin123", 10)
 
-  const existing = await User.findOne({ username: "admin" })
+  const existing = await User.findOne({ username: usernameToCreate })
   if (existing) {
     console.log("⚠️  User already exists.")
   } else {
     await User.create({
       name: "Admin",
-      username: "admin",
+      username: usernameToCreate,
       email: 'asd@asd.com',
       password: hashed
-    })
-    console.log("✅ User created.")
+    });
   }
 
   await mongoose.disconnect()
