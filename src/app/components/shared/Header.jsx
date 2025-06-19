@@ -15,10 +15,10 @@ export default async function Header() {
       <div className="flex justify-center">
         <Link href="/">
           <Image
-            src="/shared/logoshop.png"
+            src="/shared/logo1.jpg"
             alt="Mosca's Shop LOGO"
-            width={240}
-            height={160}
+            width={900}
+            height={255}
             priority
           />
         </Link>
