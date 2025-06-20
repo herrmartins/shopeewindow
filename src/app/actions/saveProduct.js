@@ -1,7 +1,7 @@
 "use server";
 import { getProductModel } from "@/app/models/Product";
-import { uploadToCloudinary } from "../lib/claudinary";
-import { revalidatePath } from 'next/cache';
+import { deleteFromCloudinary, uploadToCloudinary } from "../lib/claudinary";
+import { redirect } from "next/navigation";
 
 export default async function saveProduct(formData) {
   const Product = await getProductModel();
@@ -13,6 +13,7 @@ export default async function saveProduct(formData) {
   const urlLink = formData.get("url");
   const description = formData.get("description");
   const imageFile = formData.get("image");
+  let imageUrl = formData.get("imageUrl") || null;
 
   if (!name || !price || !category) {
     return {
@@ -21,23 +22,24 @@ export default async function saveProduct(formData) {
     };
   }
 
-  let imageUrl = null;
+  
 
   if (imageFile.size > 0 && typeof imageFile === "object") {
+    if (imageUrl) await deleteFromCloudinary(imageUrl, "product");
     imageUrl = await uploadToCloudinary(imageFile, "product");
   }
 
   if (id && id.trim() !== "") {
-    await Product.updateOne(
-      { _id: id },
-      { name, price, description, urlLink, imageUrl, category }
-    );
-    revalidatePath(`/admin/product/edit/${id}`);
-    return {
-      status: "updated",
-      id,
-      data: { name, price, description, urlLink, imageUrl, category, _id: id },
-    };
+    try {
+      await Product.updateOne(
+        { _id: id },
+        { name, price, description, urlLink, imageUrl, category }
+      );
+    } catch (err) {
+      console.log(`Erro ao editar registro: ${err}`);
+    }
+
+    redirect(`/admin`);
   } else {
     const newProduct = await Product.create({
       name,

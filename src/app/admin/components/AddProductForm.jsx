@@ -105,6 +105,7 @@ async function AddProductForm({
           <label htmlFor="image" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
             Imagem
           </label>
+          {product?.imageUrl && <input type="hidden" name="imageUrl" value={product.imageUrl} />}
           <input
             id="image"
             name="image"
