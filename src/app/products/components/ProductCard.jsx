@@ -4,8 +4,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import ProductAdminMenu from "./ProductAdminMenu";
 
-function ProductCard({ _id, name, imageUrl, price, description, urlLink }) {
-  const session = getServerSession(authOptions);
+async function ProductCard({ _id, name, imageUrl, price, description, urlLink }) {
+  const session = await getServerSession(authOptions);
 
   const cardContent = (
     <div className="flex flex-col gap-2 w-48 p-4 rounded-lg transition-all duration-300 ease-in-out hover:scale-[1.80] hover:z-10">
