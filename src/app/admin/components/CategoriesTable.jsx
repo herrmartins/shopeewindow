@@ -11,7 +11,7 @@ const CategoriesTable = ({ cats, onDeleteCategory, onEditCategory, isEditing }) 
           <tr>
             <th className="px-4 py-2 border-b border-neutral-200 dark:border-neutral-700 text-left">Categoria</th>
             <th className="px-4 py-2 border-b border-neutral-200 dark:border-neutral-700">Imagem</th>
-            <th className="px-4 py-2 border-b border-neutral-200 dark:border-neutral-700">Emoji</th>
+            <th className="px-4 py-2 border-b border-neutral-200 dark:border-neutral-700 hidden md:block">Emoji</th>
             <th className="px-4 py-2 border-b border-neutral-200 dark:border-neutral-700">Ações</th>
           </tr>
         </thead>
@@ -39,7 +39,7 @@ const CategoriesTable = ({ cats, onDeleteCategory, onEditCategory, isEditing }) 
                   </span>
                 )}
               </td>
-              <td className="px-4 py-2 border-b border-neutral-200 dark:border-neutral-700 text-xl">
+              <td className="px-4 py-2 border-b border-neutral-200 dark:border-neutral-700 text-xl hidden md:block">
                 <div className="flex justify-center">{cat.emoji}</div>
               </td>
               <td className="px-4 py-2 border-b border-neutral-200 dark:border-neutral-700">
