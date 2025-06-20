@@ -2,6 +2,7 @@
 
 import EmojiPicker from "emoji-picker-react";
 import { useState } from "react";
+import Image from "next/image";
 
 const AddCategoryForm = ({
   categories,
@@ -17,10 +18,12 @@ const AddCategoryForm = ({
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   return (
-    <div className="lg:w-full md:w-2xl max-w-5xl m-5 p-8 rounded-xl 
+    <div
+      className="lg:w-full md:w-2xl max-w-5xl m-5 p-8 rounded-xl 
                     bg-white dark:bg-neutral-800 
                     border border-neutral-200 dark:border-neutral-700 
-                    shadow-sm transition-colors">
+                    shadow-sm transition-colors"
+    >
       <h2 className="text-3xl font-bold text-center text-neutral-800 dark:text-white mb-6">
         {isEditing ? "Editar Categoria" : "Nova Categoria"}
       </h2>
@@ -37,7 +40,10 @@ const AddCategoryForm = ({
 
         {/* Categoria Select */}
         <div className="mb-6">
-          <label htmlFor="parentId" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+          <label
+            htmlFor="parentId"
+            className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1"
+          >
             Categoria
           </label>
           <select
@@ -61,7 +67,10 @@ const AddCategoryForm = ({
 
         {/* Título */}
         <div className="mb-6">
-          <label htmlFor="title" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1"
+          >
             Título
           </label>
           <input
@@ -79,7 +88,10 @@ const AddCategoryForm = ({
 
         {/* Emoji */}
         <div className="mb-6">
-          <label htmlFor="emoji" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+          <label
+            htmlFor="emoji"
+            className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1"
+          >
             Emoji
           </label>
           <div className="flex items-center gap-3">
@@ -102,9 +114,27 @@ const AddCategoryForm = ({
         </div>
 
         {/* Imagem */}
-        <div className="mb-6">
-          <label htmlFor="image" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
-            Imagem
+        <div className="mb-6 flex flex-col items-center">
+          {selectedCategory?.imageUrl && (
+            <Image
+              src={
+                selectedCategory.imageUrl ||
+                "https://en.m.wikipedia.org/wiki/File:No_image_available.svg"
+              }
+              alt="Sem imagem"
+              width={100}
+              height={100}
+              loading="lazy"
+            />
+          )}
+          {selectedCategory?.imageUrl && (
+            <input type="hidden" name="imageUrl" value={selectedCategory.imageUrl}/>
+          )}
+          <label
+            htmlFor="image"
+            className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1 mt-2"
+          >
+            Selecione Imagem
           </label>
           <input
             id="image"

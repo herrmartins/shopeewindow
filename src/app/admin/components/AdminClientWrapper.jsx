@@ -13,6 +13,7 @@ const AdminClientWrapper = ({ initialCategories }) => {
     title: "",
     emoji: "🙂",
     parentId: "",
+    imageUrl: "",
     isEditing: isEditing,
   });
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -38,6 +39,7 @@ const AdminClientWrapper = ({ initialCategories }) => {
       setFormData({
         title: selectedCategory.title || "",
         emoji: selectedCategory.emoji || "🙂",
+        imageUrl: selectedCategory.imageUrl || "",
         parentId:
           selectedCategory.parent === null ||
           selectedCategory.parent === undefined

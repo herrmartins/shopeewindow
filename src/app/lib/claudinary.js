@@ -32,24 +32,40 @@ async function uploadToCloudinary(file, folder = "general") {
 
 async function deleteFromCloudinary(imageUrl, folder) {
   const session = await getServerSession();
+  if (!session) throw new Error('Usuário não autenticado...');
 
-  if (!session) {
-    throw new Error("Usuário não autenticado...");
-  }
-
-try {
-    const parts = imageUrl.split("/");
-    const publicId = parts.at(-1).split(".").at(0);
+  try {
+    const parts = imageUrl.split('/');
+    const publicId = parts.at(-1).split('.')[0];
     const fullPublicId = folder ? `${folder}/${publicId}` : publicId;
 
-    const result = await cloudinary.uploader.destroy(fullPublicId);
+    try {
+      await cloudinary.api.resource(fullPublicId, { resource_type: 'image' });
+    } catch (error) {
+      if (error.http_code === 404) {
+        console.warn(`File not found in Cloudinary: ${fullPublicId}`);
+        return false;
+      }
+      console.error(`Error checking resource: ${error.message}`);
+      throw new Error(`Erro ao verificar recurso: ${error.message}`);
+    }
 
-    if (result.result !== "ok") {
-      throw new Error("Falha ao apagar arquivo");
+    const result = await cloudinary.uploader.destroy(fullPublicId, {
+      resource_type: 'image',
+      invalidate: true,
+    });
+
+    if (result.result === 'not found') {
+      console.warn(`File already deleted: ${fullPublicId}`);
+      return false;
+    }
+    if (result.result !== 'ok') {
+      throw new Error(`Falha ao apagar arquivo: ${result.result}`);
     }
     return true;
   } catch (error) {
-    throw new Error(`Erro ao deletar: ${error.message}`);
+    console.error(`Erro ao deletar: ${error.message}`);
+    return false;
   }
 }
 

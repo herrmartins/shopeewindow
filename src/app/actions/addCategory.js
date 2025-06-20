@@ -1,6 +1,7 @@
 "use server";
 
-import { uploadToCloudinary } from "../lib/claudinary";
+import { redirect } from "next/navigation";
+import { deleteFromCloudinary, uploadToCloudinary } from "../lib/claudinary";
 import { getCategoryModel } from "../models/Category";
 
 export default async function addCategory(prevState, formData) {
@@ -11,6 +12,8 @@ export default async function addCategory(prevState, formData) {
   const parent = formData.get("parentId") || null;
   const imageFile = formData.get("image");
   const isEditing = formData.get("isEditing") === "true";
+  let imageUrl = formData.get("imageUrl") || null;
+  console.log("TEM IMAGE URL: ", imageUrl)
 
   if (!title || !emoji) {
     return {
@@ -19,23 +22,22 @@ export default async function addCategory(prevState, formData) {
     };
   }
 
-  let imageUrl = null;
-
   if (imageFile.size > 0 && typeof imageFile === "object") {
+    try {
+      if (imageUrl) await deleteFromCloudinary(imageUrl, "categories");
+    } catch (err)  {
+      throw new Error("Erro ao apagar arquivo...")
+    }
     imageUrl = await uploadToCloudinary(imageFile, "categories");
   }
 
   if (isEditing && id && id.trim() !== "") {
     await Category.updateOne(
       { _id: id },
-      { title, emoji, parent, updatedAt: new Date() }
+      { title, emoji, parent, imageUrl, updatedAt: new Date() }
     );
 
-    return {
-      status: "updated",
-      id,
-      data: { title, emoji, parent, _id: id },
-    };
+    redirect('/admin')
   } else {
     const newCategory = await Category.create({
       title,
