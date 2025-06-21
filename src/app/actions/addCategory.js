@@ -13,7 +13,6 @@ export default async function addCategory(prevState, formData) {
   const imageFile = formData.get("image");
   const isEditing = formData.get("isEditing") === "true";
   let imageUrl = formData.get("imageUrl") || null;
-  console.log("TEM IMAGE URL: ", imageUrl)
 
   if (!title || !emoji) {
     return {

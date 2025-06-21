@@ -12,6 +12,10 @@ const Product = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    priceFrom: {
+      type: Number,
+      required: true,
+    },
     description: {
       type: String,
     },
@@ -42,6 +46,7 @@ function serializeProduct(productObj) {
     name: productObj.name ?? "",
     description: productObj.description ?? "",
     price: productObj.price ?? 0,
+    priceFrom: productObj.priceFrom ?? 0,
     imageUrl: productObj.imageUrl ?? "",
     urlLink: productObj.urlLink ?? "",
     category: productObj.category?.toString?.() ?? "",

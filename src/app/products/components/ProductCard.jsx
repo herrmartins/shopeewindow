@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import ProductAdminMenu from "./ProductAdminMenu";
 
-async function ProductCard({ _id, name, imageUrl, price, description, urlLink }) {
+async function ProductCard({ _id, name, imageUrl, price, priceFrom, description, urlLink }) {
   const session = await getServerSession(authOptions);
 
   const cardContent = (
@@ -31,6 +31,7 @@ async function ProductCard({ _id, name, imageUrl, price, description, urlLink })
         {name}
       </h3>
       {/* <p className="text-sm text-gray-700 dark:text-gray-600 text-center">R$ {price}</p> */}
+      <p className="text-sm text-gray-700 dark:text-gray-600 text-center">A partir de R$ {priceFrom}</p>
       {description && (
         <p className="text-xs text-gray-600 dark:text-gray-600 text-center">
           {description}

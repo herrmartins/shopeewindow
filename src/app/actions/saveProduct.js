@@ -10,19 +10,20 @@ export default async function saveProduct(formData) {
   const id = formData.get("_id");
   const name = formData.get("name");
   const price = formData.get("price");
+  const priceFrom = formData.get("priceFrom");
   const urlLink = formData.get("url");
   const description = formData.get("description");
   const imageFile = formData.get("image");
   let imageUrl = formData.get("imageUrl") || null;
 
-  if (!name || !price || !category) {
+  console.log("TEM PREÇO DE: ", priceFrom)
+
+  if (!name || !category) {
     return {
       status: "error",
       message: "Nome do produto, preço e categoria são campos obrigatórios...",
     };
   }
-
-  
 
   if (imageFile.size > 0 && typeof imageFile === "object") {
     if (imageUrl) await deleteFromCloudinary(imageUrl, "product");
@@ -33,7 +34,7 @@ export default async function saveProduct(formData) {
     try {
       await Product.updateOne(
         { _id: id },
-        { name, price, description, urlLink, imageUrl, category }
+        { name, price, description, urlLink, priceFrom, imageUrl, category }
       );
     } catch (err) {
       console.log(`Erro ao editar registro: ${err}`);
@@ -46,6 +47,7 @@ export default async function saveProduct(formData) {
       price,
       description,
       urlLink,
+      priceFrom,
       imageUrl,
       category,
     });
@@ -56,7 +58,7 @@ export default async function saveProduct(formData) {
     return {
       status: "created",
       id,
-      data: { name, price, description, urlLink, imageUrl, category, _id: id },
+      data: { name, price, description, priceFrom, urlLink, imageUrl, category, _id: id },
     };
   }
 }

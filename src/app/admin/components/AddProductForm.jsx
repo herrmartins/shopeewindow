@@ -17,7 +17,10 @@ async function AddProductForm({
       <form action={saveProduct} className="space-y-4">
         {product?._id && <input type="hidden" name="_id" value={product._id} />}
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1"
+          >
             Produto
           </label>
           <input
@@ -33,7 +36,10 @@ async function AddProductForm({
         </div>
 
         <div>
-          <label htmlFor="categorySelect" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+          <label
+            htmlFor="categorySelect"
+            className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1"
+          >
             Categoria
           </label>
           <select
@@ -54,7 +60,10 @@ async function AddProductForm({
         </div>
 
         <div>
-          <label htmlFor="price" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+          <label
+            htmlFor="price"
+            className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1"
+          >
             Preço
           </label>
           <input
@@ -70,9 +79,31 @@ async function AddProductForm({
                        focus:outline-none focus:ring-2 focus:ring-sky-500"
           />
         </div>
-
         <div>
-          <label htmlFor="description" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+          <label
+            htmlFor="priceFrom"
+            className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1"
+          >
+            A partir de
+          </label>
+          <input
+            type="number"
+            id="priceFrom"
+            name="priceFrom"
+            step="0.01"
+            min="0"
+            required
+            defaultValue={product?.priceFrom || ""}
+            className="w-full px-3 py-2 rounded-md border border-neutral-300 dark:border-neutral-600
+                       bg-neutral-50 dark:bg-neutral-700 text-neutral-800 dark:text-white
+                       focus:outline-none focus:ring-2 focus:ring-sky-500"
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="description"
+            className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1"
+          >
             Descrição
           </label>
           <input
@@ -87,7 +118,10 @@ async function AddProductForm({
         </div>
 
         <div>
-          <label htmlFor="url" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+          <label
+            htmlFor="url"
+            className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1"
+          >
             Link
           </label>
           <input
@@ -102,10 +136,15 @@ async function AddProductForm({
         </div>
 
         <div>
-          <label htmlFor="image" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+          <label
+            htmlFor="image"
+            className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1"
+          >
             Imagem
           </label>
-          {product?.imageUrl && <input type="hidden" name="imageUrl" value={product.imageUrl} />}
+          {product?.imageUrl && (
+            <input type="hidden" name="imageUrl" value={product.imageUrl} />
+          )}
           <input
             id="image"
             name="image"
