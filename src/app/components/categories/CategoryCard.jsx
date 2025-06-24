@@ -11,13 +11,13 @@ function CategoryCard({ _id, title = "Produto", slug, imageUrl, emoji }) {
       alt={title}
       width={25}
       height={25}
-      className="w-[25px] h-[25px] object-cover"
+      className="w-[50px] h-[50px] object-cover"
       loading="lazy"
     />
   );
 
   if (!imageUrl && emoji) {
-    imageOrEmoji = <span className="text-[25px] leading-none">{emoji}</span>;
+    imageOrEmoji = <span className="text-[50px] leading-none">{emoji}</span>;
   }
 
   return (
