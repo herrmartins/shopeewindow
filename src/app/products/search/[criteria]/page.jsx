@@ -7,7 +7,7 @@ import { getProducts } from "../../service/getProducts";
 export default async function SearchResultsPage({
   params,
   searchParams,
-  pageSize = 18,
+  pageSize = 24,
 }) {
   const { criteria } = await params;
   if (!criteria || criteria.trim() === "") return;

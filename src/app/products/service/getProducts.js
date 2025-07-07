@@ -4,7 +4,7 @@ export async function getProducts({
   criteria = null,
   categoryId = null,
   page = 1,
-  pageSize = 18,
+  pageSize = 24,
 } = {}) {
   const Product = await getProductModel();
 

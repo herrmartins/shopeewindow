@@ -10,7 +10,7 @@ import { findCategoryPath } from "@/app/products/service/findCategoryPath";
 export default async function ProductsPage({
   params,
   searchParams,
-  pageSize = 18,
+  pageSize = 24,
 }) {
   const { slug } = await params;
 
