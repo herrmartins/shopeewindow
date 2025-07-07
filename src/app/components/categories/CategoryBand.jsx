@@ -6,8 +6,8 @@ async function CategoryBand() {
   const categories = await Category.find({ parent: null });
 
   return (
-    <div className="w-full py-1 overflow-x-auto m-3">
-      <div className="flex px-2 max-w-screen-xl mx-auto flex-nowrap justify-center">
+    <div className="w-full py-1 overflow-x-auto">
+      <div className="flex max-w-screen-xl mx-auto flex-nowrap justify-center">
         {categories.map((category) => (
           <CategoryCard
             key={category.id}
