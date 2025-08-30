@@ -27,7 +27,7 @@ function CategoryCard({ _id, title = "Produto", slug, imageUrl, emoji }) {
     >
       <div className="flex flex-col items-center gap-1 w-[100px] px-1 py-1 text-center bg-secondary rounded-lg hover:bg-opacity-80 transition-colors duration-300">
         <div className="flex items-center justify-center">{imageOrEmoji}</div>
-        <h3 className="text-[11px] font-light leading-tight">
+        <h3 className="text-xs font-light leading-tight">
           {title}
         </h3>
       </div>
