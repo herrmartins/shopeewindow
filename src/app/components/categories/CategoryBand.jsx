@@ -1,17 +1,17 @@
-import CategoryCard from './CategoryCard';
+import CategoryCard from "./CategoryCard";
 import { getCategoryModel } from "@/app/models/Category";
 
 async function CategoryBand() {
   const Category = await getCategoryModel();
-  const categories = await Category.find({ parent: null });
+  const categories = await Category.find({ parent: null }).sort({ order: 1 });
 
   return (
-    <div className="w-full py-1 overflow-x-auto">
-      <div className="flex max-w-screen-xl mx-auto flex-nowrap justify-start pl-4 md:justify-center md:pl-0">
+    <div className="w-full py-2 overflow-x-auto">
+      <div className="flex max-w-screen-xl mx-auto flex-nowrap justify-start gap-0.5 md:justify-center md:gap-1 px-0.5 md:px-0">
         {categories.map((category) => (
           <CategoryCard
-            key={category.id}
-            _id={category.id}
+            key={category._id.toString()}
+            _id={category._id.toString()}
             title={category.title}
             slug={category.slug}
             imageUrl={category.imageUrl}

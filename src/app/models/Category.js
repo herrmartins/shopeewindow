@@ -32,6 +32,10 @@ const Category = new mongoose.Schema(
           .replace(/^-+|-+$/g, "");
       },
     },
+    order: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

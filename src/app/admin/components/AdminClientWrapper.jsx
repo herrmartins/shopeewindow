@@ -5,6 +5,7 @@ import CategoriesTable from "./CategoriesTable";
 import AddCategoryFormClient from "./AddCategoryFormClient";
 import { deleteCategory } from "@/app/actions/deleteCategory";
 import addCategory from "@/app/actions/addCategory";
+import updateCategoryOrder from "@/app/actions/updateCategoryOrder";
 
 const AdminClientWrapper = ({ initialCategories }) => {
   const [categories, setCategories] = useState(initialCategories);
@@ -103,6 +104,21 @@ const AdminClientWrapper = ({ initialCategories }) => {
     }
   };
 
+  const handleSaveOrder = async (updatedCategories) => {
+    try {
+      const result = await updateCategoryOrder(updatedCategories);
+      if (result.status === "success") {
+        setCategories(updatedCategories);
+        alert("Ordem das categorias salva com sucesso! Recarregue a página principal para ver as mudanças.");
+      } else {
+        alert("Erro ao salvar ordem: " + result.message);
+      }
+    } catch (err) {
+      console.error("Erro salvando ordem", err);
+      alert("Erro ao salvar ordem");
+    }
+  };
+
   return (
     <div className="flex flex-col items-center">
       <div className="m-5 w-fit">
@@ -125,6 +141,7 @@ const AdminClientWrapper = ({ initialCategories }) => {
           onDeleteCategory={handleDeleteCategory}
           onEditCategory={handleSelectCategoryById}
           isEditing={isEditing}
+          onSaveOrder={handleSaveOrder}
         />
       </div>
     </div>

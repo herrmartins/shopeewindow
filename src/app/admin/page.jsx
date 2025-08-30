@@ -12,7 +12,7 @@ const AdminPage = async () => {
   }
 
   const Category = await getCategoryModel();
-  const rawCategories = await Category.find().lean();
+  const rawCategories = await Category.find().sort({ order: 1 }).lean();
   const categories = rawCategories.map(serializeCategories);
 
   return (

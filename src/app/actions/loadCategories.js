@@ -5,7 +5,7 @@ import { getCategoryModel } from "../models/Category";
 export async function loadCategories() {
     try {
         const Category = await getCategoryModel();
-        const categories = await Category.find({});
+        const categories = await Category.find({}).sort({ order: 1 });
 
         return categories.map((category) => ({
             _id: category._id.toString(),
@@ -13,6 +13,7 @@ export async function loadCategories() {
             imageUrl: category.imageUrl,
             emoji: category.emoji,
             slug: category.slug,
+            order: category.order,
             createdAt: category.createdAt.toISOString(),
             updatedAt: category.updatedAt.toISOString(),
         }));
