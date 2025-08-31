@@ -8,7 +8,7 @@ async function CategoryBand() {
 
   return (
     <div className="w-full py-2 overflow-x-auto">
-      <div className="flex max-w-screen-xl mx-auto flex-nowrap justify-start gap-0.5 md:justify-center md:gap-1 px-0.5 md:px-0">
+      <div className="flex max-w-screen-xl flex-nowrap justify-start gap-0.5 md:gap-1 px-0.5 md:px-0">
         {categories.map((category) => (
           <CategoryCard
             key={category._id}
