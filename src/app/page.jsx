@@ -1,6 +1,6 @@
 import CategoryBand from "./components/categories/CategoryBand";
 import ProductsGrid from "./components/ProductsList";
-import { getProductModel } from "./models/Product";
+import { getProductModel, serializeProduct } from "./models/Product";
 import Pagination from "./components/shared/Pagination";
 
 export default async function Body({ searchParams, pageSize = 18 }) {
@@ -13,7 +13,8 @@ export default async function Body({ searchParams, pageSize = 18 }) {
 
   const skip = (currentPage - 1) * pageSize;
 
-  const products = await Product.find({}).skip(skip).lean().limit(pageSize);
+  const rawProducts = await Product.find({}).skip(skip).lean().limit(pageSize);
+  const products = rawProducts.map(serializeProduct);
 
   return (
     <>

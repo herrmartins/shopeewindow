@@ -1,5 +1,5 @@
 import { getCategoryModel } from "@/app/models/Category";
-import { getProductModel } from "@/app/models/Product";
+import { getProductModel, serializeProduct } from "@/app/models/Product";
 import SubCategories from "@/app/components/categories/SubCategories";
 import { serializeCategories } from "@/app/models/Category";
 import ProductsGrid from "@/app/components/ProductsList";
@@ -28,31 +28,45 @@ export default async function ProductsPage({
   let categoryParents = [];
 
   if (slug) {
-    category = await Category.findOne({ slug: slug }).lean();
-    products = await Product.find({ category: category._id })
+    category = serializeCategories(await Category.findOne({ slug: slug }).lean());
+    const rawProducts = await Product.find({ category: category._id })
       .skip(skip)
       .limit(pageSize)
       .lean();
+    products = rawProducts.map(serializeProduct);
     total = await Product.countDocuments({ category: category._id });
 
-    const rawSubCategories = await Category.find({
-      parent: category._id,
-    }).lean();
+    const loadCategoriesWithChildren = async (parentId) => {
+      const cats = await Category.find({ parent: parentId }).lean();
+      const categoriesWithChildren = await Promise.all(
+        cats.map(async (cat) => {
+          const children = await loadCategoriesWithChildren(cat._id);
+          return {
+            ...serializeCategories(cat),
+            children: children.map(serializeCategories),
+          };
+        })
+      );
+      return categoriesWithChildren;
+    };
+
+    subCategories = await loadCategoriesWithChildren(category._id);
 
     categoryParents = await findCategoryPath(category._id);
 
-    if (rawSubCategories.length > 0) {
+    if (subCategories.length > 0) {
       /* Separeted from the products of the chosen category
        to avoid errors. */
-      const subCategoryIds = rawSubCategories.map((cat) => cat._id);
+      const subCategoryIds = subCategories.map((cat) => cat._id);
 
-      const subCategoryProducts = await Product.find({
+      const rawSubCategoryProducts = await Product.find({
         category: { $in: subCategoryIds },
       })
         .skip(skip)
         .limit(pageSize)
         .lean();
 
+      const subCategoryProducts = rawSubCategoryProducts.map(serializeProduct);
       products = [...products, ...subCategoryProducts];
 
       const subTotal = await Product.countDocuments({
@@ -60,10 +74,9 @@ export default async function ProductsPage({
       });
       total += subTotal;
     }
-
-    subCategories = rawSubCategories.map(serializeCategories);
   } else {
-    products = await Product.find().skip(skip).limit(pageSize).lean();
+    const rawProducts = await Product.find().skip(skip).limit(pageSize).lean();
+    products = rawProducts.map(serializeProduct);
     total = await Product.countDocuments({});
   }
 

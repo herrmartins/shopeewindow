@@ -65,21 +65,48 @@ const getCategoryModel = async () => {
 };
 
 function serializeCategories(categoryObj) {
-  return {
-    ...categoryObj,
-    _id: categoryObj._id.toString(),
-    parent: categoryObj.parent
-      ? typeof categoryObj.parent === "object" && categoryObj.parent._id
-        ? {
-            _id: categoryObj.parent._id.toString(),
-            title: categoryObj.parent.title ?? null,
-            emoji: categoryObj.parent.emoji ?? null,
-          }
-        : categoryObj.parent.toString()
-      : null,
-    createdAt: categoryObj.createdAt?.toISOString?.() ?? null,
-    updatedAt: categoryObj.updatedAt?.toISOString?.() ?? null,
-  };
+  if (!categoryObj || !categoryObj._id) {
+    console.warn("Invalid category object:", categoryObj);
+    return null;
+  }
+
+  try {
+    const result = {
+      ...categoryObj,
+      _id: categoryObj._id?.toString?.() ?? "",
+      createdAt: categoryObj.createdAt?.toISOString?.() ?? null,
+      updatedAt: categoryObj.updatedAt?.toISOString?.() ?? null,
+    };
+
+    // Handle parent field carefully
+    if (categoryObj.parent) {
+      if (typeof categoryObj.parent === "object" && categoryObj.parent._id) {
+        result.parent = {
+          _id: categoryObj.parent._id?.toString?.() ?? "",
+          title: categoryObj.parent.title ?? null,
+          emoji: categoryObj.parent.emoji ?? null,
+        };
+      } else if (typeof categoryObj.parent === "string") {
+        result.parent = categoryObj.parent;
+      } else {
+        result.parent = categoryObj.parent?.toString?.() ?? null;
+      }
+    } else {
+      result.parent = null;
+    }
+
+    // Ensure all required fields are present
+    result.title = result.title ?? "";
+    result.slug = result.slug ?? "";
+    result.emoji = result.emoji ?? "";
+    result.imageUrl = result.imageUrl ?? null;
+    result.order = result.order ?? 0;
+
+    return result;
+  } catch (error) {
+    console.error("Error serializing category:", error, categoryObj);
+    return null;
+  }
 }
 
 export { Category, getCategoryModel, serializeCategories };

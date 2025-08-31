@@ -41,18 +41,28 @@ const getProductModel = async () => {
 };
 
 function serializeProduct(productObj) {
-  return {
-    _id: productObj._id?.toString?.() ?? "",
-    name: productObj.name ?? "",
-    description: productObj.description ?? "",
-    price: productObj.price ?? 0,
-    priceFrom: productObj.priceFrom ?? 0,
-    imageUrl: productObj.imageUrl ?? "",
-    urlLink: productObj.urlLink ?? "",
-    category: productObj.category?.toString?.() ?? "",
-    createdAt: productObj.createdAt?.toISOString?.() ?? null,
-    updatedAt: productObj.updatedAt?.toISOString?.() ?? null,
-  };
+  if (!productObj || !productObj._id) {
+    console.warn("Invalid product object:", productObj);
+    return null;
+  }
+
+  try {
+    return {
+      _id: productObj._id?.toString?.() ?? "",
+      name: productObj.name ?? "",
+      description: productObj.description ?? "",
+      price: productObj.price ?? 0,
+      priceFrom: productObj.priceFrom ?? 0,
+      imageUrl: productObj.imageUrl ?? "",
+      urlLink: productObj.urlLink ?? "",
+      category: productObj.category?.toString?.() ?? "",
+      createdAt: productObj.createdAt?.toISOString?.() ?? null,
+      updatedAt: productObj.updatedAt?.toISOString?.() ?? null,
+    };
+  } catch (error) {
+    console.error("Error serializing product:", error, productObj);
+    return null;
+  }
 }
 Product.index({ name: "text" });
 export { Product, getProductModel, serializeProduct };

@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { deleteFromCloudinary, uploadToCloudinary } from "../lib/claudinary";
-import { getCategoryModel } from "../models/Category";
+import { getCategoryModel, serializeCategories } from "../models/Category";
 
 export default async function addCategory(prevState, formData) {
   const Category = await getCategoryModel();
@@ -45,7 +45,9 @@ export default async function addCategory(prevState, formData) {
       imageUrl,
     });
     const fullCategory = await Category.findById(newCategory._id).lean();
-    fullCategory._id = fullCategory._id.toString();
-    return { status: "created", category: fullCategory };
+    if (!fullCategory) {
+      throw new Error("Failed to retrieve created category");
+    }
+    return { status: "created", category: serializeCategories(fullCategory) };
   }
 }

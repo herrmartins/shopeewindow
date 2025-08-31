@@ -1,5 +1,5 @@
 "use server";
-import { getProductModel } from "@/app/models/Product";
+import { getProductModel, serializeProduct } from "@/app/models/Product";
 import { deleteFromCloudinary, uploadToCloudinary } from "../lib/claudinary";
 import { redirect } from "next/navigation";
 
@@ -52,13 +52,15 @@ export default async function saveProduct(formData) {
       category,
     });
     const fullProduct = await Product.findById(newProduct._id).lean();
-    fullProduct._id = fullProduct._id.toString();
-    const id = fullProduct._id;
+    if (!fullProduct) {
+      throw new Error("Failed to retrieve created product");
+    }
+    const serializedProduct = serializeProduct(fullProduct);
 
     return {
       status: "created",
-      id,
-      data: { name, price, description, priceFrom, urlLink, imageUrl, category, _id: id },
+      id: serializedProduct._id,
+      data: serializedProduct,
     };
   }
 }

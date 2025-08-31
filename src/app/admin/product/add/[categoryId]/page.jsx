@@ -30,7 +30,7 @@ const ProductPageWithCatId = async ({ params }) => {
         <div className="text-center">
           <h1 className="mt-2 mb-2 text-3xl">
             Adicionar Produtos à{" "}
-            {selectedCategory ? selectedCategory._doc.title : "Categoria"}
+            {selectedCategory ? selectedCategory.title : "Categoria"}
           </h1>
         </div>
         <Link
