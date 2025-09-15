@@ -22,8 +22,15 @@ async function ProductCard({ _id, name, imageUrl, price, priceFrom, description,
   const cardContent = (
     <div
       id={highlight ? `product-${_id}` : undefined}
-      className={`flex flex-col gap-2 w-48 p-4 rounded-lg transition-all duration-300 ease-in-out hover:scale-[1.50] hover:z-10 ${highlight ? 'ring-2 ring-blue-500' : ''}`}
+      className={`relative flex flex-col gap-2 w-48 p-4 rounded-lg transition-all duration-300 ease-in-out hover:scale-[1.50] hover:z-10 ${highlight ? 'ring-2 ring-blue-500' : ''}`}
     >
+      {/* Share button positioned inside the card but outside the link */}
+      {shareUrl && (
+        <div className="absolute top-2 left-1/2 transform -translate-x-1/2 z-20">
+          <ShareButton productName={name} shareUrl={shareUrl} />
+        </div>
+      )}
+
       <div className="flex justify-center">
         <div className="w-24 h-24 bg-gray-200 rounded-md flex items-center justify-center dark:bg-gray-50 text-black">
           {imageUrl ? (
@@ -66,13 +73,6 @@ async function ProductCard({ _id, name, imageUrl, price, priceFrom, description,
         </Link>
       ) : (
         cardContent
-      )}
-
-      {/* Share button positioned absolutely outside the link */}
-      {shareUrl && (
-        <div className="absolute top-2 right-2 z-20">
-          <ShareButton productName={name} shareUrl={shareUrl} />
-        </div>
       )}
 
       {session && <ProductAdminMenu id={_id.toString()} />}
