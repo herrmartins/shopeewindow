@@ -1,5 +1,6 @@
 import CategoryBand from "./components/categories/CategoryBand";
 import ProductsGrid from "./components/ProductsList";
+import VisitTracker from "./components/VisitTracker";
 import { getProductModel, serializeProduct } from "./models/Product";
 import Pagination from "./components/shared/Pagination";
 
@@ -18,6 +19,7 @@ export default async function Body({ searchParams, pageSize = 18 }) {
 
   return (
     <>
+      <VisitTracker />
       <CategoryBand />
       <div className="flex justify-center">
           <ProductsGrid products={products} />
