@@ -30,6 +30,9 @@ jobs:
             echo "📥 Pulling new code..."
             git pull origin master
 
+            echo "🔨 Installing dependencias..."
+            npm install
+            
             echo "🔨 Building app..."
             if ! npm run build; then
               echo "❌ Build failed. Rolling back..."
