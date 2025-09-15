@@ -63,11 +63,11 @@ export default function ProductCarouselClient({ products, displayTime }) {
           </p>
         </div>
 
-        <div className="relative px-8">
+        <div className="relative px-12">
           <Slider ref={sliderRef} {...settings}>
             {products.map((product) => (
-              <div key={product._id} className="px-2">
-                <div className="transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+              <div key={product._id} className="px-2 relative z-20">
+                <div className="transform transition-all duration-300 hover:scale-105 hover:shadow-lg relative z-30">
                   <ProductCard {...product} />
                 </div>
               </div>
@@ -75,7 +75,7 @@ export default function ProductCarouselClient({ products, displayTime }) {
           </Slider>
 
           {/* Custom navigation arrows - positioned inside container */}
-          <div className="absolute top-1/2 left-2 transform -translate-y-1/2 z-10">
+          <div className="absolute top-1/2 left-4 transform -translate-y-1/2 z-20">
             <button
               onClick={goToPrev}
               className="bg-white dark:bg-gray-700 shadow-lg rounded-full p-2 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors opacity-80 hover:opacity-100"
@@ -85,7 +85,7 @@ export default function ProductCarouselClient({ products, displayTime }) {
               </svg>
             </button>
           </div>
-          <div className="absolute top-1/2 right-2 transform -translate-y-1/2 z-10">
+          <div className="absolute top-1/2 right-4 transform -translate-y-1/2 z-20">
             <button
               onClick={goToNext}
               className="bg-white dark:bg-gray-700 shadow-lg rounded-full p-2 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors opacity-80 hover:opacity-100"
