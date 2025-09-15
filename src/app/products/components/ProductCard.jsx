@@ -5,8 +5,6 @@ import Link from "next/link";
 import ShareButton from "./ShareButton";
 
 function ProductCard({ _id, name, imageUrl, price, priceFrom, description, urlLink, category, highlight }) {
-  // Build share URL - for now, create a simple URL without category slug
-  // This can be enhanced later to fetch category slug if needed
   const shareUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/products?product=${_id}`;
 
   const cardContent = (

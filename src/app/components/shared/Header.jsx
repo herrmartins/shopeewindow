@@ -8,6 +8,7 @@ import ThemeSwitch from "./ThemeSwitch";
 import SearchFormComponent from "./SearchForm";
 import AdminButton from "./AdminButton";
 import getLogo from "@/app/actions/getLogo";
+import ProductCarousel from "../ProductCarousel";
 
 export default async function Header() {
   const session = await getServerSession(authOptions);
@@ -26,12 +27,16 @@ export default async function Header() {
           />
         </Link>
       </div>
+
+      {/* Product Carousel above search bar */}
+      <ProductCarousel />
+
       <div className="flex justify-center items-center mb-2">
         <p className="flex">
           <span className="mx-2 mt-1">
             {/* <Link
               href="/about"
-              className="inline-flex items-center justify-center w-8 h-8 rounded-full 
+              className="inline-flex items-center justify-center w-8 h-8 rounded-full
                text-neutral-700 dark:text-neutral-300
                hover:bg-neutral-200 dark:hover:bg-neutral-700
                transition-colors duration-200"
@@ -48,7 +53,7 @@ export default async function Header() {
           <span className="mx-2 mt-1">
             {/* <Link
               href="/admin/auth"
-              className="inline-flex items-center justify-center w-8 h-8 rounded-full 
+              className="inline-flex items-center justify-center w-8 h-8 rounded-full
                text-neutral-700 dark:text-neutral-300
                hover:bg-neutral-200 dark:hover:bg-neutral-700
                transition-colors duration-200"
