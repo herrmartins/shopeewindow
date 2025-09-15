@@ -7,16 +7,18 @@ import LogoutButton from "./LogoutButton";
 import ThemeSwitch from "./ThemeSwitch";
 import SearchFormComponent from "./SearchForm";
 import AdminButton from "./AdminButton";
+import getLogo from "@/app/actions/getLogo";
 
 export default async function Header() {
   const session = await getServerSession(authOptions);
+  const logoUrl = await getLogo();
 
   return (
     <>
       <div className="flex justify-center">
         <Link href="/">
           <Image
-            src="/shared/logo1.jpg"
+            src={logoUrl}
             alt="Mosca's Shop LOGO"
             width={900}
             height={255}

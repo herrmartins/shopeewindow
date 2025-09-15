@@ -19,6 +19,14 @@ const AdminPage = async () => {
     <div className="flex flex-col w-full">
       <div className="text-center">
         <h1 className="text-5xl">Administração</h1>
+        <div className="mt-4">
+          <a
+            href="/manage/logo"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Alterar Logo
+          </a>
+        </div>
       </div>
       <div className="flex flex-col items-center">
         <AdminClientWrapper initialCategories={categories} />
