@@ -1,23 +1,13 @@
+'use client';
+
 import Image from "next/image";
 import Link from "next/link";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import ProductAdminMenu from "./ProductAdminMenu";
 import ShareButton from "./ShareButton";
-import { getCategoryModel } from "@/app/models/Category";
 
-async function ProductCard({ _id, name, imageUrl, price, priceFrom, description, urlLink, category, highlight }) {
-  const session = await getServerSession(authOptions);
-
-  // Fetch category to get slug for share URL
-  let shareUrl = '';
-  if (category) {
-    const Category = await getCategoryModel();
-    const cat = await Category.findById(category).lean();
-    if (cat) {
-      shareUrl = `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/products/${cat.slug}?product=${_id}`;
-    }
-  }
+function ProductCard({ _id, name, imageUrl, price, priceFrom, description, urlLink, category, highlight }) {
+  // Build share URL - for now, create a simple URL without category slug
+  // This can be enhanced later to fetch category slug if needed
+  const shareUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/products?product=${_id}`;
 
   const cardContent = (
     <div
@@ -26,7 +16,10 @@ async function ProductCard({ _id, name, imageUrl, price, priceFrom, description,
     >
       {/* Share button positioned inside the card but outside the link */}
       {shareUrl && (
-        <div className="absolute top-2 left-1/2 transform -translate-x-1/2 z-20">
+        <div
+          className="absolute top-2 left-1/2 transform -translate-x-1/2 z-20"
+          onClick={(e) => e.preventDefault()}
+        >
           <ShareButton productName={name} shareUrl={shareUrl} />
         </div>
       )}
@@ -75,7 +68,8 @@ async function ProductCard({ _id, name, imageUrl, price, priceFrom, description,
         cardContent
       )}
 
-      {session && <ProductAdminMenu id={_id.toString()} />}
+      {/* Admin menu temporarily disabled - needs SessionProvider setup */}
+      {/* {session && <ProductAdminMenu id={_id.toString()} />} */}
     </div>
   );
 }
