@@ -1,7 +1,6 @@
 import ProductCard from "../products/components/ProductCard";
 
 function ProductsGrid({ products, category }) {
-  console.log("DEBUG ProductsGrid:", products, category);
   return (
     <>
       {Array.isArray(products) && products.length > 0 ? (
