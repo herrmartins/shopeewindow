@@ -6,6 +6,7 @@ import ProductsGrid from "@/app/components/ProductsList";
 import Pagination from "@/app/components/shared/Pagination";
 import { CategoriesPath } from "@/app/components/categories/CategoriesPath";
 import { findCategoryPath } from "@/app/products/service/findCategoryPath";
+import ScrollToProduct from "@/app/products/components/ScrollToProduct";
 
 export default async function ProductsPage({
   params,
@@ -22,6 +23,7 @@ export default async function ProductsPage({
   let total = 0;
   const sParams = await searchParams;
   const currentPage = parseInt(sParams?.page || "1", 10);
+  const productId = sParams?.product;
   const skip = (currentPage - 1) * pageSize;
 
   let category = null;
@@ -82,6 +84,7 @@ export default async function ProductsPage({
 
   return (
     <>
+      <ScrollToProduct productId={productId} />
       <div className="w-full max-w-screen-xl mx-auto px-4 text-center">
         {subCategories && (
           <>
@@ -93,7 +96,7 @@ export default async function ProductsPage({
         )}
 
         <div className="flex justify-center">
-          <ProductsGrid products={products} category={category} />
+          <ProductsGrid products={products} category={category} productId={productId} />
         </div>
       </div>
 
