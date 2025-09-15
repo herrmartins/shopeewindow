@@ -1,5 +1,5 @@
 import { getProductModel, serializeProduct } from "@/app/models/Product";
-import AddProductForm from "@/app/admin/components/AddProductForm";
+import AddProductForm from "@/app/manage/components/AddProductForm";
 import { getCategoryModel, serializeCategories } from "@/app/models/Category";
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";

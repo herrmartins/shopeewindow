@@ -48,7 +48,7 @@ function CategoryItem({ cat, index, onDeleteCategory, onEditCategory, onMoveUp, 
             className="hover:text-red-500 transition cursor-pointer"
             onClick={() => onDeleteCategory(cat._id)}
           />
-          <Link href={`/admin/product/add/${cat._id}`}>
+          <Link href={`/manage/product/add/${cat._id}`}>
             <IoAddCircleSharp className="hover:text-sky-500 transition cursor-pointer" />
           </Link>
         </div>

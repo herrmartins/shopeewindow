@@ -8,7 +8,7 @@ const AdminPage = async () => {
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    redirect("/admin/auth?msg=noauth");
+    redirect("/manage/auth?msg=noauth");
   }
 
   const Category = await getCategoryModel();

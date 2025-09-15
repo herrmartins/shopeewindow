@@ -1,4 +1,4 @@
-import AddProductForm from "@/app/admin/components/AddProductForm";
+import AddProductForm from "@/app/manage/components/AddProductForm";
 import { getCategoryModel, serializeCategories } from "@/app/models/Category";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
@@ -34,7 +34,7 @@ const ProductPageWithCatId = async ({ params }) => {
           </h1>
         </div>
         <Link
-          href="/admin"
+          href="/manage"
           className="text-sky-500 hover:text-sky-300 transition flex items-start"
         >
           <FaArrowLeft className="w-5 h-5 mb-2 mx-2" title="Voltar" />

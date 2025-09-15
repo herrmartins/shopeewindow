@@ -27,7 +27,7 @@ export default async function Header() {
       <div className="flex justify-center items-center mb-2">
         <p className="flex">
           <span className="mx-2 mt-1">
-            <Link
+            {/* <Link
               href="/about"
               className="inline-flex items-center justify-center w-8 h-8 rounded-full 
                text-neutral-700 dark:text-neutral-300
@@ -37,14 +37,14 @@ export default async function Header() {
               title="Área administrativa"
             >
               <FaInfoCircle />
-            </Link>
+            </Link> */}
           </span>
           <ThemeSwitch />
         </p>
         {session && <LogoutButton isLoggedIn={!!session} />}
         {!session && (
           <span className="mx-2 mt-1">
-            <Link
+            {/* <Link
               href="/admin/auth"
               className="inline-flex items-center justify-center w-8 h-8 rounded-full 
                text-neutral-700 dark:text-neutral-300
@@ -54,7 +54,7 @@ export default async function Header() {
               title="Área administrativa"
             >
               <FaLock className="w-4 h-4" />
-            </Link>
+            </Link> */}
           </span>
         )}
         {session && <AdminButton />}

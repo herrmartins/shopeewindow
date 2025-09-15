@@ -23,7 +23,7 @@ export default function LoginPage() {
       setError("Usuário ou senha inválidos");
     } else {
       setError("");
-      window.location.href = "/admin";
+      window.location.href = "/manage";
     }
   };
 
