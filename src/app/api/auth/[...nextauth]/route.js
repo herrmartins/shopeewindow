@@ -11,8 +11,27 @@ export const authOptions = {
       credentials: {
         username: { label: "Username", type: "username" },
         password: { label: "Password", type: "password" },
+        captcha: { label: "Captcha", type: "text" },
       },
       async authorize(credentials) {
+        // Verify reCAPTCHA if configured
+        if (process.env.RECAPTCHA_SECRET_KEY && credentials.captcha !== "bypass") {
+          const recaptchaResponse = await fetch(
+            "https://www.google.com/recaptcha/api/siteverify",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+              body: `secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${credentials.captcha}`,
+            }
+          );
+          const recaptchaData = await recaptchaResponse.json();
+          if (!recaptchaData.success) {
+            console.log("❌ reCAPTCHA verification failed");
+            return null;
+          }
+        }
 
         await connectDB();
 

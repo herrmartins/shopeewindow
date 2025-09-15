@@ -2,10 +2,12 @@
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [captchaToken, setCaptchaToken] = useState(null);
   const [error, setError] = useState("");
 
   const params = useSearchParams();
@@ -13,10 +15,15 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && !captchaToken) {
+      setError("Por favor, complete o captcha");
+      return;
+    }
     const res = await signIn("credentials", {
       redirect: false,
       username,
       password,
+      captcha: captchaToken || "bypass",
     });
 
     if (!res.ok) {
@@ -63,13 +70,26 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-600 
-                         bg-neutral-50 dark:bg-neutral-700 
-                         text-neutral-800 dark:text-white 
-                         placeholder:text-neutral-400 dark:placeholder:text-neutral-500 
+                className="w-full px-4 py-2 rounded-xl border border-neutral-300 dark:border-neutral-600
+                         bg-neutral-50 dark:bg-neutral-700
+                         text-neutral-800 dark:text-white
+                         placeholder:text-neutral-400 dark:placeholder:text-neutral-500
                          focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition"
               />
             </div>
+            {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ? (
+              <div className="flex justify-center">
+                <ReCAPTCHA
+                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                  onChange={setCaptchaToken}
+                  theme="light"
+                />
+              </div>
+            ) : (
+              <div className="text-center text-sm text-yellow-600 dark:text-yellow-400">
+                ⚠️ reCAPTCHA não configurado. Configure NEXT_PUBLIC_RECAPTCHA_SITE_KEY para ativar.
+              </div>
+            )}
             {error && (
               <p className="text-sm text-red-600 dark:text-red-400 text-center">
                 {error}
