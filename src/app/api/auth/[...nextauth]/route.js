@@ -14,8 +14,9 @@ export const authOptions = {
         captcha: { label: "Captcha", type: "text" },
       },
       async authorize(credentials) {
-        // Verify reCAPTCHA if configured
-        if (process.env.RECAPTCHA_SECRET_KEY && credentials.captcha !== "bypass") {
+        // TEMPORARILY DISABLE CAPTCHA VERIFICATION
+        const DISABLE_CAPTCHA = true; // Set to false to re-enable
+        if (!DISABLE_CAPTCHA && process.env.RECAPTCHA_SECRET_KEY && credentials.captcha !== "bypass") {
           const recaptchaResponse = await fetch(
             "https://www.google.com/recaptcha/api/siteverify",
             {

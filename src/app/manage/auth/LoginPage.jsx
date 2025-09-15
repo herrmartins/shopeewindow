@@ -15,7 +15,9 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && !captchaToken) {
+    // TEMPORARILY DISABLE CAPTCHA REQUIREMENT
+    const DISABLE_CAPTCHA = true; // Set to false to re-enable
+    if (!DISABLE_CAPTCHA && process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && !captchaToken) {
       setError("Por favor, complete o captcha");
       return;
     }
@@ -77,19 +79,30 @@ export default function LoginPage() {
                          focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition"
               />
             </div>
-            {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ? (
-              <div className="flex justify-center">
-                <ReCAPTCHA
-                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-                  onChange={setCaptchaToken}
-                  theme="light"
-                />
-              </div>
-            ) : (
-              <div className="text-center text-sm text-yellow-600 dark:text-yellow-400">
-                ⚠️ reCAPTCHA não configurado. Configure NEXT_PUBLIC_RECAPTCHA_SITE_KEY para ativar.
-              </div>
-            )}
+            {/* TEMPORARILY DISABLE CAPTCHA DISPLAY */}
+            {(() => {
+              const DISABLE_CAPTCHA = true; // Set to false to re-enable
+              if (DISABLE_CAPTCHA) {
+                return (
+                  <div className="text-center text-sm text-green-600 dark:text-green-400">
+                    ✅ CAPTCHA temporariamente desabilitado
+                  </div>
+                );
+              }
+              return process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ? (
+                <div className="flex justify-center">
+                  <ReCAPTCHA
+                    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                    onChange={setCaptchaToken}
+                    theme="light"
+                  />
+                </div>
+              ) : (
+                <div className="text-center text-sm text-yellow-600 dark:text-yellow-400">
+                  ⚠️ reCAPTCHA não configurado. Configure NEXT_PUBLIC_RECAPTCHA_SITE_KEY para ativar.
+                </div>
+              );
+            })()}
             {error && (
               <p className="text-sm text-red-600 dark:text-red-400 text-center">
                 {error}
