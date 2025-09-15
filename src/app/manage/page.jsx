@@ -1,5 +1,6 @@
 import { getCategoryModel, serializeCategories } from "../models/Category";
 import AdminClientWrapper from "./components/AdminClientWrapper";
+import VisitorCounter from "../components/VisitorCounter";
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
@@ -19,6 +20,7 @@ const AdminPage = async () => {
     <div className="flex flex-col w-full">
       <div className="text-center">
         <h1 className="text-5xl">Administração</h1>
+        <VisitorCounter />
         <div className="mt-4">
           <a
             href="/manage/logo"
