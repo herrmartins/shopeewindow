@@ -5,7 +5,7 @@ import Link from "next/link";
 import ShareButton from "./ShareButton";
 
 function ProductCard({ _id, name, imageUrl, price, priceFrom, description, urlLink, category, highlight }) {
-  const shareUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/products?product=${_id}`;
+  const shareUrl = urlLink || `${typeof window !== 'undefined' ? window.location.origin : ''}/products?product=${_id}`;
 
   const cardContent = (
     <div
