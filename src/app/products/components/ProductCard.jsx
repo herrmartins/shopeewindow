@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import ShareButton from "./ShareButton";
 
-function ProductCard({ _id, name, imageUrl, price, priceFrom, description, urlLink, category, highlight }) {
+function ProductCard({ _id, name, imageUrl, price, priceFrom, description, urlLink, category, highlight, showDescription = true }) {
   const shareUrl = urlLink || `${typeof window !== 'undefined' ? window.location.origin : ''}/products?product=${_id}`;
 
   const cardContent = (
@@ -12,7 +12,6 @@ function ProductCard({ _id, name, imageUrl, price, priceFrom, description, urlLi
       id={highlight ? `product-${_id}` : undefined}
       className={`relative flex flex-col gap-2 w-48 p-4 rounded-lg transition-all duration-300 ease-in-out hover:scale-[1.50] hover:z-10 ${highlight ? 'ring-2 ring-blue-500' : ''}`}
     >
-      {/* Share button positioned inside the card but outside the link */}
       {shareUrl && (
         <div
           className="absolute top-2 left-1/2 transform -translate-x-1/2 z-20"
@@ -44,8 +43,8 @@ function ProductCard({ _id, name, imageUrl, price, priceFrom, description, urlLi
         {name}
       </h3>
       {/* <p className="text-sm text-gray-700 dark:text-gray-600 text-center">R$ {price}</p> */}
-      <p className="text-sm text-gray-700 dark:text-gray-600 text-center">A partir de R$ {priceFrom}</p>
-      {description && (
+      <p className="text-sm text-gray-700 dark:text-gray-600 text-center">A partir de R$ {priceFrom} {showDescription}</p>
+      {showDescription && description && (
         <p className="text-xs text-gray-600 dark:text-gray-600 text-justify">
           {description}
         </p>
@@ -66,8 +65,6 @@ function ProductCard({ _id, name, imageUrl, price, priceFrom, description, urlLi
         cardContent
       )}
 
-      {/* Admin menu temporarily disabled - needs SessionProvider setup */}
-      {/* {session && <ProductAdminMenu id={_id.toString()} />} */}
     </div>
   );
 }

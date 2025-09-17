@@ -12,12 +12,11 @@ export default function ProductCarouselClient({ products, displayTime }) {
   const [slidesToShow, setSlidesToShow] = useState(null);
  
   useEffect(() => {
-    // Calculate slides count first, then mark mounted so we render the complete carousel at once
     const update = () => {
       const w = window.innerWidth;
-      if (w < 640) setSlidesToShow(1);      // phones
-      else if (w < 1024) setSlidesToShow(3); // tablets / small desktops
-      else setSlidesToShow(4);              // large desktops
+      if (w < 640) setSlidesToShow(1);
+      else if (w < 1024) setSlidesToShow(3);
+      else setSlidesToShow(4);
     };
     update();
     setMounted(true);
@@ -33,7 +32,6 @@ export default function ProductCarouselClient({ products, displayTime }) {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: displayTime,
-    // center the single slide on small screens to avoid left alignment
     centerMode: slidesToShow === 1,
     centerPadding: slidesToShow === 1 ? '20px' : '0px',
     arrows: false
@@ -47,8 +45,6 @@ export default function ProductCarouselClient({ products, displayTime }) {
     sliderRef.current?.slickNext();
   };
 
-  // While we haven't calculated slidesToShow, render a static fallback of the first product
-  // for faster visual feedback and mount the full Slider when ready.
   if (slidesToShow === null) {
     const first = products && products.length > 0 ? products[0] : null;
     return (
@@ -58,16 +54,13 @@ export default function ProductCarouselClient({ products, displayTime }) {
             <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1">
               Produtos em Destaque
             </h2>
-            <p className="text-gray-600 dark:text-gray-300 text-sm">
-              Descubra nossas melhores ofertas
-            </p>
           </div>
 
           <div className="relative px-12 flex justify-center">
             {first ? (
               <div className="px-2 flex justify-center">
                 <div className="transform transition-all duration-300 relative">
-                  <ProductCard {...first} />
+                  <ProductCard {...first} showDescription={false}/>
                 </div>
               </div>
             ) : (
@@ -86,9 +79,6 @@ export default function ProductCarouselClient({ products, displayTime }) {
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1">
             Produtos em Destaque
           </h2>
-          <p className="text-gray-600 dark:text-gray-300 text-sm">
-            Descubra nossas melhores ofertas
-          </p>
         </div>
 
         <div className="relative px-12">
@@ -97,17 +87,15 @@ export default function ProductCarouselClient({ products, displayTime }) {
               {products.map((product) => (
                 <div key={product._id} className="px-2 relative z-20 flex justify-center">
                   <div className="transform transition-all duration-300 hover:scale-105 hover:shadow-lg relative z-30">
-                    <ProductCard {...product} />
+                    <ProductCard {...product} showDescription={false} />
                   </div>
                 </div>
               ))}
             </Slider>
           ) : (
-            // Placeholder to avoid layout shift while JS initializes
             <div className="h-56" aria-hidden />
           )}
 
-          {/* Custom navigation arrows - positioned inside container */}
           {mounted && (
             <div className="absolute top-1/2 left-4 transform -translate-y-1/2 z-20">
               <button
@@ -136,7 +124,6 @@ export default function ProductCarouselClient({ products, displayTime }) {
           )}
         </div>
 
-        {/* Custom CSS for slick carousel */}
         <style dangerouslySetInnerHTML={{
           __html: `
             .slick-dots {
