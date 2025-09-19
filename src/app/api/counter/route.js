@@ -17,13 +17,11 @@ export async function GET(request) {
     const currentCount = parseInt(config.value);
 
     if (!getOnly) {
-      // Incrementar contador apenas se não for apenas para leitura
       const newCount = currentCount + 1;
       config.value = newCount.toString();
       await config.save();
       return NextResponse.json({ count: newCount });
     } else {
-      // Apenas retornar o contador atual
       return NextResponse.json({ count: currentCount });
     }
   } catch (error) {
