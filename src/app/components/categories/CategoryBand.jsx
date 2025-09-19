@@ -7,7 +7,7 @@ async function CategoryBand() {
   const categories = rawCategories.map(serializeCategories);
 
   return (
-    <div className="w-full py-2 overflow-x-auto">
+    <div className="w-full py-1 overflow-x-auto">
       <div className="flex max-w-screen-xl flex-nowrap justify-start gap-0.5 md:gap-1 px-0.5 md:px-0">
         {categories.map((category) => (
           <CategoryCard

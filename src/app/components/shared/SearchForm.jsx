@@ -18,7 +18,7 @@ const SearchFormComponent = () => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto mt-6 px-4">
+    <div className="w-full max-w-md mx-auto px-4">
       <form
         className="bg-white dark:bg-neutral-800 p-2 rounded-xl shadow-sm border border-neutral-200 dark:border-neutral-700 flex gap-2"
         onSubmit={handleSubmit}
@@ -33,7 +33,7 @@ const SearchFormComponent = () => {
         />
         <button
           type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg whitespace-nowrap transition"
+          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 rounded-lg whitespace-nowrap transition"
           value={criteria}
         >
           Enviar

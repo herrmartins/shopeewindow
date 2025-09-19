@@ -7,7 +7,7 @@ export default async function ProductCarousel() {
     const { selectedProducts, displayTime } = await getCarouselConfig();
 
     if (selectedProducts.length === 0) {
-      return null; // No products selected, don't show carousel
+      return null;
     }
 
     const Product = await getProductModel();

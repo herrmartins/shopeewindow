@@ -28,12 +28,11 @@ export default async function Header() {
         </Link>
       </div>
 
-      {/* Product Carousel above search bar */}
       <ProductCarousel />
 
-      <div className="flex justify-center items-center mb-2">
+      <div className="flex justify-center items-center">
         <p className="flex">
-          <span className="mx-2 mt-1">
+          <span className="mx-2">
             {/* <Link
               href="/about"
               className="inline-flex items-center justify-center w-8 h-8 rounded-full
@@ -50,7 +49,7 @@ export default async function Header() {
         </p>
         {session && <LogoutButton isLoggedIn={!!session} />}
         {!session && (
-          <span className="mx-2 mt-1">
+          <span className="mx-2">
             {/* <Link
               href="/admin/auth"
               className="inline-flex items-center justify-center w-8 h-8 rounded-full

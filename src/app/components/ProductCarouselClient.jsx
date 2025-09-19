@@ -48,10 +48,10 @@ export default function ProductCarouselClient({ products, displayTime }) {
   if (slidesToShow === null) {
     const first = products && products.length > 0 ? products[0] : null;
     return (
-      <div className="w-full py-6 px-4">
+      <div className="w-full px-4">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-4">
-            <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1">
+          <div className="text-center">
+            <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
               Produtos em Destaque
             </h2>
           </div>
@@ -73,10 +73,10 @@ export default function ProductCarouselClient({ products, displayTime }) {
   }
 
   return (
-    <div className="w-full py-6 px-4">
+    <div className="w-full">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-4">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-1">
+        <div className="text-center">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
             Produtos em Destaque
           </h2>
         </div>
@@ -127,7 +127,7 @@ export default function ProductCarouselClient({ products, displayTime }) {
         <style dangerouslySetInnerHTML={{
           __html: `
             .slick-dots {
-              bottom: -35px !important;
+              bottom: -10px !important;
             }
             .slick-dots li button:before {
               color: #6B7280 !important;
