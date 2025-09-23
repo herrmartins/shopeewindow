@@ -1,6 +1,6 @@
 import "./globals.css";
 import Header from "./components/shared/Header";
-import { ThemeProvider } from "next-themes";
+import { Providers } from "./providers";
 
 export const metadata = {
   title: "MOSCAS'S Shop",
@@ -21,10 +21,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-br" suppressHydrationWarning>
       <body>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <Providers>
           <Header />
           {children}
-        </ThemeProvider>
+        </Providers>
       </body>
     </html>
   )

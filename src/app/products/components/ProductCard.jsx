@@ -3,8 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import ShareButton from "./ShareButton";
+import { useSession } from "next-auth/react";
+import ProductAdminMenu from "./ProductAdminMenu";
 
 function ProductCard({ _id, name, imageUrl, price, priceFrom, description, urlLink, category, highlight, showDescription = true }) {
+  const { data: session } = useSession();
   const shareUrl = urlLink || `${typeof window !== 'undefined' ? window.location.origin : ''}/products?product=${_id}`;
 
   const cardContent = (
@@ -64,7 +67,7 @@ function ProductCard({ _id, name, imageUrl, price, priceFrom, description, urlLi
       ) : (
         cardContent
       )}
-
+      {showDescription && session && <ProductAdminMenu id={_id} />}
     </div>
   );
 }
