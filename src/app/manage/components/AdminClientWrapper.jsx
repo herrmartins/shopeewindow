@@ -96,11 +96,13 @@ const AdminClientWrapper = ({ initialCategories }) => {
   };
 
   const handleDeleteCategory = async (categoryId) => {
-    try {
-      await deleteCategory({ _id: categoryId });
-      setCategories((prev) => prev.filter((ct) => ct._id !== categoryId));
-    } catch (err) {
-      console.error("Erro deletando a categoria", err);
+    if (confirm("Deseja apagar a categoria?")) {
+      try {
+        await deleteCategory({ _id: categoryId });
+        setCategories((prev) => prev.filter((ct) => ct._id !== categoryId));
+      } catch (err) {
+        console.error("Erro deletando a categoria", err);
+      }
     }
   };
 
