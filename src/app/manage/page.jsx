@@ -70,6 +70,23 @@ const AdminPage = async () => {
               </div>
             </a>
 
+            <a
+              href="/manage/categories"
+              className="bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl p-4 transition-all duration-200 hover:transform hover:scale-105 border border-white/20"
+            >
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-purple-500/30 rounded-lg">
+                  <svg className="w-6 h-6 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="font-semibold">Gerenciar Categorias</h3>
+                  <p className="text-sm text-indigo-200">Organize categorias e produtos órfãos</p>
+                </div>
+              </div>
+            </a>
+
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-purple-500/30 rounded-lg">
