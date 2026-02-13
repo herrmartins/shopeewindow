@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { deleteFromCloudinary, uploadToCloudinary } from "../lib/claudinary";
+import { deleteFromLocalStorage, uploadToLocalStorage } from "../lib/localStorage";
 import { getCategoryModel, serializeCategories } from "../models/Category";
 
 export default async function addCategory(prevState, formData) {
@@ -23,11 +23,11 @@ export default async function addCategory(prevState, formData) {
 
   if (imageFile.size > 0 && typeof imageFile === "object") {
     try {
-      if (imageUrl) await deleteFromCloudinary(imageUrl, "categories");
+      if (imageUrl) await deleteFromLocalStorage(imageUrl, "categories");
     } catch (err)  {
       throw new Error("Erro ao apagar arquivo...")
     }
-    imageUrl = await uploadToCloudinary(imageFile, "categories");
+    imageUrl = await uploadToLocalStorage(imageFile, "categories");
   }
 
   if (isEditing && id && id.trim() !== "") {

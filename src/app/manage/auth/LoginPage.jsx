@@ -114,6 +114,14 @@ export default function LoginPage() {
             >
               Entrar
             </button>
+            <div className="text-center mt-4">
+              <a
+                href="/manage/auth/forgot-password"
+                className="text-sm text-sky-600 dark:text-sky-400 hover:underline"
+              >
+                Esqueci minha senha
+              </a>
+            </div>
           </form>
         </div>
       </div>

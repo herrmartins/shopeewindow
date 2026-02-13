@@ -1,128 +1,157 @@
 "use client";
-import { FaBan, FaCheck, FaEdit, FaTrash, FaArrowUp, FaArrowDown } from "react-icons/fa";
-import { IoAddCircleSharp } from "react-icons/io5";
-import Link from "next/link";
-import { useState } from "react";
 
-function CategoryItem({ cat, index, onDeleteCategory, onEditCategory, onMoveUp, onMoveDown, isFirst, isLast }) {
+import { FaBan, FaCheck, FaEdit, FaTrash, FaArrowUp, FaArrowDown } from "react-icons/fa";
+import { useState, useEffect } from "react";
+
+function CategoryItem({ cat, index, onDeleteCategory, onEditCategory, onMoveUp, onMoveDown, isFirst, isLast, isEditing }) {
   return (
-    <tr
-      className={`transition ${
-        index % 2 === 0
-          ? "bg-white dark:bg-neutral-900"
-          : "bg-neutral-50 dark:bg-neutral-800"
-      } hover:bg-blue-50 dark:hover:bg-neutral-700`}
-    >
-      <td className="px-4 py-2 border-b border-neutral-200 dark:border-neutral-700 text-neutral-800 dark:text-white">
-        {cat.title}
-      </td>
-      <td className="px-4 py-2 border-b border-neutral-200 dark:border-neutral-700">
-        {cat.imageUrl ? (
-          <span className="flex justify-center text-green-600 dark:text-green-400">
-            <FaCheck />
-          </span>
-        ) : (
-          <span className="flex justify-center italic text-red-500">
-            <FaBan />
-          </span>
-        )}
-      </td>
-      <td className="px-4 py-2 border-b border-neutral-200 dark:border-neutral-700 text-xl hidden md:block">
-        <div className="flex justify-center">{cat.emoji}</div>
-      </td>
-      <td className="px-4 py-2 border-b border-neutral-200 dark:border-neutral-700">
-        <div className="flex justify-center gap-2 text-xl text-neutral-600 dark:text-neutral-300">
-          <FaArrowUp
-            className={`hover:text-blue-500 transition cursor-pointer ${isFirst ? 'opacity-50 cursor-not-allowed' : ''}`}
-            onClick={() => !isFirst && onMoveUp(index)}
+    <tr className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+      <td className="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
+        <div className="flex items-center gap-3">
+          <input
+            type="checkbox"
+            className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-2 focus:ring-indigo-500"
           />
-          <FaArrowDown
-            className={`hover:text-blue-500 transition cursor-pointer ${isLast ? 'opacity-50 cursor-not-allowed' : ''}`}
-            onClick={() => !isLast && onMoveDown(index)}
-          />
-          <FaEdit
-            className="hover:text-yellow-500 transition cursor-pointer"
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-100 to-indigo-200 dark:from-indigo-900/30 dark:to-indigo-800/30 flex items-center justify-center text-xl">
+            {cat.emoji}
+          </div>
+          <div>
+            <div className="font-medium text-gray-900 dark:text-white">{cat.title}</div>
+            {cat.parent && (
+              <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                Pai: {typeof cat.parent === "object" ? cat.parent.title : cat.parent}
+              </div>
+            )}
+          </div>
+        </div>
+      </td>
+      <td className="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
+        <div className="text-sm text-gray-600 dark:text-gray-400">
+          {cat.slug}
+        </div>
+      </td>
+      <td className="px-4 py-3 border-b border-gray-100 dark:border-gray-700 text-center">
+        <div className="flex items-center justify-center gap-1">
+          <button
+            onClick={() => onMoveUp(index)}
+            disabled={isFirst}
+            className="p-2 text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-all"
+            title="Mover para cima"
+          >
+            <FaArrowUp className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => onMoveDown(index)}
+            disabled={isLast}
+            className="p-2 text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-all"
+            title="Mover para baixo"
+          >
+            <FaArrowDown className="w-4 h-4" />
+          </button>
+        </div>
+      </td>
+      <td className="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
+        <div className="flex items-center justify-center gap-2">
+          <button
             onClick={() => onEditCategory(cat._id)}
-          />
-          <FaTrash
-            className="hover:text-red-500 transition cursor-pointer"
+            className="p-2 bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 hover:bg-amber-200 dark:hover:bg-amber-900/50 rounded-lg transition-all"
+            title="Editar"
+          >
+            <FaEdit className="w-4 h-4" />
+          </button>
+          <button
             onClick={() => onDeleteCategory(cat._id)}
-          />
-          <Link href={`/manage/product/add/${cat._id}`}>
-            <IoAddCircleSharp className="hover:text-sky-500 transition cursor-pointer" />
-          </Link>
+            className="p-2 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-900/50 rounded-lg transition-all"
+            title="Excluir"
+          >
+            <FaTrash className="w-4 h-4" />
+          </button>
+          <a href={"/manage/product/add/" + cat._id} className="p-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-200 dark:hover:bg-emerald-900/50 rounded-lg transition-all">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0l-2 2m2 0l2 2m2 2v6a2 2 0 01-2 2h 6a2 2 0 01-2 2v-6a2 2 0 012 2m0 0V5a2 2 0 012 2h6a2 2 0 012 2v2M7 7h10" /></svg>
+          </a>
         </div>
       </td>
     </tr>
   );
 }
 
-const CategoriesTable = ({ cats, onDeleteCategory, onEditCategory, isEditing, onSaveOrder }) => {
-  const [categories, setCategories] = useState(cats);
+function CategoriesTable({ cats, onDeleteCategory, onEditCategory, isEditing, onSaveOrder }) {
+  const [localCats, setLocalCats] = useState(cats);
 
-  const moveUp = (index) => {
-    if (index > 0) {
-      setCategories((prev) => {
-        const newCategories = [...prev];
-        [newCategories[index], newCategories[index - 1]] = [newCategories[index - 1], newCategories[index]];
-        return newCategories;
-      });
-    }
+  // Sync localCats when cats prop changes
+  useEffect(() => {
+    setLocalCats(cats);
+  }, [cats]);
+
+  const handleMoveUp = (index) => {
+    if (index === 0) return;
+    const newCats = [...localCats];
+    [newCats[index - 1], newCats[index]] = [newCats[index], newCats[index - 1]];
+    setLocalCats(newCats);
   };
 
-  const moveDown = (index) => {
-    if (index < categories.length - 1) {
-      setCategories((prev) => {
-        const newCategories = [...prev];
-        [newCategories[index], newCategories[index + 1]] = [newCategories[index + 1], newCategories[index]];
-        return newCategories;
-      });
-    }
+  const handleMoveDown = (index) => {
+    if (index === localCats.length - 1) return;
+    const newCats = [...localCats];
+    [newCats[index], newCats[index + 1]] = [newCats[index + 1], newCats[index]];
+    setLocalCats(newCats);
   };
 
-  const saveOrder = () => {
-    const updatedCategories = categories.map((cat, index) => ({
-      ...cat,
-      order: index,
-    }));
-    onSaveOrder(updatedCategories);
+  const handleSaveOrder = () => {
+    console.log("handleSaveOrder called with localCats:", localCats.map(c => ({ _id: c._id, title: c.title })));
+    // Pass the localCats to parent's onSaveOrder
+    onSaveOrder(localCats);
   };
 
   return (
-    <div className="overflow-x-auto px-4">
-      <button
-        onClick={saveOrder}
-        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-      >
-        Salvar Ordem
-      </button>
-      <table className="w-full table-auto text-sm border border-neutral-200 dark:border-neutral-700 rounded-lg overflow-hidden shadow-sm">
-        <thead className="bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 uppercase text-xs">
-          <tr>
-            <th className="px-4 py-2 border-b border-neutral-200 dark:border-neutral-700 text-left">Categoria</th>
-            <th className="px-4 py-2 border-b border-neutral-200 dark:border-neutral-700">Imagem</th>
-            <th className="px-4 py-2 border-b border-neutral-200 dark:border-neutral-700 hidden md:block">Emoji</th>
-            <th className="px-4 py-2 border-b border-neutral-200 dark:border-neutral-700">Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {categories.map((cat, index) => (
-            <CategoryItem
-              key={cat._id}
-              cat={cat}
-              index={index}
-              onDeleteCategory={onDeleteCategory}
-              onEditCategory={onEditCategory}
-              onMoveUp={moveUp}
-              onMoveDown={moveDown}
-              isFirst={index === 0}
-              isLast={index === categories.length - 1}
-            />
-          ))}
-        </tbody>
-      </table>
+    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg shadow-gray-200/50 dark:shadow-gray-900/50 border border-gray-100 dark:border-gray-700 overflow-hidden">
+      <div className="p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+            <div className="p-2 bg-gradient-to-br from-indigo-100 to-indigo-200 dark:from-indigo-900/30 dark:to-indigo-800/30 rounded-xl">
+              <svg className="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2h-6a2 2 0 01-2 2v-6a2 2 0 012 2m0 0V5a2 2 0 012 2h6a2 2 0 012 2v2M7 7h10" /></svg>
+            </div>
+            Categorias ({localCats.length})
+          </h2>
+          <button
+            onClick={handleSaveOrder}
+            className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-indigo-500/25 flex items-center gap-2"
+          >
+            Salvar Ordem
+          </button>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-gray-50 dark:bg-gray-700">
+              <tr>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Categoria</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Slug</th>
+                <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ordem</th>
+                <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Ações</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-100 dark:divide-gray-700">
+              {localCats.map((cat, index) => (
+                <CategoryItem
+                  key={cat._id}
+                  cat={cat}
+                  index={index}
+                  onDeleteCategory={onDeleteCategory}
+                  onEditCategory={onEditCategory}
+                  onMoveUp={handleMoveUp}
+                  onMoveDown={handleMoveDown}
+                  isFirst={index === 0}
+                  isLast={index === localCats.length - 1}
+                  isEditing={isEditing}
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
-};
+}
 
 export default CategoriesTable;

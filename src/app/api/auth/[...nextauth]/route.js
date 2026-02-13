@@ -58,6 +58,7 @@ export const authOptions = {
           name: user.name,
           username: user.username,
           email: user.email,
+          hasSecurityQuestion: !!(user.securityQuestion && user.securityAnswer),
         };
       },
     }),
@@ -71,6 +72,7 @@ export const authOptions = {
       if (user) {
         token.id = user.id;
         token.name = user.name;
+        token.hasSecurityQuestion = user.hasSecurityQuestion;
       }
       return token;
     },
@@ -78,6 +80,7 @@ export const authOptions = {
       if (token) {
         session.user.id = token.id;
         session.user.name = token.name;
+        session.user.hasSecurityQuestion = token.hasSecurityQuestion;
       }
       return session;
     },

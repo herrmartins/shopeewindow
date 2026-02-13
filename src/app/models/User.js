@@ -5,6 +5,8 @@ const UserSchema = new mongoose.Schema({
   username: { type: String, unique: true },
   email: { type: String, unique: true },
   password: String,
+  securityQuestion: String,
+  securityAnswer: String,
 })
 
 export const User = mongoose.models.User || mongoose.model("User", UserSchema)

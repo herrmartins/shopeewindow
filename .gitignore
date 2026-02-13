@@ -45,3 +45,6 @@ next-env.d.ts
 /.idea/
 data.json
 script.js
+
+# local uploads
+public/uploads/

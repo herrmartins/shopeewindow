@@ -3,17 +3,22 @@
 import { getCategoryModel } from "../models/Category";
 
 export default async function updateCategoryOrder(categories) {
+  console.log("updateCategoryOrder called with categories:", categories?.map(c => ({ _id: c._id, title: c.title })));
+
   const Category = await getCategoryModel();
 
   try {
-    const updatePromises = categories.map((cat) =>
-      Category.updateOne(
+    // Update each category with its new position in the array
+    const updatePromises = categories.map((cat, index) => {
+      console.log(`Setting order ${index} for category ${cat.title} (${cat._id})`);
+      return Category.updateOne(
         { _id: cat._id },
-        { order: cat.order }
-      )
-    );
+        { order: index }
+      );
+    });
 
     await Promise.all(updatePromises);
+    console.log("All category orders updated successfully");
 
     return { status: "success", message: "Ordem das categorias atualizada com sucesso." };
   } catch (error) {
