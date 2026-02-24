@@ -9,6 +9,7 @@ import SearchFormComponent from "./SearchForm";
 import AdminButton from "./AdminButton";
 import getLogo from "@/app/actions/getLogo";
 import ProductCarousel from "../ProductCarousel";
+import { Suspense } from "react";
 
 export default async function Header() {
   const session = await getServerSession(authOptions);
@@ -17,18 +18,26 @@ export default async function Header() {
   return (
     <>
       <div className="flex justify-center">
-        <Link href="/">
+        <Link href="/" className="block w-full max-w-[900px]">
           <Image
             src={logoUrl}
             alt="Mosca's Shop LOGO"
             width={900}
             height={255}
+            sizes="(max-width: 900px) 100vw, 900px"
+            className="w-full h-auto"
             priority
           />
         </Link>
       </div>
 
-      <ProductCarousel />
+      <Suspense fallback={
+        <div className="w-full flex justify-center py-10 opacity-50">
+          <div className="animate-pulse w-48 h-64 bg-gray-200 dark:bg-gray-800 rounded-lg"></div>
+        </div>
+      }>
+        <ProductCarousel />
+      </Suspense>
 
       <div className="flex justify-center items-center">
         <p className="flex">

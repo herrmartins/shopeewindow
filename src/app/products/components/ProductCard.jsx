@@ -6,7 +6,7 @@ import ShareButton from "./ShareButton";
 import { useSession } from "next-auth/react";
 import ProductAdminMenu from "./ProductAdminMenu";
 
-function ProductCard({ _id, name, imageUrl, price, priceFrom, description, urlLink, category, highlight, showDescription = true }) {
+function ProductCard({ _id, name, imageUrl, price, priceFrom, description, urlLink, category, highlight, showDescription = true, priority = false }) {
   const { data: session } = useSession();
   const shareUrl = urlLink || `${typeof window !== 'undefined' ? window.location.origin : ''}/products?product=${_id}`;
 
@@ -33,7 +33,8 @@ function ProductCard({ _id, name, imageUrl, price, priceFrom, description, urlLi
               width={96}
               height={96}
               className="w-24 h-24 object-cover rounded-md"
-              loading="lazy"
+              priority={priority}
+              loading={priority ? undefined : "lazy"}
             />
           ) : (
             <span className="text-gray-400 text-sm dark:text-gray-300">
