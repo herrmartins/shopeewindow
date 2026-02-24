@@ -2,6 +2,7 @@ import { writeFile, unlink, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
 import { getServerSession } from 'next-auth';
+import sharp from 'sharp';
 
 const PUBLIC_DIR = path.join(process.cwd(), 'public');
 const UPLOAD_DIR = path.join(PUBLIC_DIR, 'uploads');
@@ -23,14 +24,17 @@ async function ensureFolderDir(folder) {
 }
 
 // Gerar nome de arquivo único
-function generateUniqueFileName(originalName) {
+function generateUniqueFileName(originalName, options = {}) {
+  const { prefix = '', extOverride } = options;
   const timestamp = Date.now();
   const randomStr = Math.random().toString(36).substring(2, 15);
-  const ext = path.extname(originalName);
-  return `${timestamp}-${randomStr}${ext}`;
+  const ext = extOverride || path.extname(originalName);
+  const safePrefix = prefix ? `${prefix}-` : '';
+  return `${safePrefix}${timestamp}-${randomStr}${ext}`;
 }
 
-async function uploadToLocalStorage(file, folder = "general") {
+async function uploadToLocalStorage(file, folder = "general", options = {}) {
+  const { prefix = '', normalizeImage = false } = options;
   const session = await getServerSession();
 
   if (!session) {
@@ -41,8 +45,18 @@ async function uploadToLocalStorage(file, folder = "general") {
   const folderPath = await ensureFolderDir(folder);
 
   const arrayBuffer = await file.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
-  const fileName = generateUniqueFileName(file.name);
+  let buffer = Buffer.from(arrayBuffer);
+  let extOverride;
+
+  if (normalizeImage && file.type?.startsWith('image/')) {
+    buffer = await sharp(buffer)
+      .rotate()
+      .png({ compressionLevel: 9, adaptiveFiltering: true })
+      .toBuffer();
+    extOverride = '.png';
+  }
+
+  const fileName = generateUniqueFileName(file.name, { prefix, extOverride });
   const filePath = path.join(folderPath, fileName);
 
   await writeFile(filePath, buffer);
