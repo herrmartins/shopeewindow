@@ -9,6 +9,7 @@ import ProductAdminMenu from "./ProductAdminMenu";
 function ProductCard({ _id, name, imageUrl, price, priceFrom, description, urlLink, category, highlight, showDescription = true, priority = false }) {
   const { data: session } = useSession();
   const shareUrl = urlLink || `${typeof window !== 'undefined' ? window.location.origin : ''}/products?product=${_id}`;
+  const isLocalUpload = typeof imageUrl === "string" && imageUrl.startsWith("/uploads/");
 
   const cardContent = (
     <div
@@ -33,6 +34,7 @@ function ProductCard({ _id, name, imageUrl, price, priceFrom, description, urlLi
               width={96}
               height={96}
               className="w-24 h-24 object-cover rounded-md"
+              unoptimized={isLocalUpload}
               priority={priority}
               loading={priority ? undefined : "lazy"}
             />
