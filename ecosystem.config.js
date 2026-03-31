@@ -3,7 +3,8 @@ module.exports = {
     {
       name: "moscasshop",
       cwd: "/var/www/shopeewindow",
-      script: "./dist/server/entry.mjs",
+      script: "./node_modules/next/dist/bin/next",
+      args: "start",
       exec_mode: "cluster",
       instances: 4,
       env: {
