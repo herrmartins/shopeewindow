@@ -3,12 +3,12 @@ module.exports = {
     {
       name: "moscasshop",
       cwd: "/var/www/shopeewindow",
-      script: "npm",
-      args: "start",
+      script: "./dist/server/entry.mjs",
       exec_mode: "cluster",
       instances: 4,
       env: {
-        NODE_ENV: "production"
+        NODE_ENV: "production",
+        PORT: 3000
       }
     }
   ]
