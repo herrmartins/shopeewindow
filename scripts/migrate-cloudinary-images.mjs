@@ -5,8 +5,8 @@
  *
  * Este script:
  * 1. Conecta ao MongoDB
- * 2. Busca produtos com URLs do Cloudinary
- * 3. Baixa cada imagem e salva em public/uploads/product/
+ * 2. Busca categorias com URLs do Cloudinary
+ * 3. Baixa cada imagem e salva em public/uploads/category/
  * 4. Cria um arquivo de mapeamento (cloudinary-backup.json) para possível reversão
  * 5. (Opcional) Atualiza o banco com as novas URLs locais
  *
@@ -43,20 +43,19 @@ if (existsSync(envLocalPath)) {
 }
 
 const MONGODB_URI = process.env.MONGODB_URI;
-const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads", "product");
+const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads", "category");
 const BACKUP_FILE = path.join(process.cwd(), "cloudinary-backup.json");
 const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36";
 
-// Schema do Product (inline para não depender do app)
-const productSchema = new mongoose.Schema(
+// Schema do Category (inline para não depender do app)
+const categorySchema = new mongoose.Schema(
   {
-    name: String,
-    price: Number,
-    priceFrom: Number,
-    description: String,
+    title: String,
     imageUrl: String,
-    urlLink: String,
-    category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
+    emoji: String,
+    parent: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
+    slug: String,
+    order: Number,
   },
   { timestamps: true }
 );
@@ -137,16 +136,16 @@ async function connectDB() {
 
 // Função principal de migração
 async function migrateImages(dryRun = false, updateDB = false) {
-  const Product = mongoose.model("Product", productSchema);
+  const Category = mongoose.model("Category", categorySchema);
 
-  // Buscar produtos com URLs do Cloudinary
-  const products = await Product.find({
+  // Buscar categorias com URLs do Cloudinary
+  const categories = await Category.find({
     imageUrl: { $exists: true, $ne: null, $regex: /cloudinary\.com/i },
   });
 
-  console.log(`\n📦 Encontrados ${products.length} produtos com imagens do Cloudinary`);
+  console.log(`\n📁 Encontradas ${categories.length} categorias com imagens do Cloudinary`);
 
-  if (products.length === 0) {
+  if (categories.length === 0) {
     console.log("Nenhuma imagem para migrar.");
     return;
   }
@@ -161,44 +160,42 @@ async function migrateImages(dryRun = false, updateDB = false) {
   let successCount = 0;
   let errorCount = 0;
 
-  for (const product of products) {
-    const cloudinaryUrl = product.imageUrl;
-    console.log(`\n⏳ Processando: ${product.name}`);
+  // Processar categorias
+  for (const category of categories) {
+    const cloudinaryUrl = category.imageUrl;
+    console.log(`\n⏳ Processando: ${category.title}`);
     console.log(`   URL: ${cloudinaryUrl}`);
 
     if (dryRun) {
       console.log("   [DRY-RUN] Imagem não será baixada");
       mapping.push({
-        productId: product._id.toString(),
-        productName: product.name,
+        categoryId: category._id.toString(),
+        categoryTitle: category.title,
         cloudinaryUrl,
-        localPath: null, // será gerado no run real
+        localPath: null,
       });
       continue;
     }
 
     const fileName = generateUniqueFileName(cloudinaryUrl);
     const localPath = path.join(UPLOAD_DIR, fileName);
-    const localUrl = `/uploads/product/${fileName}`;
+    const localUrl = `/uploads/category/${fileName}`;
 
     try {
-      // Baixar imagem
       await downloadImage(cloudinaryUrl, localPath);
       console.log(`   ✅ Baixada: ${fileName}`);
 
-      // Salvar mapeamento
       mapping.push({
-        productId: product._id.toString(),
-        productName: product.name,
+        categoryId: category._id.toString(),
+        categoryTitle: category.title,
         cloudinaryUrl,
         localPath: localUrl,
         downloadedAt: new Date().toISOString(),
       });
 
-      // Atualizar banco se solicitado
       if (updateDB) {
-        product.imageUrl = localUrl;
-        await product.save();
+        category.imageUrl = localUrl;
+        await category.save();
         console.log(`   🔄 DB atualizado: ${localUrl}`);
       }
 
@@ -207,8 +204,8 @@ async function migrateImages(dryRun = false, updateDB = false) {
       console.error(`   ❌ Erro: ${error.message}`);
       errorCount++;
       mapping.push({
-        productId: product._id.toString(),
-        productName: product.name,
+        categoryId: category._id.toString(),
+        categoryTitle: category.title,
         cloudinaryUrl,
         localPath: null,
         error: error.message,
@@ -223,7 +220,7 @@ async function migrateImages(dryRun = false, updateDB = false) {
       JSON.stringify(
         {
           migratedAt: new Date().toISOString(),
-          totalProducts: products.length,
+          totalCategories: categories.length,
           successCount,
           errorCount,
           mappings: mapping,
@@ -239,7 +236,7 @@ async function migrateImages(dryRun = false, updateDB = false) {
   console.log("\n" + "=".repeat(50));
   console.log("📊 RESUMO");
   console.log("=".repeat(50));
-  console.log(`Total de produtos: ${products.length}`);
+  console.log(`Total de categorias: ${categories.length}`);
   console.log(`✅ Sucesso: ${successCount}`);
   console.log(`❌ Erros: ${errorCount}`);
   console.log(`📁 Diretório: ${UPLOAD_DIR}`);
@@ -261,7 +258,7 @@ async function migrateImages(dryRun = false, updateDB = false) {
 
 // Script de reversão
 async function revertMigration() {
-  const Product = mongoose.model("Product", productSchema);
+  const Category = mongoose.model("Category", categorySchema);
 
   // Ler arquivo de backup
   const fs = await import("fs/promises");
@@ -269,24 +266,26 @@ async function revertMigration() {
     await fs.readFile(BACKUP_FILE, "utf-8")
   );
 
-  console.log(`\n🔄 Revertendo ${backupData.mappings.length} produtos...`);
+  const mappings = backupData.mappings;
+
+  console.log(`\n🔄 Revertendo ${mappings.length} categorias...`);
 
   let reverted = 0;
   let notFound = 0;
 
-  for (const mapping of backupData.mappings) {
+  for (const mapping of mappings) {
     if (!mapping.cloudinaryUrl) continue;
 
-    const result = await Product.updateOne(
-      { _id: mapping.productId },
+    const result = await Category.updateOne(
+      { _id: mapping.categoryId },
       { $set: { imageUrl: mapping.cloudinaryUrl } }
     );
 
     if (result.modifiedCount === 1) {
-      console.log(`✅ Revertido: ${mapping.productName}`);
+      console.log(`✅ Revertido: ${mapping.categoryTitle}`);
       reverted++;
     } else {
-      console.log(`⚠️  Produto não encontrado: ${mapping.productName}`);
+      console.log(`⚠️  Categoria não encontrada: ${mapping.categoryTitle}`);
       notFound++;
     }
   }
