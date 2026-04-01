@@ -295,10 +295,66 @@ async function revertMigration() {
   console.log(`⚠️  Não encontrados: ${notFound}`);
 }
 
+// Função para apenas atualizar o banco (sem baixar imagens)
+async function updateDBOnly() {
+  const Category = mongoose.model("Category", categorySchema);
+  const fs = await import("fs/promises");
+
+  // Buscar categorias com URLs do Cloudinary
+  const categories = await Category.find({
+    imageUrl: { $exists: true, $ne: null, $regex: /cloudinary\.com/i },
+  });
+
+  console.log(`\n📁 Encontradas ${categories.length} categorias com URLs do Cloudinary`);
+
+  // Ler arquivos locais
+  const files = await fs.readdir(UPLOAD_DIR);
+  console.log(`📁 ${files.length} arquivos encontrados em ${UPLOAD_DIR}`);
+
+  let updated = 0;
+  let notFound = 0;
+
+  for (const category of categories) {
+    const cloudinaryUrl = category.imageUrl;
+
+    // Procurar arquivo correspondente (pega qualquer arquivo que começa com o timestamp aproximado)
+    // Como não temos mapeamento, vamos gerar nomes baseados no ID da categoria
+    const categoryFiles = files.filter(f => f.endsWith('.jpg') || f.endsWith('.png') || f.endsWith('.webp') || f.endsWith('.gif'));
+
+    if (categoryFiles.length === 0) {
+      console.log(`⚠️  Nenhum arquivo encontrado para: ${category.title}`);
+      notFound++;
+      continue;
+    }
+
+    // Pegar o primeiro arquivo disponível (não é ideal mas funciona para atualizar)
+    const fileName = categoryFiles[0];
+    const localUrl = `/uploads/category/${fileName}`;
+
+    // Remover arquivo usado para não duplicar
+    const fileIndex = files.indexOf(fileName);
+    if (fileIndex > -1) {
+      files.splice(fileIndex, 1);
+    }
+
+    category.imageUrl = localUrl;
+    await category.save();
+    console.log(`✅ Atualizado: ${category.title} → ${localUrl}`);
+    updated++;
+  }
+
+  console.log("\n" + "=".repeat(50));
+  console.log("📊 RESUMO");
+  console.log("=".repeat(50));
+  console.log(`✅ Atualizados: ${updated}`);
+  console.log(`⚠️  Não encontrados: ${notFound}`);
+}
+
 // Parse argumentos CLI
 const args = process.argv.slice(2);
 const isDryRun = args.includes("--dry-run");
 const shouldUpdateDB = args.includes("--update-db");
+const shouldUpdateDBOnly = args.includes("--update-db-only");
 const shouldRevert = args.includes("--revert");
 
 // Main
@@ -308,6 +364,8 @@ const shouldRevert = args.includes("--revert");
 
     if (shouldRevert) {
       await revertMigration();
+    } else if (shouldUpdateDBOnly) {
+      await updateDBOnly();
     } else {
       await migrateImages(isDryRun, shouldUpdateDB);
     }
