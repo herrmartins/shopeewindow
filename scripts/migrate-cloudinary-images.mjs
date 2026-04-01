@@ -350,11 +350,46 @@ async function updateDBOnly() {
   console.log(`⚠️  Não encontrados: ${notFound}`);
 }
 
+// Função para corrigir o caminho de category para categories
+async function fixCategoryPath() {
+  const Category = mongoose.model("Category", categorySchema);
+
+  // Buscar categorias com /uploads/category/ (sem o "s")
+  const categories = await Category.find({
+    imageUrl: { $regex: /^\/uploads\/category\//i },
+  });
+
+  console.log(`\n📁 Encontradas ${categories.length} categorias com path "/uploads/category/"`);
+
+  let updated = 0;
+  let skipped = 0;
+
+  for (const category of categories) {
+    // Trocar /uploads/category/ por /uploads/categories/
+    const oldUrl = category.imageUrl;
+    const newUrl = oldUrl.replace('/uploads/category/', '/uploads/categories/');
+
+    category.imageUrl = newUrl;
+    await category.save();
+    console.log(`✅ Atualizado: ${category.title}`);
+    console.log(`   ${oldUrl}`);
+    console.log(`   → ${newUrl}`);
+    updated++;
+  }
+
+  console.log("\n" + "=".repeat(50));
+  console.log("📊 RESUMO");
+  console.log("=".repeat(50));
+  console.log(`✅ Atualizados: ${updated}`);
+  console.log(`⏭️  Pulados: ${skipped}`);
+}
+
 // Parse argumentos CLI
 const args = process.argv.slice(2);
 const isDryRun = args.includes("--dry-run");
 const shouldUpdateDB = args.includes("--update-db");
 const shouldUpdateDBOnly = args.includes("--update-db-only");
+const shouldFixPath = args.includes("--fix-path");
 const shouldRevert = args.includes("--revert");
 
 // Main
@@ -366,6 +401,8 @@ const shouldRevert = args.includes("--revert");
       await revertMigration();
     } else if (shouldUpdateDBOnly) {
       await updateDBOnly();
+    } else if (shouldFixPath) {
+      await fixCategoryPath();
     } else {
       await migrateImages(isDryRun, shouldUpdateDB);
     }
